@@ -10,7 +10,7 @@ Time is a tricky beast - quite possibly one of the trickiest things to get right
 
 Most people don't think too deeply about time zones, taking the easy route of picturing them as vertical bands on the globe that correspond to what hour it is. This leads to the mistaken assumption that zones at the same longitude share the same time. But consider this:
 
-![Australian time zones](australia-timezones.png)
+{{< figure src="australia-timezones.png" caption="Australian Time Zones" >}}
 
 If anyone knows how to make you chuck a wobbly, it's the Australians! *#thereisaidit* *#johnpickedonthemfirst*
 
