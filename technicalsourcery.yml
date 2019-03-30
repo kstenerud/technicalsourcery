@@ -1,0 +1,55 @@
+version: '3.3'
+
+volumes:
+  ssl-certs:
+  nginx-proxy:
+  generated_html:
+
+services:
+
+  nginx-proxy:
+    restart: always
+    image: jwilder/nginx-proxy
+    container_name: ts-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ssl-certs:/etc/nginx/certs:ro
+      - nginx-proxy:/etc/nginx/vhost.d
+      - nginx-proxy:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  letsencrypt:
+    depends_on:
+      - nginx-proxy
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: ts-ssl
+    volumes:
+      - ssl-certs:/etc/nginx/certs
+      - nginx-proxy:/etc/nginx/vhost.d
+      - nginx-proxy:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      NGINX_PROXY_CONTAINER: ts-proxy
+
+  technicalsourcery:
+    restart: always
+    image: nginx
+    container_name: ts-web
+    restart: always
+    volumes:
+      - generated_html:/usr/share/nginx/html:ro
+    environment:
+      VIRTUAL_HOST: technicalsourcery.net,www.technicalsourcery.net
+      LETSENCRYPT_HOST: technicalsourcery.net,www.technicalsourcery.net
+
+  hugo:
+    restart: always
+    image: jojomi/hugo:latest
+    container_name: ts-hugo
+    volumes:
+      - /home/technicalsourcery/blog:/src
+      - generated_html:/output
+    environment:
+      - HUGO_REFRESH_TIME=60

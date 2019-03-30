@@ -1,8 +1,7 @@
 ---
 title: "Time"
-date: 2019-03-30T20:29:13+01:00
+date: 2019-03-30T16:09:13+01:00
 thumbnail: "thumbnails/time.jpg"
-draft: false
 ---
 
 Let's talk about time for a moment. We all intuitively understand time (or so we think), but when it comes to *implementing* time in a computer system, we keep getting it wrong. In this post, I'll lay out the pitfalls and dangers of computerized time, and offer some advice for how to do it right.
