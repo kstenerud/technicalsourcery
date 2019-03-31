@@ -2,17 +2,20 @@
 title: "Time"
 date: 2019-03-30T16:09:13+01:00
 featuredImage: "thumbnails/time.jpg"
+description: "Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a tour of time, and see why we keep getting it wrong."
 ---
 
-Let's talk about time for a moment. We all intuitively understand time (or so we think), but when it comes to *implementing* time in a computer system, we keep getting it wrong. In this post, I'll lay out the pitfalls and dangers of computerized time, and offer some advice for how to do it right.
+Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a tour of time, and see why we keep getting it wrong.
 
-Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Besides the nuances of leap years and leap seconds, and when and how and where you resolve the lost or gained time, you have the issue of time zones.
+There are two levels of time problems: advancing time and storing time. Advancing time deals with the nuances of leap years and leap seconds, and when and how and where you resolve the lost or gained time. Storing time is about how to store time values in an unambiguous way. We've seen plenty of posts about advancing time, so I'm going to focus on storing time in this post.
 
-Most people don't think too deeply about time zones, taking the easy route of picturing them as vertical bands on the globe that correspond to what hour it is. This leads to the mistaken assumption that zones at the same longitude share the same time. But consider this:
+### Time Zones
+
+Time zones are deceptively simple on the surface. Every zone has a time offset from UTC in hours and minutes. Most people don't think too deeply about them - after all, they're just bands on a globe, right? Why should we care too much? But time zones are not that clean. Even picturing "bands on a globe" leads to the mistaken assumption that zones at the same longitude share the same time. But consider this:
 
 {{< figure src="australia-timezones.png" caption="Australian Time Zones" >}}
 
-That's right. If anyone knows how to make you chuck a wobbly, it's the Australians. *#thereisaidit* *#johnpickedonthemfirst*
+Yeah... If anyone knows how to make you chuck a wobbly, it's the Australians. *#thereisaidit* *#johnpickedonthemfirst*
 
 
 ## The Politics of Time
