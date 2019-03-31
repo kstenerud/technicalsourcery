@@ -1,4 +1,13 @@
 baseURL = "https://technicalsourcery.net/"
 languageCode = "en-us"
+author = "Karl Stenerud"
 title = "Technichal Sourcery"
-theme = "beg"
+canonifyurls = true
+paginate = 3
+theme = "aether"
+
+[params]
+brand = "Technical SOURCEry"
+description = "Drawing back the curtain"
+homeimg = "test.png"
+# bgimg = "URL to the image used for the page background - optional"

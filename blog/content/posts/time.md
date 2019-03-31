@@ -1,7 +1,7 @@
 ---
 title: "Time"
 date: 2019-03-30T16:09:13+01:00
-thumbnail: "thumbnails/time.jpg"
+featuredImage: "thumbnails/time.jpg"
 ---
 
 Let's talk about time for a moment. We all intuitively understand time (or so we think), but when it comes to *implementing* time in a computer system, we keep getting it wrong. In this post, I'll lay out the pitfalls and dangers of computerized time, and offer some advice for how to do it right.
@@ -12,10 +12,10 @@ Most people don't think too deeply about time zones, taking the easy route of pi
 
 {{< figure src="australia-timezones.png" caption="Australian Time Zones" >}}
 
-If anyone knows how to make you chuck a wobbly, it's the Australians! *#thereisaidit* *#johnpickedonthemfirst*
+That's right. If anyone knows how to make you chuck a wobbly, it's the Australians. *#thereisaidit* *#johnpickedonthemfirst*
 
 
-### The Politics of Time
+## The Politics of Time
 
 Time zones are not simply a way to keep the sun shining at an appropriate hour; they are political and economic tools, and as such, follow arbitrary and ever-changing rules. A territory at +0100 one year may be +0000 the next year, and I'm not talking about daylight savings time (although that's also a complicated political and economic subject).
 
@@ -24,36 +24,36 @@ Time - at least as humans experience it - is not absolute. Time for us is meanin
 How often does this happen? [Often enough to give you grey hairs!](https://www.iana.org/time-zones)
 
 
-### A Time and Place for Everything
+## A Time and Place for Everything
 
 Imagine you have a daily workout schedule. Every weekday morning, you do a half hour workout from 7:30 to 8:00. If you took a weeklong trip from Seattle to Berlin, that would, in absolute time, become a workout from 13:30 to 14:00. However, being human, you're not concerned with absolute time, and would rather do your workout from 7:30 to 8:00 regardless of where you are. The absolute time changes in this case, and the local time does not.
 
 Now imagine you've got a meeting for 9:00 in Naples on the morning of August 2, 2021. Will the meeting occur at 8:00 UTC? Maybe, maybe not. Europe has voted to end daylight savings in 2021, but has left it up to each member state to decide whether to remain on daylight savings time, or go to standard time, when the changeover occurs. Depending on what Italy decides, the absolute time value of 9:00 in Naples will change. How will this affect your meeting? *When* will your meeting even be?
 
-The issue with future events is that political changes will affect how time is interpreted. For past events, we don't have this problem, as all changes have alreay been resolved. It doesn't matter whether daylight savings time was in effect, or what time offset was in effect; that information is not necessary to determine the WHEN of something in the past (although if you wanted to know what time it was locally at the time of the event, you'd of course need the location information).
+The issue with future events is that political changes will affect how time is interpreted. For past events, we don't have this problem, as all changes have alreay been resolved. It doesn't matter whether daylight savings time was in effect, or what time offset was in effect; that information is not necessary to determine the **when** of something in the past (although if you wanted to know what time it was locally at the time of the event, you'd of course need the location information).
 
 
-### Different Times
+## Different Times
 
 Since time is both political and circumstantial, we must define multiple kinds of time. [RFC 5545](https://tools.ietf.org/html/rfc5545) defines three main kinds:
 
-* Absolute time: A time value fixed to UTC.
-* Fixed time: A time value fixed to a specific time zone.
-* Floating time: A time value that is interpreted according to the time zone of the observer.
+* **Absolute Time**: A time value fixed to UTC.
+* **Fixed Time**: A time value fixed to a specific time zone.
+* **Floating Time**: A time value that is interpreted according to the time zone of the observer.
 
 
-### Time in a Bottle
+## Time in a Bottle
 
 With all of these different ways of experiencing time, how do we store it? Ideally, you'd want to store time values in a way such that you don't have to constantly update already stored data. It wouldn't make sense to store floating times as UTC values, because you'd have to update your calendar database every time you changed time zones or went to/from daylight savings time. Different kinds of time have different storage requirements:
 
-* *Absolute time* is always in UTC, and therefore only needs a time value.
-* *Floating time* is always relative to your current time zone, and therefore also only needs a time value.
-* *Fixed time* is relative to a specific time zone, and must therefore be stored along with that time zone, in values relative to that time zone.
+* **Absolute time** is always in UTC, and therefore only needs a time value.
+* **Floating time** is always relative to your current time zone, and therefore also only needs a time value.
+* **Fixed time** is relative to a specific time zone, and must therefore be stored along with that time zone, in values relative to that time zone.
 
 You could in theory store fixed time in UTC, but then you'd need to sweep your database to update your times every time a time zone rule changes.
 
 
-### Keeping Time
+## Keeping Time
 
 Think carefully about how time affects all observers, and tailor the kind of time to whichever observer is most important to the data being captured. For example:
 
@@ -67,7 +67,7 @@ Think carefully about how time affects all observers, and tailor the kind of tim
 Remember: Your goal is to store data such that it doesn't need to be updated, because database update sweeps suck, and break, and lose data.
 
 
-### A Brief Rant About IS0 8601
+## A Brief Rant About IS0 8601
 
 [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) (and [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)) is an attempt to standardize a textual representation of time in an unambiguous manner. It mostly succeeds, except for one major problem: It only refers to time zones as numerical offsets. Why is this a prolem? *Future events*!
 
@@ -78,11 +78,11 @@ The really annoying part is that a time without a timezone offset specifier is c
 What we really need is something like `2021-08-02T09:00:00/Europe/Berlin`
 
 
-### Presenting Time
+## Presenting Time
 
 When presenting data, you're best off using an established time engine rather than writing your own, because you WILL get it wrong. A good time engine is capable of converting any kind of time to any other kind. So long as you keep the kinds straight in your head, you'll be able to present time values to your users in a sane, meaningful way.
 
 
-### Time Keeps on Slipping
+## Time Keeps on Slipping
 
 Dealing with time is no simple task. From Y2K to leap year failures to internationalization gaffes, time - and its storage - is a source of more bugs than possibly any other data type. So the next time someone says "Easy! Just store it as UTC!", be sure to take them quietly aside, take a firm hold, and dunk their head in a nearby toilet.
