@@ -53,3 +53,4 @@ services:
       - generated_html:/output
     environment:
       - HUGO_REFRESH_TIME=60
+      - HUGO_BASEURL="https://technicalsourcery.net"
