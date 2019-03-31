@@ -14,8 +14,8 @@
             {{ if (fileExists (printf "%s/%s" "static" (replace (.Params.featuredimage) (path.Ext (.Params.featuredimage)) ".webp"))) -}}
             <source srcset="{{ replace (.Params.featuredimage) (path.Ext (.Params.featuredimage)) ".webp" | absURL }}" type="image/webp">
             {{- end }}
-            <source srcset="{{.Params.featuredimage | absURL }}">
-          <img src="{{.Params.featuredimage | absURL }}" {{ if isset .Params "featuredimagedescription" }}alt="{{.Params.featuredimagedescription}}"{{end}}>
+            <source srcset="{{.Params.featuredimage }}">
+          <img src="{{.Params.featuredimage }}" {{ if isset .Params "featuredimagedescription" }}alt="{{.Params.featuredimagedescription}}"{{end}}>
         </picture>
         {{ end }}
         {{ .Content }}
