@@ -46,7 +46,7 @@ services:
 
   hugo:
     restart: always
-    image: jojomi/hugo:latest
+    image: kstenerud/hugo:latest
     container_name: ts-hugo
     volumes:
       - /home/technicalsourcery/blog:/src

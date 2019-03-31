@@ -1,0 +1,3 @@
+[submodule "docker-images/docker-hugo"]
+	path = docker-images/docker-hugo
+	url = git@github.com:kstenerud/docker-hugo.git
