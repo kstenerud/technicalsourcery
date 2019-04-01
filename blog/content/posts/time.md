@@ -3,6 +3,10 @@ title: "Time"
 date: 2019-03-30T16:09:13+01:00
 featuredImage: "thumbnail.jpg"
 description: "Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a brief tour of computerized time, and see why we keep getting it wrong."
+categories:
+  - time
+tags:
+  - time
 ---
 
 Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a tour of time, and see why we keep getting it wrong.

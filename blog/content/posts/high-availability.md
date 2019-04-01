@@ -3,7 +3,7 @@ title: "Introduction to High Availability"
 date: 2019-04-01T18:16:47+02:00
 featuredImage: "thumbnail.jpg"
 description: "How important is uptime to you? How bad would it be if your services went down for 10 seconds? 10 minutes? 10 hours? 10 days? Every system has its breaking point, where the consequences become so severe that heads start rolling."
-category:
+categories:
   - high-availability
 tags:
   - high-availability
