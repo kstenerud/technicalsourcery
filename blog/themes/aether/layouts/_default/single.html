@@ -22,10 +22,12 @@
       </article>
       {{ template "_internal/disqus.html" . }}
     </main>
-    <nav class="end-nav side-padding">
+    <nav class="pagination-nav side-padding">
       {{ with .PrevInSection }}
       {{ .Render "li-next" }}
       {{ end }}
+    </nav>
+    <nav class="end-nav side-padding">
       {{ partial "home-card.html" . }}
     </nav>
     {{ partial "scripts.html" . }}
