@@ -7,7 +7,6 @@ categories:
   - high-availability
 tags:
   - high-availability
-draft: true
 ---
 
 How important is uptime to you? How bad would it be if your services went down for 10 seconds? 10 minutes? 10 hours? 10 days? Every system has its breaking point, where the consequences become so severe that heads start rolling.
