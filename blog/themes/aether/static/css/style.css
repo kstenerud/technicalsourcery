@@ -463,3 +463,35 @@ footer {
         border-radius: 0.2rem;
     }
 }
+
+.avatar-image {
+  border-radius: 100%;
+  /*border: 0.5rem solid $primary-color;*/
+  width: 8rem;
+  height: 8rem;
+}
+
+.social {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100%;
+}
+
+.icon-container {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.icon-link {
+    /*padding-left: 4px;*/
+    padding-right: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 100%;
+}
