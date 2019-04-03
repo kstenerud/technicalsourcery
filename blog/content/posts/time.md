@@ -26,14 +26,14 @@ Yeah... If anyone knows how to make you chuck a wobbly, it's the Australians. *#
 
 Time zones are not simply a way to keep the sun shining at an appropriate hour; they are political and economic tools, and as such, follow arbitrary and ever-changing rules. A territory at +0100 one year may be +0000 the next year, and I'm not talking about daylight savings time (although that's also a complicated political and economic subject).
 
-Time - at least as humans experience it - is not absolute. Time for us is meaningless without a corresponding location, and cannot even be calculated without it. At 14:00, July 1st, 1939 UTC, it was 15:20 in Amsteram. Exactly one year later, it was 16:00. Meanwhile, in Kiev, it remained 17:00, but then switched to 16:00 in 1941, and then back to 17:00 in 1943, 17:00 and 18:00 between 1981 and 1990, and it's 16:00 and 17:00 at the moment (but re-read this post in a decade and it may not be).
+Time - at least as humans experience it - is not absolute. Time for us is meaningless without a corresponding location, and cannot even be calculated without it. At 14:00, July 1st, 1939 UTC, it was 15:20 in Amsterdam. Exactly one year later, it was 16:00. Meanwhile, in Kiev, it remained 17:00, but then switched to 16:00 in 1941, and then back to 17:00 in 1943, 17:00 and 18:00 between 1981 and 1990, and it's 16:00 and 17:00 at the moment (but re-read this post in a decade and it may not be).
 
-How often does this happen? [Often enough to give you grey hairs!](https://www.iana.org/time-zones)
+How often does this happen? [Often enough to give you gray hairs!](https://www.iana.org/time-zones)
 
 
 ## A Time and Place for Everything
 
-Imagine you have a daily workout schedule. Every weekday morning, you do a half hour workout from 7:30 to 8:00. If you took a weeklong trip from Seattle to Berlin, that would, in absolute time, become a workout from 13:30 to 14:00. However, being human, you're not concerned with absolute time, and would rather do your workout from 7:30 to 8:00 regardless of where you are. The absolute time changes in this case, and the local time does not.
+Imagine you have a daily workout schedule. Every weekday morning, you do a half hour workout from 7:30 to 8:00. If you took a week-long trip from Seattle to Berlin, that would, in absolute time, become a workout from 13:30 to 14:00. However, being human, you're not concerned with absolute time, and would rather do your workout from 7:30 to 8:00 regardless of where you are. The absolute time changes in this case, and the local time does not.
 
 Now imagine you've got a meeting for 9:00 in Naples on the morning of August 2, 2021. Will the meeting occur at 8:00 UTC? Maybe, maybe not. Europe has voted to end daylight savings in 2021, but has left it up to each member state to decide whether to remain on daylight savings time, or go to standard time, when the changeover occurs. Depending on what Italy decides, the absolute time value of 9:00 in Naples will change. How will this affect your meeting? *When* will your meeting even be?
 
@@ -76,7 +76,7 @@ Remember: Your goal is to store data such that it doesn't need to be updated, be
 
 ## A Brief Rant About IS0 8601
 
-[ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) (and [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)) is an attempt to standardize a textual representation of time in an unambiguous manner. It mostly succeeds, except for one major problem: It only refers to time zones as numerical offsets. Why is this a prolem? *Future events*!
+[ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) (and [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt)) is an attempt to standardize a textual representation of time in an unambiguous manner. It mostly succeeds, except for one major problem: It only refers to time zones as numerical offsets. Why is this a problem? *Future events*!
 
 Going back to the 2021 issue, there's a 50% chance that `2021-08-02T09:00:00+0200` will refer to different times in Naples vs Berlin, *because the location portion of the fixed time is missing!* So the "time zone" information of `+0200` doesn't gain you a thing when you're referring to future events. And even if the dev was aware enough to store `Europe/Berlin` along with the time, how confusing would it be if Germany were to choose standard time? Now you'd have a time containing `+0200` that actually refers to a time at `+0100`!
 
