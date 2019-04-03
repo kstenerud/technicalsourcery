@@ -9,7 +9,7 @@ googleAnalytics = "UA-137565314-1"
 
 [params]
 brand = "Technical SOURCEry"
-description = "Drawing back the curtain"
+description = "Technical oddities for software developers"
 authorDescription = "I'm a software engineer with over 20 years as a professional in the industry. My extensive and unique experiences spans four countries, covering everything from embedded systems to enterprise services."
 authorImage = "avatar.jpg"
 # bgimg = "URL to the image used for the page background - optional"
