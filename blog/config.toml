@@ -6,6 +6,7 @@ title = "Technichal Sourcery"
 paginate = 3
 theme = "aether"
 googleAnalytics = "UA-137565314-1"
+disqusShortname = "technical-sourcery"
 
 [params]
 brand = "Technical SOURCEry"
