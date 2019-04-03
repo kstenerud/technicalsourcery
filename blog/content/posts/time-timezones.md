@@ -1,5 +1,5 @@
 ---
-title: "Time"
+title: "Time and Timezones: Getting it Right"
 date: 2019-03-30T16:09:13+01:00
 featuredImage: "thumbnail.jpg"
 description: "Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a brief tour of computerized time, and see why we keep getting it wrong."
@@ -7,6 +7,7 @@ categories:
   - time
 tags:
   - time
+  - timezone
 ---
 
 Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a tour of time, and see why we keep getting it wrong.
@@ -19,7 +20,7 @@ Time zones are deceptively simple on the surface. Every zone has a time offset f
 
 {{< figure src="australia-timezones.png" caption="Australian Time Zones" >}}
 
-Yeah... If anyone knows how to make you chuck a wobbly, it's the Australians. *#thereisaidit* *#johnpickedonthemfirst*
+Yep! Mind blown.
 
 
 ## The Politics of Time
