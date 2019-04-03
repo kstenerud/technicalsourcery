@@ -5,6 +5,7 @@ title = "Technichal Sourcery"
 #canonifyurls = true
 paginate = 3
 theme = "aether"
+googleAnalytics = "UA-137565314-1"
 
 [params]
 brand = "Technical SOURCEry"
