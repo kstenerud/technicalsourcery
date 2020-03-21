@@ -46,7 +46,8 @@ services:
 
   hugo:
     restart: always
-    image: kstenerud/hugo:latest
+    build: ./docker-images/hugo
+    image: hugo
     container_name: ts-hugo
     volumes:
       - /home/technicalsourcery/blog:/src
