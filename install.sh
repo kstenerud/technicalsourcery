@@ -15,4 +15,7 @@ add-apt-repository \
 apt update && \
 apt install -y \
 	docker-ce \
-	docker-compose
+	docker-compose \
+	gnupg2 \
+	pass
+
