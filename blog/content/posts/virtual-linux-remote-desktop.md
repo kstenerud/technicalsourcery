@@ -10,7 +10,7 @@ tags:
   - linux
 ---
 
-Test Have you ever wanted a persistent Linux virtual desktop that you could host anywhere and access remotely? Now you can do it, using only Ubuntu and a cheap VPS!
+Have you ever wanted a persistent Linux virtual desktop that you could host anywhere and access remotely? Now you can do it, using only Ubuntu and a cheap VPS!
 
 I like having deterministic work environments. Disaster recovery becomes a cinch when you can just destroy and rebuild your desktop container, map your home directory back in, and continue working.
 
