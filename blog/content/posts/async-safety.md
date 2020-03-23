@@ -1,20 +1,21 @@
 ---
 title: "Async Safety"
-date: 2019-04-01T18:16:47+02:00
+date: 2020-03-20T20:16:47+02:00
 featuredImage: "thumbnail.jpg"
-description: "How important is uptime to you? How bad would it be if your services went down for 10 seconds? 10 minutes? 10 hours? 10 days? Every system has its breaking point, where the consequences become so severe that heads start rolling."
+description: "TODO."
 categories:
-  - high-availability
+  - async-safety
 tags:
-  - high-availability
+  - async-safety
 draft: true
 ---
 
 
-Async Safety
-============
+Async safety is a property of a C function where it is "re-entrant", meaning that it can be called from a context where it was previously interrupted mid-function without ill effect.
 
-Async safety is a property of a C function where it is "re-entrant", meaning that it can be called from a context where it was previously interrupted mid-function without ill effect. There are situations where a function gets interrupted by the OS, and the thread is forced to jump to another function (possibly even the same function), regardless of where it was at the time. Think of it like a global forced GOTO of sorts; the operating system tells the thread "Stop what you're doing, jump to this code, and do whatever it says". Interrupted code becomes problematic if it directly or indirectly uses a global resource (data, pipes, shared memory, open files, mutexes, etc). Let's have a look at an example in `malloc.c` from GLIBC:
+There are situations where a function gets interrupted by the OS, and the thread is forced to jump to another function (possibly even the same function), regardless of where it was at the time. Think of it like a global forced GOTO of sorts; the operating system tells the thread "Stop what you're doing, jump to this code, and do whatever it says". Interrupted code becomes problematic if it directly or indirectly uses a global resource (data, pipes, shared memory, open files, mutexes, etc).
+
+Let's have a look at an example in `malloc.c` from GLIBC:
 
 ```c
   ...
@@ -24,14 +25,18 @@ Async safety is a property of a C function where it is "re-entrant", meaning tha
   ...
 ```
 
-This snippet is from the main allocation routine. You'll see a lot of these sprinkled throughout the code to guard the API entry points. Imagine what would happen if your program had just called `malloc` to allocate some memory, but then got interrupted right after the `__libc_lock_lock()` call, and then your interrupt handler code in turn contained a `malloc()` call, or called some other function that called it. The initial run through `malloc` would lock the mutex, preventing any other call to `malloc` from running until it exits. But if you re-enter the function via your interrupt handler, it'll get up to the lock point and then just wait forever, deadlocked, because it's waiting for the pre-interrupted version of itself to exit the function, which will never happen! And even if this didn't happen (it would be up to the luck of **when** the program gets interrupted), `malloc` is modifying global data, which means that your initial call to `malloc` may have been partway through modifying that global data when it was interrupted, and now the new call to `malloc` will use that partially overwritten data to decide what it should do! Silent or catastrophic corruption ensues...
+This snippet is from the main allocation routine. You'll see a lot of these sprinkled throughout the code to guard the API entry points.
+
+Imagine what would happen if your program had just called `malloc` to allocate some memory, but then got interrupted right after the `__libc_lock_lock()` call, and then your interrupt handler code in turn contained a `malloc()` call, or called some other function that called it. The initial run through `malloc` would lock the mutex, preventing any other call to `malloc` from running until it exits. But if you re-enter the function via your interrupt handler, it'll get up to the lock point and then just wait forever, deadlocked, because it's waiting for the pre-interrupted version of itself to exit the function, which will never happen!
+
+And even if this didn't happen (it would be up to the luck of **when** the program gets interrupted), `malloc` is modifying global data, which means that your initial call to `malloc` may have been partway through modifying that global data when it was interrupted, and now the new call to `malloc` will use that partially overwritten data to decide what it should do! Silent or catastrophic corruption ensues...
 
 We need a way to protect ourselves against this, but when it comes down to it, any guards we could put in place would be tricky and error prone to implement, not to mention expensive. The compromise solution was to simply say that interrupt handlers must be async-safe.
 
 
 ## Async-safe Functions in LIBC
 
-Async safety has been a concern for a long time, and the POSIX standard enforces a minimum list of LIBC functions that MUST be implemented in an async-safe manner (listed in the Linux manpage here: http://man7.org/linux/man-pages/man7/signal-safety.7.html). These functions are guaranteed to be safe for use in an interrupted context. Other functions **may** be safe, but this is not guaranteed across implementations and libc versions.
+Async safety has been a concern for a long time, and the POSIX standard enforces a minimum list of LIBC functions that MUST be implemented in an async-safe manner ([example Linux manpage here](http://man7.org/linux/man-pages/man7/signal-safety.7.html)). These functions are guaranteed to be safe for use in an interrupted context. Other functions **may** be safe, but this is not guaranteed across implementations and libc versions.
 
 
 ## Signals
@@ -83,7 +88,7 @@ Compile this in gcc: `gcc -o signal signal.c`
 
 Now when you run it:
 
-```
+```text
 $ ./signal 
 Sleeping. Press CTRL-C to interrupt me!
 ^CYou pressed CTRL-C! Use CTRL-\ to actually quit (and dump core)
@@ -94,7 +99,7 @@ Sleeping. Press CTRL-C to interrupt me!
 
 Every time you hit `CTRL-C`, instead of quitting the program, it prints out a message. You'll need to either use the `kill` command from another terminal, or send it SIGQUIT using `CTRL-\`, which will by default terminate the program and dump the core.
 
-```
+```text
 ^\Quit (core dumped)
 ```
 
