@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+
+  hugo:
+    build: ../docker-images/hugo
+    image: hugo
+    container_name: ts-dev
+    ports:
+      - "1313:1313"
+    volumes:
+      - ../blog:/src
+    environment:
+      HUGO_STAGE: "staging"

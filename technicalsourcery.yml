@@ -50,7 +50,8 @@ services:
     image: hugo
     container_name: ts-hugo
     volumes:
-      - /home/technicalsourcery/blog:/src
+      - ./blog:/src
       - generated_html:/output
     environment:
-      - HUGO_REFRESH_TIME=60
+      VIRTUAL_HOST: technicalsourcery.net
+      HUGO_STAGE: "production"

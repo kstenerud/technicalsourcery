@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 apt update && \
 apt dist-upgrade -y && \
@@ -18,4 +18,3 @@ apt install -y \
 	docker-compose \
 	gnupg2 \
 	pass
-
