@@ -75,7 +75,7 @@ Legend: `Line-width: count    graph`
 
 Neato! That was fun, but it's better to use the right tool for the job. Enter [Gnuplot](http://www.gnuplot.info/)!
 
-Gnuplot is a graph generator that can be invoked from the command line to generate pretty plots and graphs. It's incredibly useful and powerful, but as a result has a steep learning curve. A good programmer is lazy, so I cheated and copied from [my neighbor](http://gnuplot-surprising.blogspot.com/2011/09/statistic-analysis-and-histogram.html).
+Gnuplot is a graph generator that can be invoked from the command line to generate pretty plots and graphs. It's incredibly useful and powerful, but as a result has a steep learning curve. Here's a quick gnuplot program copied from [my neighbor](http://gnuplot-surprising.blogspot.com/2011/09/statistic-analysis-and-histogram.html).
 
 **linecounts.gnu:**
 
@@ -102,7 +102,7 @@ plot "/dev/stdin" u (hist($1,width)):(1.0) smooth freq w boxes lc rgb"#2a9d8f" n
 
 I'm setting the min to 70 since I'm only interested in the longer lines, and capping at 150 because I probably have code-generated code in there somewhere, and some code generators create lines thousands of characters long.
 
-Aside: I've found in my experience that line lengths greater than 120 or so are harder to scan. Probably this has something to do with how our eyes focus. That said, the odd long line doesn't really bother me if it's done to preserve the structure in an eye-scan friendly way.
+_I've found in my experience that line lengths greater than 120 or so are harder to scan. Probably this has something to do with how our eyes focus. That said, the odd long line doesn't really bother me if it's done to preserve the structure in an eye-scan friendly way._
 
 To invoke, we generate line count data the same as before, but send it to gnuplot instead:
 
@@ -113,6 +113,8 @@ find . -type f \( -name "*.go" \) -exec awk '{print length}' {} \; | gnuplot lin
 This will output a file `plot.png`, containing the line counts of all files in all subdirs ending with `.go`. Change the `\( -name "*.go" \)` section to capture the file types you're interested in.
 
 Tooling finished! Now let's have a look at my line widths for various languages!
+
+## My Projects
 
 **C:**
 {{< figure src="linecounts-c.png" >}}
@@ -142,28 +144,43 @@ Honestly, I'd expected Python line lengths to be longer, but I guess I really ma
 {{< figure src="linecounts-bash.png" >}}
 
 
-But that's just my code. What about code in my workplace? These are full of vendored directories, so it's not really representative of the company, but it's still interesting to see for comparison.
+## Bigger Projects
 
-**C:**
-{{< figure src="linecounts-work-c.png" >}}
+Let's have a look at some of the more popular projects out there:
 
-Wow! That's an odd graph! My first guess would be a code generator.
+**C (Linux Kernel):**
+{{< figure src="linecounts-c-linux.png" >}}
 
-**Go:**
-{{< figure src="linecounts-work-go.png" >}}
+Fairly strict adherence to 80 cols.
 
-More spikey data. Code generators again?
+**C++ (Apple's Swift language):**
+{{< figure src="linecounts-cpp-swift.png" >}}
 
-**PHP:**
-{{< figure src="linecounts-work-php.png" >}}
+VERY strictly 80 cols.
 
-PHP is definitely a lot more free-form!
+**Go (Go programming language and compiler):**
+{{< figure src="linecounts-go-go.png" >}}
 
-**Python:**
-{{< figure src="linecounts-work-python.png" >}}
+The Go compiler and library have some generated code in it, but also it looks like they don't worry so much about line lengths.
 
-I guess we aren't so strict about PEP-8 ;-)
+**Java (Spring-Boot):**
+{{< figure src="linecounts-java-springboot.png" >}}
 
-So there you have it. Line lengths from myself, my company, and a bunch of random people from the internet.
+Spring-boot looks like it has a style around 100 or so.
 
-Line lengths are a contentious issue in programming, so we tend to write rules and standards about it. But I wonder if we might be better served by a [desire path](https://en.wikipedia.org/wiki/Desire_path) approach? If we observe what people are actually doing, we can probably come up with more natural feeling line length conventions.
+**Javascript (React):**
+{{< figure src="linecounts-js-react.png" >}}
+
+React looks like it has an ideal of 80 cols.
+
+**PHP (Symfony):**
+{{< figure src="linecounts-php-symfony.png" >}}
+
+PHP stuff in general doesn't place much importance on line length.
+
+**Python (Django):**
+{{< figure src="linecounts-python-django.png" >}}
+
+Not very PEP-8, is it ;-)
+
+Line lengths are a contentious issue in programming, so we tend to write many rules and standards about it, even if we don't actually follow them. But I wonder if we might be better served by a [desire path](https://en.wikipedia.org/wiki/Desire_path) approach? If we observe what people are actually doing, we can probably come up with more natural feeling line length conventions.
