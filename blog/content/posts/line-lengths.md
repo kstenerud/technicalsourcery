@@ -158,7 +158,7 @@ Fairly strict adherence to 80 cols.
 
 VERY strictly 80 cols.
 
-**Go (Go programming language and compiler):**
+**Go (Go compiler and standard library):**
 {{< figure src="linecounts-go-go.png" >}}
 
 The Go compiler and library have some generated code in it, but also it looks like they don't worry so much about line lengths.
