@@ -35,7 +35,7 @@ The most common argument for big endian ordering in computers is that it matches
 
 Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. Like the dominant writing system of the time, numbers were written right-to-left, with the lower magnitude numerals appearing in the rightmost positions (i.e. a little endian numbering system).
 
-This numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century. It was then introduced to Europe via North Africa in the 10th century.
+This numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.
 
 Although European languages used left-to-right scripts, the numerical ordering of highest-magnitude-to-the-left was maintained in order to keep compatibility with existing mathematical texts and documents (the same thing happened when India switched to a left-to-right script). Numbers were written in big endian order in Europe and India, and remained little endian in the Arab world. Most of Asia was a mix, eventually settling on big endian.
 
@@ -195,7 +195,7 @@ The first element contains the lowest 64 bits of data, followed by the next high
 
 If the elements were ordered big endian, you'd have to do a bunch of shifts and masks to correct everything whenever a carry occurred. The more array entries are in play, the more correction operations you'd have to do. You also have to shift everything over whenever the number grows bigger (basically the computer equivalent of shifting the whole number over when we run out of left-margin space on paper).
 
-Although this scheme can be realized with either byte order, there is still an advantage to little endian byte ordering: If the CPU is little endian, you wouldn't even need to care about the element size in the array because the bytes would naturally arrange themselves smoothly in little endian order across the entire array. Thus you could perform arithmetic using a single byte-by-byte algorithm, regardless of the actual element size (some little endian CPUs even have special multibyte instructions to help with this).
+Although this scheme can be realized with either byte order, there is an extra advantage to little endian byte ordering: If the CPU is little endian, you wouldn't even need to care about the element size in the array because the bytes would naturally arrange themselves smoothly in little endian order across the entire array. Thus you could perform arithmetic using a single byte-by-byte algorithm, regardless of the actual element size (some little endian CPUs even have special multibyte instructions to help with this).
 
 | Ordering | Element 0               | Element 1               | Byte-by-byte? |
 | -------- | ----------------------- | ----------------------- | ------------- |
@@ -210,7 +210,7 @@ Arbitrary length encodings such as [VLQ](https://en.wikipedia.org/wiki/Variable-
 
 VLQ uses big endian ordering, which works fine when representing values up to the maximum bit width of the architecture, but once you start storing larger values that would require big int types, you run into problems:
 
-For simplicity and real estate given this blog format, let's assume a CPU with a word size of 8 bits, but the same concepts apply to bigger word sizes. To store larger values, we use a big int type, which requires arranging the words into an array in little endian order. Since VLQ is encoded in big endian order, the first chunk marks the highest bit position, and we work our way down from there.
+For simplicity and real estate given this blog format, let's assume a CPU with a word size of 8 bits, but the same concepts apply to bigger word sizes too. To store larger values, we use a big int type, which requires arranging the words into an array in little endian order. Since VLQ is encoded in big endian order, the first chunk marks the highest bit position, and we work our way down from there.
 
 *First chunk (continuation bit "on", so more chunks coming):*
 ```text
@@ -306,7 +306,7 @@ You can simply decode the whole thing and then shift the decoded value two bits 
 If the CPU is also little endian, the algorithm gets even simpler:
 
  * Read the first byte to extract the length field.
- * Read the same address again using the correct sized load instruction.
+ * Read the same address again using the correct sized load instruction (recasting the pointer).
  * Shift the result right 2 bits.
 
 If the encoding used big endian order, the length field would be at the top of the high byte, which means that you'd need to mask out a different part of the decoded value depending on the data size.
