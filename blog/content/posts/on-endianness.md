@@ -359,6 +359,6 @@ The big endian advantages tend to be cosmetic or convention based, or of minor u
 * Arbitrary length encodings
 * Variable length encoding with a prepended length field
 
-The biggest advantages go to little endian because little endian works best with "up-growing" data (meaning data whose bits cluster to the low bits and grow into the upper empty bits). In integers, for example, the value grows upwards as more digits are needed. And since integers are the most common data type in use, they offer the most opportunities.
+The biggest advantages go to little endian because little endian works best with "upward-growing" data (meaning data whose bits cluster to the low bits and grow into the upper empty bits). In integers, for example, the value grows upwards as more digits are needed. And since integers are the most common data type in use, they offer the most opportunities.
 
-Big endian ordering works best with "down-growing" data. A good example would be floating point, which in some little endian architectures is actually stored in big endian byte order (although this practice is not very common due to portability issues).
+Big endian ordering works best with "downward-growing" data. A good example would be floating point, which in some little endian architectures is actually stored in big endian byte order (although this practice is not very common due to portability issues).
