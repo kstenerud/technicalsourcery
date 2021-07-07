@@ -64,9 +64,7 @@ To write such numbers in a left-to-right system, we must first estimate how much
 
 Notice how I had to use a preformatted section with a monospaced font so that I could add a bunch of spaces to align the numbers properly!
 
-In a right-to-left writing system, the "ones" digits would be aligned along the margin (to the right) and would grow outwards (left) into the free space.
-
-To visualize how these same numbers are perceived by people who use right-to-left scripts, observe the numerals mirrored for left-to-right readers:
+In a right-to-left writing system, the "ones" digits would be aligned along the margin (to the right) and would grow outwards (left) into the free space. To better visualize this, observe the numerals mirrored for left-to-right readers:
 
 ```text
 5559381
