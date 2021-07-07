@@ -14,7 +14,7 @@ Byte Endianness in computers has been a constant source of conflict for decades.
 
 # Origins
 
-The terms "Little Endian" and "Big Endian" originate from Jonathan Swift's 1726 novel "Gulliver's Travels". It tells of long strife culminating in a great and costly war between the empires of "Lilliput" and "Blefuscu", because they disagreed about which end of a boiled egg to break for eating. The "Big-Endians" had found refuge in the Emperor of Blefuscu's court, and the "Little-Endians" rallied to the king of Lilliput (Swift was satirizing the tensions and conflicts between the Catholics and Protestants of Ireland - which eventually contributed towards splitting the country in two in the late twentieth century).
+The terms "Little Endian" and "Big Endian" originate from Jonathan Swift's 1726 novel "Gulliver's Travels". It tells of long strife culminating in a great and costly war between the empires of "Lilliput" and "Blefuscu", because they disagreed about which end of a boiled egg to break for eating. The "Big-Endians" went with the Emperor of Blefuscu's court, and the "Little-Endians" rallied to Lilliput.
 
 The terms were adapted for computer science in 1980 by Danny Cohen in an Internet Experiment Note titled ["On Holy Wars and a Plea for Peace"](https://www.rfc-editor.org/ien/ien137.txt), describing the conflict over the different ways of arranging bits and bytes in memory as components of larger data types. For byte-oriented data, "Little Endian" places the least significant byte of the value at the lowest address, and "Big Endian" places the most significant byte at the lowest address.
 
@@ -33,17 +33,17 @@ The most common argument for big endian ordering in computers is that it matches
 
 ## Origins of our Numbering System
 
-Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. Like Kharosthi, it was written right-to-left, with the lower magnitude numerals appearing in the rightmost positions (i.e. a little endian numbering system).
+Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. Like the dominant writing system of the time, numbers were written right-to-left, with the lower magnitude numerals appearing in the rightmost positions (i.e. a little endian numbering system).
 
 This numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century. It was then introduced to Europe via North Africa in the 10th century.
 
-Although European languages used left-to-right scripts, the numerical ordering of highest-magnitude-to-the-left was maintained in Europe in order to keep compatibility with existing standards (the same thing happened when India switched to a left-to-right script). Numbers were written in big endian order in Europe and India, and remained little endian in the Arab world. Most of Asia was a mix, eventually settling on big endian by modern times.
+Although European languages used left-to-right scripts, the numerical ordering of highest-magnitude-to-the-left was maintained in order to keep compatibility with existing mathematical texts and documents (the same thing happened when India switched to a left-to-right script). Numbers were written in big endian order in Europe and India, and remained little endian in the Arab world. Most of Asia was a mix, eventually settling on big endian.
 
-Thus, our concept of "natural" number endianness turns out to be a cultural artifact resulting from a backwards compatibility issue when using a left-to-right or top-to-bottom writing system.
+Thus, our concept of "natural" number endianness turns out to be a cultural artifact resulting from a backward compatibility issue when using a left-to-right or top-to-bottom writing system.
 
 ## Consequences of Endianness on a Numbering System
 
-What happens when a culture adopts a particular endianness for writing numbers? Let's look at how it originally worked in right-to-left writing systems.
+What happens when a culture adopts a particular endianness for writing numbers? Let's have a look.
 
 Consider the following list of numbers:
 
@@ -123,12 +123,12 @@ So while everyone of course considers their culture's number endianness to be "n
 
 ## So What?
 
-What does this have to do with endianness in computers? We don't have "space to the right" to be mindful of, so none of the arguments about number endianness in meatspace would seem to apply to computers. But computers and formats also have characteristics that endianness can take advantage of.
+What does this have to do with endianness in computers? We don't have "space to the right" to be mindful of, so none of the arguments about number endianness in meatspace would seem to apply to computers at first glance. But computers and data formats do have characteristics that endianness can take advantage of.
 
 
 # Endianness in Computers
 
-When dealing with computers, matching endianness to our way of visualizing numbers would be argument enough if the decision were otherwise arbitrary. Even if our system is backwards, keeping things consistent between computers and the more dominant left-to-right scripts is at least a small advantage.
+When dealing with computers, matching endianness to our way of visualizing numbers would be argument enough if the decision were otherwise arbitrary. Even if our system *is* backwards, keeping things consistent between computers and the more dominant left-to-right scripts is at least a small advantage.
 
 So what exactly are the advantages each endian order enjoys in computing?
 
@@ -195,9 +195,7 @@ The first element contains the lowest 64 bits of data, followed by the next high
 
 If the elements were ordered big endian, you'd have to do a bunch of shifts and masks to correct everything whenever a carry occurred. The more array entries are in play, the more correction operations you'd have to do. You also have to shift everything over whenever the number grows bigger (basically the computer equivalent of shifting the whole number over when we run out of left-margin space on paper).
 
-#### An Interesting Note:
-
-Although the byte order of the 64-bit integer doesn't matter so much in this case (only the macro-ordering of the array itself is important), there is actually another small advantage to little endian byte ordering: If the CPU is little endian, you wouldn't even need to care about the element size in the array because the bytes would naturally arrange themselves smoothly in little endian order across the entire array. Thus you could perform arithmetic byte-by-byte, regardless of the actual element size (some little endian CPUs even have special multibyte instructions to help with this).
+Although this scheme can be realized with either byte order, there is still an advantage to little endian byte ordering: If the CPU is little endian, you wouldn't even need to care about the element size in the array because the bytes would naturally arrange themselves smoothly in little endian order across the entire array. Thus you could perform arithmetic using a single byte-by-byte algorithm, regardless of the actual element size (some little endian CPUs even have special multibyte instructions to help with this).
 
 | Ordering | Element 0               | Element 1               | Byte-by-byte? |
 | -------- | ----------------------- | ----------------------- | ------------- |
@@ -208,7 +206,7 @@ Although the byte order of the 64-bit integer doesn't matter so much in this cas
 
 ### Arbitrary length encodings
 
-Arbitraty length encodings such as [VLQ](https://en.wikipedia.org/wiki/Variable-length_quantity) allow for lightweight compression of integer values. The idea is that integers most often have the upper bytes cleared, and so they don't actually need the full integer width in order to be accurately represented.
+Arbitrary length encodings such as [VLQ](https://en.wikipedia.org/wiki/Variable-length_quantity) allow for lightweight compression of integer values. The idea is that integers most often have the upper bits cleared, and so they don't actually need the full integer width in order to be accurately represented.
 
 VLQ uses big endian ordering, which works fine when representing values up to the maximum bit width of the architecture, but once you start storing larger values that would require big int types, you run into problems:
 
@@ -357,6 +355,6 @@ The big endian advantages tend to be cosmetic or convention based, or of minor u
 * Arbitrary length encodings
 * Variable length encoding with a prepended length field
 
-The biggest advantages go to little endian because little endian works best with "upward-growing" data (meaning data whose bits cluster to the low bits and grow into the upper empty bits). In integers, for example, the value grows upwards as more digits are needed. And since integers are the most common data type in use, they offer the most opportunities.
+The biggest advantages go to little endian because little endian works best with "upward-growing" data (meaning data whose bits cluster to the low bits and grow into the upper empty bits). An example would be integers, which use higher and higher order bits as more digits are needed. And since integers are the most common data type in use, they offer the most opportunities.
 
-Big endian ordering works best with "downward-growing" data. A good example would be floating point, which in some little endian architectures is actually stored in big endian byte order (although this practice is not very common due to portability issues).
+Big endian ordering works best with "downward-growing" data. An example would be floating point, which in some little endian architectures is actually stored in big endian byte order (although this practice is not very common due to portability issues).
