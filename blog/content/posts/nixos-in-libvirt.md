@@ -1,7 +1,7 @@
 ---
-title: "Test-driving a NixOS Virtual Machine using libvirt"
+title: "Test-driving a NixOS VM using libvirt"
 date: 2021-07-24T07:11:43+01:00
-featuredImage: "thumbnail.png"
+featuredImage: "thumbnail.svg"
 description: "NixOS has a lot of really cool ideas, but unfortunately installing on a VM is still tricky. This guide is designed as a \"just get me something working, please!\" way to get a headless NixOS install up and running in a libvirt VM."
 categories:
   - virtualization
