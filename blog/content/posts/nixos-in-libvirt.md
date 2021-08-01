@@ -38,7 +38,7 @@ You'll also need the [NixOS minimal ISO image](https://nixos.org/download.html)
 Booting the VM
 --------------
 
-First, launch a VM. Pick a decent place to put your qcow2 disk image so that you can find it later:
+First, launch a VM, picking a decent place to create your qcow2 disk image so that you can find it later:
 
 ```text
 virt-install --name=nixos \
@@ -52,9 +52,9 @@ virt-install --name=nixos \
 --console pty,target_type=virtio
 ```
 
-This launches a UEFI-enabled (`--boot=uefi`) headless (`--nographics`) VM named "nixos" (`--name=nixos`) with 8 GB of RAM (`--memory=8192`), 2 CPUs (`--vcpus=2`), and a disk with 16GB of space (`size=16`). It also connects to the guest's console (`--console pty,target_type=virtio`).
+This launches a UEFI-enabled (`--boot=uefi`) headless (`--nographics`) VM named "nixos" (`--name=nixos`) with 8 GB of RAM (`--memory=8192`), 2 CPUs (`--vcpus=2`), and a disk image with 16GB of space (`size=16`). It also connects to the guest's console (`--console pty,target_type=virtio`).
 
-It will look like it's stuck, but should boot within a couple of minutes:
+It will sit there awhile looking like it's stuck, but should boot within a couple of minutes:
 
 ```text
 Starting install...
@@ -81,7 +81,7 @@ nixos login: nixos (automatic login)
 Some tips before you go further
 -------------------------------
 
-Because there will invaribly be problems, here are some tips:
+Because there will invaribly be problems, so here are some tips:
 
 ### Exiting the console
 
@@ -93,7 +93,7 @@ To reconnect to the console, type `virsh console nixos`
 
 ### Deleting everything and starting over
 
-If you screw up, here's how to start fresh:
+If you manage to screw up royally, here's how to start fresh:
 
 * Stop the VM by typing `virsh destroy nixos`
 * Remove the domain by typing `virsh undefine nixos --nvram`
@@ -126,7 +126,7 @@ $ virsh net-dhcp-leases default
 
 The console can be a bit funny at times, so it's generally nicer to SSH in. We'll just use password-based SSH login since it's only the installer.
 
-1. Create a password (Note: This is only setting a temporary password for the INSTALLER disk, not the OS you are about to install):
+1. Create a password (Note: This is only setting a temporary password for the **installer**, not the OS you are about to install):
 
 ```text
 [nixos@nixos:~]$ passwd
@@ -169,7 +169,7 @@ Switch to root to make things easier:
 
 Now you can install. This follows the [example in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-installation-partitioning)
 
-Note: Your disk image is /dev/vda.
+**Note**: Your disk image is `/dev/vda`
 
 ```text
 parted --script /dev/vda -- mklabel gpt
@@ -193,7 +193,7 @@ From here, you can customize your install:
 nano /mnt/etc/nixos/configuration.nix
 ```
 
-You should turn on SSH so that you can SSH in after rebooting (or else just continue using the console):
+You should turn on SSH so that you can connect via secure shell after rebooting (or else just continue using the console):
 
 ```text
   services.openssh.enable = true; 
