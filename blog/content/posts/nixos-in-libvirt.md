@@ -81,7 +81,7 @@ nixos login: nixos (automatic login)
 Some tips before you go further
 -------------------------------
 
-Because there will invaribly be problems, so here are some tips:
+There will invariably be problems, so here are some tips:
 
 ### Exiting the console
 
