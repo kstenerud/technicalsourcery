@@ -81,8 +81,8 @@ nixos login: nixos (automatic login)
 ```
 
 
-Some tips before you go further
--------------------------------
+Some tips before you continue
+-----------------------------
 
 There will invariably be problems, so here are some tips:
 
@@ -163,14 +163,18 @@ Last login: Sun Aug  1 05:39:07 2021
 Installing NixOS
 ----------------
 
-Switch to root to make things less cumbersome:
-```text
-[nixos@nixos:~]$ sudo su
+### Switch to root
 
-[root@nixos:/home/nixos]#
+Switch to root to make the installation process less cumbersome:
+```text
+[nixos@nixos:~]$ sudo su -
+
+[root@nixos:~]#
 ```
 
-Now you can install. This follows the [example in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-installation-partitioning), except that your disk is `/dev/vda`.
+### Setup the disk
+
+This follows the [example in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-installation-partitioning), except that your disk is `/dev/vda`.
 
 ```text
 parted --script /dev/vda -- mklabel gpt
@@ -188,27 +192,61 @@ swapon /dev/vda2
 nixos-generate-config --root /mnt
 ```
 
-From here, you can customize your install:
+### Customize your install
+
+At this point, you can customize your configuration before installing. To do so, edit your `configuration.nix`:
 
 ```text
-nano /mnt/etc/nixos/configuration.nix
+[root@nixos:~]# nano /mnt/etc/nixos/configuration.nix
 ```
 
-You should turn on SSH so that you can connect via secure shell after rebooting (or otherwise just continue using the console):
+Once you're happy with your configuration, press CTRL-X and save the file to exit the editor.
+
+#### Configuration: Add an admin user
+
+It's a good idea to create an admin user for yourself because logging in as root is dangerous. Start by creating a password for yourself:
+
+```text
+[root@nixos:~]# mkpasswd -m sha-512
+Password: 
+$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.
+```
+
+Next, add a user configuration modeled after this one to your `configuration.nix`:
+
+```text
+  users.users.myuser = {
+    isNormalUser = true;
+    home = "/home/myuser";
+    description = "My user";
+    # wheel allows sudo, networkmanager allows network modifications
+    extraGroups = [ "wheel" "networkmanager" ];
+    # For password login (works for console and SSH):
+    hashedPassword = "$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.";
+    # For SSH key login (works for SSH only):
+    openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... myuser@foobar" ];
+  };
+```
+
+#### Configuration: Enable SSH
+
+You can also turn on SSH so that you can connect via secure shell after rebooting (otherwise only the console will work):
 
 ```text
   services.openssh.enable = true; 
 ```
 
-Once you're happy, press CTRL-X and save the file to exit the editor.
+### Run the installer
 
-Now start the installer:
+Once you're happy with your configuration, it's time to build and install the OS:
 
 ```text
-nixos-install
+[root@nixos:~]# nixos-install
 ```
 
-The last installer step will ask you to set the root password (use `nixos-install --no-root-passwd` to disable this and leave it blank):
+If you made any mistakes, it will print out error messages detailing what you need to fix in your `configuration.nix`.
+
+The last installer step will ask you to set the root password (you can use `nixos-install --no-root-passwd` to disable this and leave it blank):
 
 ```text
 setting root password...
@@ -216,10 +254,12 @@ Enter new UNIX password: ***
 Retype new UNIX password: ***
 ```
 
-Finally, reboot. It will now boot from your installed disk:
+### Reboot
+
+This will cause it to reboot into your newly installed disk:
 
 ```text
-[root@nixos:/home/nixos]# reboot
+[root@nixos:~]# reboot
 
 Domain creation completed.
 Restarting guest.
@@ -234,55 +274,10 @@ Run 'nixos-help' for the NixOS manual.
 nixos login: 
 ```
 
-Log in as root using the password you set (if a password wasn't set, it will log you in without a password):
-
-```text
-nixos login: root
-Password: 
-
-[root@nixos:~]# 
-```
-
-If you didn't set a root password, do so now by typing `passwd`.
-
-You should also create an admin user for yourself because loggging in as root is dangerous.
-
-1. Create a password:
-
-```text
-$ mkpasswd -m sha-512
-Password: 
-$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.
-```
-
-2. Add your user to the end of your `configuration.nix`:
-
-```text
-$ nano /etc/nixos/configuration.nix
-```
-
-```text
-  users.users.myuser = {
-    isNormalUser = true;
-    home = "/home/myuser";
-    description = "My user";
-    # wheel allows sudo, networkmanager allows network modifications
-    extraGroups = [ "wheel" "networkmanager" ];
-    # mkpasswd -m sha-512
-    hashedPassword = "$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.";
-  };
-```
-
-3. Build the new configuration:
+Log in as the admin user you created (or you can log in via SSH if you enbled it). If you need to make further changes to the configuration, edit `/etc/nixos/configuration.nix` and then build the new configuration:
 
 ```text
 nixos-rebuild switch
-```
-
-Now you can log in as your new admin user via the console, or via SSH if you turned it on:
-
-```text
-ssh myuser@192.168.111.206
 ```
 
 At this point, you have a functional NixOS in a virtual machine. You're at the equivalent of [chapter 3 in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-changing-config), and can now start [configuring your OS](https://nixos.org/manual/nixos/stable/index.html#ch-configuration).
