@@ -245,11 +245,37 @@ Password:
 
 If you didn't set a root password, do so now by typing `passwd`.
 
-You should also create a user for yourself because loggging in as root is dangerous:
+You should also create a user for yourself because loggging in as root is dangerous.
+
+1. Create a password:
 
 ```text
-useradd -m myuser
-passwd myuser
+$ mkpasswd -m sha-512
+Password: 
+$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.
+```
+
+2. Add your user to your `configuration.nix`:
+
+```text
+$ nano /etc/nixos/configuration.nix
+```
+
+```text
+  users.users.myuser = {
+    isNormalUser = true;
+    home = "/home/myuser";
+    description = "My user";
+    extraGroups = [ "wheel" "networkmanager" ];
+    # mkpasswd -m sha-512
+    hashedPassword = "$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.";
+  };
+```
+
+3. Build the new configuration:
+
+```text
+nixos-rebuild switch
 ```
 
 Now you can log in via the console, or via SSH if you turned it on:
