@@ -36,10 +36,10 @@ sudo yum install kvm virt-manager libvirt libvirt-python python-virtinst
 You'll also need the [NixOS minimal ISO image](https://nixos.org/download.html)
 
 
-Booting the Installer
----------------------
+Launching the VM
+----------------
 
-First, launch a VM, picking a decent place to create your qcow2 disk image (you will be installing to this) so that you can find it later:
+Use the following as an example for launching your vm, picking a decent place to create your qcow2 disk image (you will be installing to this) so that you can find it later:
 
 ```text
 virt-install --name=nixos \
@@ -88,7 +88,7 @@ nixos login: nixos (automatic login)
 Some tips before you continue
 -----------------------------
 
-There will invariably be problems, so here are some tips:
+There will invariably be problems, so here are some tips to help get you unstuck:
 
 ### Exiting the console
 
@@ -199,7 +199,7 @@ nixos-generate-config --root /mnt
 
 ### Customize your install
 
-At this point, you can customize your configuration before installing. Configuration happens via `configuration.nix`, and the default one comes with a number of commented-out suggestions. Normally, you'd keep your configuration files in a repository and copy them in to the machine being provisioned.
+At this point, you can customize your configuration before installing. Configuration happens via `configuration.nix`, and the default config comes with a number of commented-out suggestions. Normally, you'd keep your configuration files in a repository and copy them in to the machine being provisioned.
 
 To edit your configuration:
 
@@ -245,7 +245,7 @@ You can also turn on SSH so that you can connect via secure shell after rebootin
 
 ### Run the installer
 
-Once you're happy with your configuration, it's time to build and install the OS:
+Once you're happy with your configuration, it's time to install the OS:
 
 ```text
 [root@nixos:~]# nixos-install
