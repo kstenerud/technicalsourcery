@@ -15,8 +15,8 @@ tags:
 NixOS has a lot of really cool ideas, but unfortunately installing on a VM is still tricky. This guide is designed as a "just get me something working, please!" way to get a headless NixOS install up and running in a libvirt VM.
 
 
-Preliminary Pieces
-------------------
+Prerequisites
+-------------
 
 You will need to have libvirt and virt-install on your system.
 
@@ -36,10 +36,10 @@ sudo yum install kvm virt-manager libvirt libvirt-python python-virtinst
 You'll also need the [NixOS minimal ISO image](https://nixos.org/download.html)
 
 
-Booting the VM
---------------
+Booting the Installer
+---------------------
 
-First, launch a VM, picking a decent place to create your qcow2 disk image so that you can find it later:
+First, launch a VM, picking a decent place to create your qcow2 disk image (you will be installing to this) so that you can find it later:
 
 ```text
 virt-install --name=nixos \
@@ -55,7 +55,9 @@ virt-install --name=nixos \
 
 This launches a UEFI-enabled (`--boot=uefi`) headless (`--nographics`) VM named "nixos" (`--name=nixos`) with 8 GB of RAM (`--memory=8192`), 2 CPUs (`--vcpus=2`), and a disk image with 16GB of space (`size=16`). It also connects to the guest's console (`--console pty,target_type=virtio`).
 
-It will sit there awhile looking like it's stuck, but should boot within a couple of minutes:
+**Note**: The `--cdrom` entry sets the ISO image to boot from **once**. After rebooting, it will boot from your qcow2 image instead.
+
+After launching the VM, it will sit there awhile looking like it's stuck, but should boot within a couple of minutes:
 
 ```text
 Starting install...
@@ -94,10 +96,10 @@ To reconnect to the console, type `virsh console nixos`
 
 ### Deleting everything and starting over
 
-If you manage to screw up royally, here's how to start fresh:
+If everything gets completely broken, here's how to start over fresh:
 
-* Stop the VM by typing `virsh destroy nixos`
-* Remove the domain by typing `virsh undefine nixos --nvram`
+* Stop the VM by typing `virsh destroy nixos` (turns off the machine)
+* Remove the domain by typing `virsh undefine nixos --nvram` (deletes the VM)
 * If you want the disk image gone also, you must delete it manually (wherever you put `my-nixos-disk-image.qcow2`)
 
 ### Accessing the VM from your host
@@ -125,7 +127,7 @@ $ virsh net-dhcp-leases default
 
 ### Connecting to the installer via SSH
 
-The console can be a bit funny at times, so it's generally nicer to SSH in. We'll just use password-based SSH login since it's only the installer.
+The console can be a bit funny at times (especially if you resize your shell window), so it's generally nicer to SSH in. We'll use a password-based SSH login since it's only the installer.
 
 1. Create a password (Note: This is only setting a temporary password for the **installer**, not the OS you are about to install):
 
@@ -161,16 +163,14 @@ Last login: Sun Aug  1 05:39:07 2021
 Installing NixOS
 ----------------
 
-Switch to root to make things easier:
+Switch to root to make things less cumbersome:
 ```text
 [nixos@nixos:~]$ sudo su
 
 [root@nixos:/home/nixos]#
 ```
 
-Now you can install. This follows the [example in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-installation-partitioning)
-
-**Note**: Your disk image is `/dev/vda`
+Now you can install. This follows the [example in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-installation-partitioning), except that your disk is `/dev/vda`.
 
 ```text
 parted --script /dev/vda -- mklabel gpt
@@ -194,7 +194,7 @@ From here, you can customize your install:
 nano /mnt/etc/nixos/configuration.nix
 ```
 
-You should turn on SSH so that you can connect via secure shell after rebooting (or else just continue using the console):
+You should turn on SSH so that you can connect via secure shell after rebooting (or otherwise just continue using the console):
 
 ```text
   services.openssh.enable = true; 
@@ -202,7 +202,7 @@ You should turn on SSH so that you can connect via secure shell after rebooting 
 
 Once you're happy, press CTRL-X and save the file to exit the editor.
 
-Start the installer:
+Now start the installer:
 
 ```text
 nixos-install
@@ -258,4 +258,6 @@ Now you can log in via the console, or via SSH if you turned it on:
 ssh myuser@192.168.111.206
 ```
 
-At this point, you have a functional NixOS virtual machine. You're at the equivalent of [chapter 3 in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-changing-config), and can now start [configuring your OS](https://nixos.org/manual/nixos/stable/index.html#ch-configuration).
+At this point, you have a functional NixOS in a virtual machine. You're at the equivalent of [chapter 3 in the NixOS manual](https://nixos.org/manual/nixos/stable/#sec-changing-config), and can now start [configuring your OS](https://nixos.org/manual/nixos/stable/index.html#ch-configuration).
+
+Enjoy!
