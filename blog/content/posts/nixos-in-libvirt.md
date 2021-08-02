@@ -57,13 +57,17 @@ This launches a UEFI-enabled (`--boot=uefi`) headless (`--nographics`) VM named 
 
 **Note**: The `--cdrom` entry sets the ISO image to boot from **once**. After rebooting, it will boot from your qcow2 image instead.
 
-After launching the VM, it will sit there awhile looking like it's stuck, but should boot within a couple of minutes:
+After launching the VM, it will sit here for awhile, looking like it's stuck:
 
 ```text
 Starting install...
 Connected to domain nixos
 Escape character is ^]
+```
 
+Just be patient; it should boot within a couple of minutes:
+
+```text
 <<< Welcome to NixOS 21.05.1970.11c662074e2 (x86_64) - hvc0 >>>
 The "nixos" and "root" accounts have empty passwords.
 
@@ -165,7 +169,8 @@ Installing NixOS
 
 ### Switch to root
 
-Switch to root to make the installation process less cumbersome:
+Doing the installation process as root makes it less cumbersome, and it's safe since you can't damage the installer ISO image:
+
 ```text
 [nixos@nixos:~]$ sudo su -
 
@@ -194,7 +199,9 @@ nixos-generate-config --root /mnt
 
 ### Customize your install
 
-At this point, you can customize your configuration before installing. To do so, edit your `configuration.nix`:
+At this point, you can customize your configuration before installing. Configuration happens via `configuration.nix`, and the default one comes with a number of commented-out suggestions. Normally, you'd keep your configuration files in a repository and copy them in to the machine being provisioned.
+
+To edit your configuration:
 
 ```text
 [root@nixos:~]# nano /mnt/etc/nixos/configuration.nix
@@ -204,28 +211,28 @@ Once you're happy with your configuration, press CTRL-X and save the file to exi
 
 #### Configuration: Add an admin user
 
-It's a good idea to create an admin user for yourself because logging in as root is dangerous. Start by creating a password for yourself:
-
-```text
-[root@nixos:~]# mkpasswd -m sha-512
-Password: 
-$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.
-```
-
-Next, add a user configuration modeled after this one to your `configuration.nix`:
+It's a good idea to create an admin user for yourself because logging in as root is dangerous. Here's an example user with admin privileges:
 
 ```text
   users.users.myuser = {
     isNormalUser = true;
     home = "/home/myuser";
-    description = "My user";
+    description = "My example admin user";
     # wheel allows sudo, networkmanager allows network modifications
     extraGroups = [ "wheel" "networkmanager" ];
-    # For password login (works for console and SSH):
+    # For password login (works with console and SSH):
     hashedPassword = "$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.";
-    # For SSH key login (works for SSH only):
+    # For SSH key login (works with SSH only):
     openssh.authorizedKeys.keys = [ "ssh-dss AAAAB3Nza... myuser@foobar" ];
   };
+```
+
+`hashedPassword` can be generated using `mkpasswd`:
+
+```text
+[root@nixos:~]# mkpasswd -m sha-512
+Password: 
+$6$Cc5l1Gyv2gP$Mw0RKFkH719QCZAggQDTJIDcE4HoHFEYUqS71H0FVA/AHR4BJEWhfyPaR3RKiz3WsMsDp1di4oPX3b1s3s6Jt.
 ```
 
 #### Configuration: Enable SSH
@@ -244,7 +251,7 @@ Once you're happy with your configuration, it's time to build and install the OS
 [root@nixos:~]# nixos-install
 ```
 
-If you made any mistakes, it will print out error messages detailing what you need to fix in your `configuration.nix`.
+If you've made any mistakes, it will print out error messages detailing what you need to fix in your `configuration.nix`.
 
 The last installer step will ask you to set the root password (you can use `nixos-install --no-root-passwd` to disable this and leave it blank):
 
