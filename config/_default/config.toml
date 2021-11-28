@@ -1,4 +1,4 @@
-baseURL = "https://kstenerud.github.io/technicalsourcery/"
+baseURL = "https://www.technicalsourcery.net/"
 title = "🪄 Technical Sourcery"
 theme = "hugo-theme-bootstrap"
 copyright = "Copyright © 2018-{year} Karl Stenerud. All Rights Reserved."
