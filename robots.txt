@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://kstenerud.github.io/technicalsourcery/sitemap.xml
+Sitemap: https://www.technicalsourcery.net/sitemap.xml
