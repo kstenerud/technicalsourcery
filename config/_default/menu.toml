@@ -1,0 +1,17 @@
+[[main]]
+  name = "Quick Links"
+  identifier = "links"
+  pre = '<i class="fas fa-fw fa-chevron-circle-down"></i>'
+  weight = 100
+[[main]]
+  name = "Concise Encoding"
+  identifier = "ce"
+  parent = "links"
+  url = "https://concise-encoding.org"
+  weight = 1
+[[main]]
+  name = "Github"
+  identifier = "github"
+  parent = "links"
+  url = "https://github.com/kstenerud"
+  weight = 2

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ssh root@technicalsourcery.net /root/technicalsourcery.net/refresh.sh
