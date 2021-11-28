@@ -1,0 +1,475 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Line Lengths - 🪄 Technical Sourcery</title><link rel=apple-touch-icon href=/images/icons/icon-180x180.png sizes=180x180>
+<link rel=icon href=/images/icons/icon-32x32.png sizes=32x32 type=image/png>
+<link rel=icon href=/images/icons/icon-16x16.png sizes=16x16 type=image/png>
+<link rel=icon href=/images/icons/favicon.ico>
+<link rel=manifest href=/manifest.json>
+<meta name=keywords content>
+<meta name=description content="An examination of line lengths in programming languages."><meta itemprop=name content="Line Lengths">
+<meta itemprop=description content="An examination of line lengths in programming languages."><meta itemprop=datePublished content="2020-05-30T07:15:13+01:00">
+<meta itemprop=dateModified content="2020-05-30T07:15:13+01:00">
+<meta itemprop=wordCount content="922"><meta itemprop=image content="/images/thumbnails/line-lengths.jpg">
+<meta itemprop=keywords content="programming,"><meta property="og:title" content="Line Lengths">
+<meta property="og:description" content="An examination of line lengths in programming languages.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/posts/line-lengths/"><meta property="og:image" content="/images/thumbnails/line-lengths.jpg"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-05-30T07:15:13+01:00">
+<meta property="article:modified_time" content="2020-05-30T07:15:13+01:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="/images/thumbnails/line-lengths.jpg">
+<meta name=twitter:title content="Line Lengths">
+<meta name=twitter:description content="An examination of line lengths in programming languages.">
+<meta name=robots content="index, follow"><link rel=stylesheet href=/css/bundle.min.adafd81624e28648439656f4aeba9adda4e7586da003efb5780ca8cec9292a9a.css integrity="sha256-ra/YFiTihkhDllb0rrqa3aTnWG2gA++1eAyozskpKpo=" crossorigin=anonymous>
+<noscript><link rel=stylesheet href=/css/bundle.min.adafd81624e28648439656f4aeba9adda4e7586da003efb5780ca8cec9292a9a.css integrity="sha256-ra/YFiTihkhDllb0rrqa3aTnWG2gA++1eAyozskpKpo=" crossorigin=anonymous></noscript></head>
+<body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+<div class=container>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<i class="fas fa-bars"></i>
+</button><a class="navbar-brand me-3" href=/>🪄 Technical Sourcery
+</a>
+<button class=navbar-social-share type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSocialShare aria-controls=offcanvasSocialShare aria-label="Toggle social share">
+<i class="fas fa-share-alt"></i>
+</button>
+<div class="offcanvas offcanvas-bottom surface" tabindex=-1 id=offcanvasSocialShare aria-labelledby=offcanvasSocialShare>
+<div class=offcanvas-header>
+<h3 class=offcanvas-title>Share</h3>
+<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class=offcanvas-body>
+<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button" target=_blank href="https://twitter.com/intent/tweet?title=Line%20Lengths&url=%2fposts%2fline-lengths%2f">
+<i class="fab fa-fw fa-twitter"></i> Twitter
+</a>
+<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button" target=_blank href="https://www.facebook.com/sharer/sharer.php?u=%2fposts%2fline-lengths%2f">
+<i class="fab fa-fw fa-facebook-f"></i> Facebook
+</a>
+</div>
+</div>
+<button class=navbar-settings type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSettings aria-controls=offcanvasSettings aria-label="Toggle settings">
+<i class="fas fa-ellipsis-v"></i>
+</button>
+<div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasSettings aria-labelledby=offcanvasSettings>
+<div class=offcanvas-header>
+<h3 class=offcanvas-title>Settings</h3>
+<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class="offcanvas-body d-flex flex-column"><section class=setting>
+<form class=row>
+<div class=col-auto>
+<label for=fontSize class=form-label><i class="fas fa-fw fa-language"></i> Language</label>
+</div>
+<div class="col-auto ms-auto">
+<div class=dropdown>
+<a class="btn btn-sm btn-outline-primary dropdown-toggle" href=# id=languageDropdown role=button data-bs-toggle=dropdown aria-expanded=false>
+English
+</a>
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby=languageDropdown><li><a class=dropdown-item href=/fr/></a></li></ul>
+</div>
+</div>
+</form>
+</section>
+<section class=setting>
+<form class=row>
+<div class=col-auto>
+<label><i class="fas fa-fw fa-adjust"></i> Mode</label>
+</div>
+<div class="col-auto ms-auto">
+<div class="form-check form-switch">
+<input class=form-check-input type=checkbox id=modeSwitcher>
+</div>
+</div>
+</form>
+</section>
+<section class=setting>
+<form class="font-size-switcher-form row">
+<div class=col-auto>
+<label for=fontSize class=form-label><i class="fas fa-fw fa-font"></i> Font Size</label>
+</div>
+<div class="col-auto ms-auto">
+<input type=range class=form-range min=-2 max=2 id=fontSize>
+</div>
+</form>
+</section>
+<section class="setting palettes">
+<form class=row>
+<div class=col-auto>
+<label><i class="fas fa-fw fa-palette"></i> Palette</label>
+</div>
+<div class="col-auto ms-auto">
+<a id=btnPalette class="btn btn-sm btn-outline-primary" role=button aria-label=palettePicker>
+<i class="fas fa-eye-dropper"></i>
+</a>
+</div>
+</form>
+<div class="mt-2 d-flex visually-hidden" id=palettePicker><button type=button id=palette-blue aria-label=Blue class="btn btn-sm palette" data-palette=blue>
+</button><button type=button id=palette-blue-gray aria-label="Blue Gray" class="btn btn-sm palette" data-palette=blue-gray>
+</button><button type=button id=palette-brown aria-label=Brown class="btn btn-sm palette" data-palette=brown>
+</button><button type=button id=palette-cyan aria-label=Cyan class="btn btn-sm palette" data-palette=cyan>
+</button><button type=button id=palette-green aria-label=Green class="btn btn-sm palette" data-palette=green>
+</button><button type=button id=palette-indigo aria-label=Indigo class="btn btn-sm palette" data-palette=indigo>
+</button><button type=button id=palette-orange aria-label=Orange class="btn btn-sm palette" data-palette=orange>
+</button><button type=button id=palette-pink aria-label=Pink class="btn btn-sm palette" data-palette=pink>
+</button><button type=button id=palette-purple aria-label=Purple class="btn btn-sm palette" data-palette=purple>
+</button><button type=button id=palette-red aria-label=Red class="btn btn-sm palette" data-palette=red>
+</button><button type=button id=palette-teal aria-label=Teal class="btn btn-sm palette" data-palette=teal>
+</button><button type=button id=palette-yellow aria-label=Yellow class="btn btn-sm palette" data-palette=yellow>
+</button></div>
+</section>
+<section class="setting actions d-flex justify-content-center mt-auto">
+<a role=button class="d-flex flex-column align-items-center" id=pageReloader>
+<i class="fas fa-2x fa-redo-alt"></i> Reload
+</a>
+</section>
+</div>
+</div>
+<div class="collapse navbar-collapse" tabindex=-1 id=navbarSupportedContent aria-labelledby=navbarSupportedContent>
+<form class="search-bar my-1" action=/search>
+<div class="input-group input-group-sm">
+<span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+<input class="form-control rounded-pill" name=q type=search aria-label=Search>
+</div>
+</form>
+<ul class="navbar-nav ms-auto"><li class=nav-item>
+<a class=nav-link href=/archives/>
+<i class="fas fa-fw fa-file-archive"></i>Archives
+</a>
+</li><li class=nav-item>
+<a class=nav-link href=/categories/>
+<i class="fas fa-fw fa-folder"></i>Categories
+</a>
+</li><li class=nav-item>
+<a class=nav-link href=/tags/>
+<i class="fas fa-fw fa-tags"></i>Tags
+</a>
+</li><li class=nav-item>
+<a class=nav-link href=/series/>
+<i class="fas fa-fw fa-columns"></i>Series
+</a>
+</li><li class="nav-item dropdown">
+<a class=nav-link id=navbarDropdownLinks role=button data-bs-toggle=dropdown aria-expanded=false>
+<i class="fas fa-fw fa-chevron-circle-down"></i>Quick Links
+</a>
+<ul class=dropdown-menu aria-labelledby=navbarDropdownLinks><li>
+<a class=dropdown-item href=https://concise-encoding.org target=_blank rel="noopener noreferrer">
+Concise Encoding
+</a>
+</li><li>
+<a class=dropdown-item href=https://github.com/kstenerud target=_blank rel="noopener noreferrer">
+Github
+</a>
+</li></ul>
+</li></ul>
+</div>
+</div>
+</nav>
+</header>
+<main role=main class=container>
+<div class="row content">
+<div class=col-lg-8>
+<div class=container><nav class="row card component" aria-label=breadcrumb>
+<div class=card-body>
+<ol class=breadcrumb><li class=breadcrumb-item><a href=/>Home</a></li><li class=breadcrumb-item><a href=/posts/>Posts</a></li><li class="breadcrumb-item active">Line Lengths</li></ol>
+</div>
+</nav><article class="row card component mb-4 post"><div class=post-panel-wrapper>
+<div class="d-flex flex-column component rounded post-panel">
+<a id=sidebarToggler class="action d-none d-lg-block" role=button>
+<i class="fas fa-fw fa-expand-alt" data-fa-transform=rotate-45></i>
+</a>
+<a class=action data-bs-container=body data-bs-toggle=popover data-bs-html=true data-bs-placement=bottom data-bs-trigger=focus tabindex=0 role=button aria-label=Copyright data-bs-content='<a target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">CC BY-NC-ND 4.0 <i class="fab fa-fw fa-creative-commons"></i><i class="fab fa-fw fa-creative-commons-by"></i><i class="fab fa-fw fa-creative-commons-nc"></i><i class="fab fa-fw fa-creative-commons-nd"></i></a>
+'>
+<i class="fas fa-fw fa-copyright"></i>
+</a>
+<a class=action data-bs-toggle=offcanvas href=#offcanvasTOC aria-controls=offcanvasTOC role=button>
+<i class="fas fa-fw fa-list-alt"></i>
+</a>
+</div>
+</div>
+<div class=card-body>
+<h1 class="card-title post-title">Line Lengths
+</h1><div class=post-meta>
+<span class=post-date title="created on 2020-05-30 06:15:13 +0000 UTC.">
+May 30, 2020
+</span><span class=post-reading-time>
+5 min read
+</span><span class=post-taxonomies><a href=/categories/programming/ class="badge rounded-pill post-taxonomy">programming</a><a href=/tags/programming/ class="badge rounded-pill post-taxonomy">programming</a></span>
+</div>
+<div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasTOC aria-labelledby=offcanvasTOCLabel>
+<div class=offcanvas-header>
+<h2 class=offcanvas-title id=offcanvasTOCLabel>Table Of Contents</h5>
+<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class=offcanvas-body>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#my-projects>My Projects</a></li>
+<li><a href=#bigger-projects>Bigger Projects</a></li>
+</ul>
+</nav>
+</div>
+</div><div class="post-content mb-3"><p>Line lengths, like tab sizes, tabs vs spaces, and brace positioning, are among the most contentious topics in programming. This is to be expected, as predicted by <a href=https://en.wikipedia.org/wiki/Sayre%27s_law target=_blank rel="noopener noreferrer">Sayre&rsquo;s Law</a>
+: &ldquo;In any dispute, the intensity of feeling is inversely proportional to the value of the issues at stake.&rdquo; Naturally, contentious topics make for popular blog posts, so here we go!</p>
+<p>I&rsquo;ve been programming for almost 40 years, 25 of those professionally. I&rsquo;ve lived through many of the later seismic shifts in programming discipline, have written much code on actual 80x25 CRT terminals, and have participated in many, many contentious-yet-trivial discussions in programming.</p>
+<p>Since our contentious trivial topic is line width, I&rsquo;d be interested to see how my recent projects have held up to the ideal line width. What&rsquo;s the ideal, you ask? That&rsquo;s a secret!</p>
+<p>Let&rsquo;s have a look at my projects directory, containing around 150 semi-recent projects from the last 10 years, mostly in C, C++, Go, Java, Python, Objective-C, and Bash.</p>
+<p>We&rsquo;ll start in the command line. Here&rsquo;s a quick shell command to print a frequency graph of line lengths for all go files:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>find . -type f <span class=se>\(</span> -name <span class=s2>&#34;*.go&#34;</span> <span class=se>\)</span> -exec awk <span class=s1>&#39;{print length}&#39;</span> <span class=o>{}</span> <span class=se>\;</span> <span class=p>|</span> <span class=se>\
+</span><span class=ln>2</span><span class=se></span>  sort -n <span class=p>|</span> <span class=se>\
+</span><span class=ln>3</span><span class=se></span>  uniq -c <span class=p>|</span> <span class=se>\
+</span><span class=ln>4</span><span class=se></span>  awk <span class=s1>&#39;($2 &gt;= 75) &amp;&amp; ($1 &gt;= 20) {printf(&#34;%3s: %s\n&#34;,$2,$1)}&#39;</span> <span class=p>|</span> <span class=se>\
+</span><span class=ln>5</span><span class=se></span>  awk <span class=s1>&#39;NR==1{scale=$2/30} \
+</span><span class=ln>6</span><span class=s1>       {printf(&#34;%-15s &#34;,$0); \
+</span><span class=ln>7</span><span class=s1>        for (i = 0; i&lt;($2/scale) ; i++) {printf(&#34;=&#34;)}; \
+</span><span class=ln>8</span><span class=s1>        printf(&#34;\n&#34;)}&#39;</span>
+</code></pre></div><p>I artificially cut off line lengths under 75 (I&rsquo;m only interested in longer line lengths), and anything with less than 20 occurrences. This keeps the graph small while still providing eyeball-level usefulness. The scaling is clunky (divide by 30), but it&rsquo;s good enough for here.</p>
+<p>Legend: <code>Line-width: count graph</code></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span> 75: 327        ==============================
+<span class=ln> 2</span> 76: 202        ===================
+<span class=ln> 3</span> 77: 486        =============================================
+<span class=ln> 4</span> 78: 360        ==================================
+<span class=ln> 5</span> 79: 386        ====================================
+<span class=ln> 6</span> 80: 221        =====================
+<span class=ln> 7</span> 81: 134        =============
+<span class=ln> 8</span> 82: 137        =============
+<span class=ln> 9</span> 83: 102        ==========
+<span class=ln>10</span> 84: 119        ===========
+<span class=ln>11</span> 85: 121        ============
+<span class=ln>12</span> 86: 131        =============
+<span class=ln>13</span> 87: 98         =========
+<span class=ln>14</span> 88: 85         ========
+<span class=ln>15</span> 89: 53         =====
+<span class=ln>16</span> 90: 55         ======
+<span class=ln>17</span> 91: 77         ========
+<span class=ln>18</span> 92: 117        ===========
+<span class=ln>19</span> 93: 72         =======
+<span class=ln>20</span> 94: 72         =======
+<span class=ln>21</span> 95: 52         =====
+<span class=ln>22</span> 96: 55         ======
+<span class=ln>23</span> 97: 59         ======
+<span class=ln>24</span> 98: 61         ======
+<span class=ln>25</span> 99: 70         =======
+<span class=ln>26</span>100: 48         =====
+<span class=ln>27</span>101: 46         =====
+<span class=ln>28</span>102: 45         =====
+<span class=ln>29</span>103: 27         ===
+<span class=ln>30</span>104: 35         ====
+<span class=ln>31</span>105: 24         ===
+<span class=ln>32</span>106: 39         ====
+<span class=ln>33</span>107: 24         ===
+<span class=ln>34</span>109: 26         ===
+<span class=ln>35</span>110: 21         ==
+<span class=ln>36</span>111: 23         ===
+</code></pre></div><p>Neato! That was fun, but it&rsquo;s better to use the right tool for the job. Enter <a href=http://www.gnuplot.info/ target=_blank rel="noopener noreferrer">Gnuplot</a>
+!</p>
+<p>Gnuplot is a graph generator that can be invoked from the command line to generate pretty plots and graphs. It&rsquo;s incredibly useful and powerful, but as a result has a steep learning curve. Here&rsquo;s a quick gnuplot program copied from <a href=http://gnuplot-surprising.blogspot.com/2011/09/statistic-analysis-and-histogram.html target=_blank rel="noopener noreferrer">my neighbor</a>
+.</p>
+<p><strong>linecounts.gnu:</strong></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-gnuplot data-lang=gnuplot><span class=ln> 1</span><span class=k>reset</span>
+<span class=ln> 2</span><span class=err>
+</span><span class=ln> 3</span><span class=err></span><span class=nv>intervals</span><span class=o>=</span><span class=mi>40</span>
+<span class=ln> 4</span><span class=nv>min</span><span class=o>=</span><span class=mi>70</span>
+<span class=ln> 5</span><span class=nv>max</span><span class=o>=</span><span class=mi>150</span>
+<span class=ln> 6</span><span class=nv>width</span><span class=o>=</span><span class=p>(</span><span class=n>max</span><span class=o>-</span><span class=n>min</span><span class=p>)</span><span class=o>/</span><span class=n>intervals</span>
+<span class=ln> 7</span><span class=err>
+</span><span class=ln> 8</span><span class=err></span><span class=k>hist</span><span class=p>(</span><span class=n>x</span><span class=o>,</span><span class=n>width</span><span class=p>)</span><span class=o>=</span><span class=n>width</span><span class=o>*</span><span class=nf>floor</span><span class=p>(</span><span class=n>x</span><span class=o>/</span><span class=n>width</span><span class=p>)</span><span class=o>+</span><span class=n>width</span><span class=o>/</span><span class=mf>2.0</span>
+<span class=ln> 9</span><span class=err>
+</span><span class=ln>10</span><span class=err></span><span class=k>set</span> <span class=nb>term</span> <span class=n>png</span>
+<span class=ln>11</span><span class=k>set</span> <span class=nb>output</span> <span class=s>&#34;plot.png&#34;</span>
+<span class=ln>12</span><span class=k>set</span> <span class=nb>xrange</span> <span class=p>[</span><span class=n>min</span><span class=o>:</span><span class=n>max</span><span class=p>]</span>
+<span class=ln>13</span><span class=k>set</span> <span class=nb>yrange</span> <span class=p>[</span><span class=mi>0</span><span class=o>:</span><span class=p>]</span>
+<span class=ln>14</span><span class=k>set</span> <span class=nb>style</span> <span class=n>fill</span> <span class=n>solid</span> <span class=mf>1.0</span>
+<span class=ln>15</span><span class=k>set</span> <span class=nb>xlabel</span> <span class=s>&#34;Line Width&#34;</span>
+<span class=ln>16</span><span class=k>set</span> <span class=nb>ylabel</span> <span class=s>&#34;Frequency&#34;</span>
+<span class=ln>17</span><span class=err>
+</span><span class=ln>18</span><span class=err></span><span class=k>plot</span> <span class=s>&#34;/dev/stdin&#34;</span> <span class=nb>u</span> <span class=p>(</span><span class=nf>hist</span><span class=p>(</span><span class=err>$</span><span class=mi>1</span><span class=o>,</span><span class=n>width</span><span class=p>))</span><span class=o>:</span><span class=p>(</span><span class=mf>1.0</span><span class=p>)</span> <span class=nb>smooth</span> <span class=n>freq</span> <span class=nb>w</span> <span class=n>boxes</span> <span class=n>lc</span> <span class=n>rgb</span><span class=s>&#34;#2a9d8f&#34;</span> <span class=nb>notitle</span>
+</code></pre></div><p>I&rsquo;m setting the min to 70 since I&rsquo;m only interested in the longer lines, and capping at 150 because I probably have code-generated code in there somewhere, and some code generators create lines thousands of characters long.</p>
+<p><em>I&rsquo;ve found in my experience that line lengths greater than 120 or so are harder to scan. Probably this has something to do with how our eyes focus. That said, the odd long line doesn&rsquo;t really bother me if it&rsquo;s done to preserve the structure in an eye-scan friendly way.</em></p>
+<p>To invoke, we generate line count data the same as before, but send it to gnuplot instead:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=ln>1</span>find . -type f <span class=se>\(</span> -name <span class=s2>&#34;*.go&#34;</span> <span class=se>\)</span> -exec awk <span class=s1>&#39;{print length}&#39;</span> <span class=o>{}</span> <span class=se>\;</span> <span class=p>|</span> gnuplot linecounts.gnu
+</code></pre></div><p>This will output a file <code>plot.png</code>, containing the line counts of all files in all subdirs ending with <code>.go</code>. Change the <code>\( -name "*.go" \)</code> section to capture the file types you&rsquo;re interested in.</p>
+<p>Tooling finished! Now let&rsquo;s have a look at my line widths for various languages!</p>
+<h2 id=my-projects>My Projects</h2>
+<p><strong>C:</strong>
+<figure><img src=linecounts-c.png>
+</figure>
+</p>
+<p><strong>C++:</strong>
+<figure><img src=linecounts-cpp.png>
+</figure>
+</p>
+<p>C++ really pushes the line lengths, but that&rsquo;s to be expected given how verbose templates are.</p>
+<p><strong>Go:</strong>
+<figure><img src=linecounts-go.png>
+</figure>
+</p>
+<p><strong>Java:</strong>
+<figure><img src=linecounts-java.png>
+</figure>
+</p>
+<p>Java is slightly higher than C and Go, but overall relatively stable.</p>
+<p><strong>Objective-C:</strong>
+<figure><img src=linecounts-objc.png>
+</figure>
+</p>
+<p><strong>Python:</strong>
+<figure><img src=linecounts-python.png>
+</figure>
+</p>
+<p>Honestly, I&rsquo;d expected Python line lengths to be longer, but I guess I really made an effort to adhere to PEP-8.</p>
+<p><strong>Bash:</strong>
+<figure><img src=linecounts-bash.png>
+</figure>
+</p>
+<h2 id=bigger-projects>Bigger Projects</h2>
+<p>Let&rsquo;s have a look at some of the more popular projects out there:</p>
+<p><strong>C (Linux Kernel):</strong>
+<figure><img src=linecounts-c-linux.png>
+</figure>
+</p>
+<p>Fairly strict adherence to 80 cols.</p>
+<p><strong>C++ (Apple&rsquo;s Swift language):</strong>
+<figure><img src=linecounts-cpp-swift.png>
+</figure>
+</p>
+<p>VERY strictly 80 cols.</p>
+<p><strong>Go (Go compiler and standard library):</strong>
+<figure><img src=linecounts-go-go.png>
+</figure>
+</p>
+<p>The Go compiler and library have some generated code in it, but also it looks like they don&rsquo;t worry so much about line lengths.</p>
+<p><strong>Java (Spring-Boot):</strong>
+<figure><img src=linecounts-java-springboot.png>
+</figure>
+</p>
+<p>Spring-boot looks like it has a style around 100 or so.</p>
+<p><strong>Javascript (React):</strong>
+<figure><img src=linecounts-js-react.png>
+</figure>
+</p>
+<p>React looks like it has an ideal of 80 cols.</p>
+<p><strong>PHP (Symfony):</strong>
+<figure><img src=linecounts-php-symfony.png>
+</figure>
+</p>
+<p>PHP stuff in general doesn&rsquo;t place much importance on line length.</p>
+<p><strong>Python (Django):</strong>
+<figure><img src=linecounts-python-django.png>
+</figure>
+</p>
+<p>Not very PEP-8, is it ;-)</p>
+<p>Line lengths are a contentious issue in programming, so we tend to write many rules and standards about it, even if we don&rsquo;t actually follow them. But I wonder if we might be better served by a <a href=https://en.wikipedia.org/wiki/Desire_path target=_blank rel="noopener noreferrer">desire path</a>
+approach? If we observe what people are actually doing, we can probably come up with more natural feeling line length conventions.</p>
+</div><hr><div class="post-navs d-flex mb-3 justify-content-evenly">
+<div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
+<a href=/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop
+</a>
+</div><div class="post-nav post-next">
+<a href=/posts/on-endianness/>On Endianness
+</a>
+<i class="fas fa-fw fa-chevron-right"></i>
+</div></div><section class=related-posts-wrapper>
+<h3>Related Posts</h3>
+<ul class=related-posts><li><a href=/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop
+</a></li><li><a href=/posts/intro-high-availability/>Introduction to High Availability
+</a></li><li><a href=/posts/time-timezones/>Time and Timezones: Getting It Right
+</a></li><li><a href=/offline/>Offline
+</a></li></ul>
+</section></div>
+</article><div class="card component row post-comments">
+<div class=card-body><script src=https://utteranc.es/client.js repo=kstenerud/technicalsourcery issue-term=pathname label=comment theme=github-light crossorigin=anonymous async></script></div>
+</div></div>
+</div><aside class="col-lg-4 sidebar d-flex">
+<div class=container>
+<section class="card row text-center profile component">
+<div class=card-body>
+<div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="Karl Stenerud" src=/images/profile.jpg loading=lazy width=460 height=460>
+</div>
+<div class="col-12 profile-meta"><div class=profile-name>Karl Stenerud</div><div class=profile-bio>Networking, protocols, & nitty gritty details.</div><div class=profile-about><i class="fas fa-fw fa-user"></i><a href=/about/>About Me</a></div></div>
+</div>
+</section>
+<section class="recent-posts row card component">
+<div class=card-body>
+<h2 class=card-title>Recent Posts</h2>
+<ul class=post-list><li><a href=/posts/nixos-in-libvirt/>Test-Driving a NixOS VM Using Libvirt
+</a></li><li><a href=/posts/on-endianness/>On Endianness
+</a></li><li><a href=/posts/line-lengths/>Line Lengths
+</a></li><li><a href=/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop
+</a></li><li><a href=/posts/intro-high-availability/>Introduction to High Availability
+</a></li></ul>
+</div>
+</section><section class="taxonomies row card component">
+<div class=card-body>
+<h2 class=card-title>
+<a href=/categories>Categories</a>
+</h2>
+<div class=py-2><a href=/categories/endianness/ class="badge rounded post-taxonomy" title=endianness>
+endianness
+</a><a href=/categories/high-availability/ class="badge rounded post-taxonomy" title=high-availability>
+high-availability
+</a><a href=/categories/programming/ class="badge rounded post-taxonomy" title=programming>
+programming
+</a><a href=/categories/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>
+remote-desktop
+</a><a href=/categories/time/ class="badge rounded post-taxonomy" title=time>
+time
+</a><a href=/categories/virtualization/ class="badge rounded post-taxonomy" title=virtualization>
+virtualization
+</a></div>
+</div>
+</section><section class="taxonomies row card component">
+<div class=card-body>
+<h2 class=card-title>
+<a href=/tags>Tags</a>
+</h2>
+<div class=py-2><a href=/tags/endianness/ class="badge rounded post-taxonomy" title=endianness>
+endianness
+</a><a href=/tags/headless/ class="badge rounded post-taxonomy" title=headless>
+headless
+</a><a href=/tags/high-availability/ class="badge rounded post-taxonomy" title=high-availability>
+high-availability
+</a><a href=/tags/libvirt/ class="badge rounded post-taxonomy" title=libvirt>
+libvirt
+</a><a href=/tags/linux/ class="badge rounded post-taxonomy" title=linux>
+linux
+</a><a href=/tags/nixos/ class="badge rounded post-taxonomy" title=nixos>
+nixos
+</a><a href=/tags/programming/ class="badge rounded post-taxonomy" title=programming>
+programming
+</a><a href=/tags/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>
+remote-desktop
+</a><a href=/tags/time/ class="badge rounded post-taxonomy" title=time>
+time
+</a><a href=/tags/timezone/ class="badge rounded post-taxonomy" title=timezone>
+timezone
+</a></div>
+</div>
+</section>
+</div>
+</aside>
+</div>
+</main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"><a class="nav-link social-link" href=mailto:kstenerud@gmail.com title=Email>
+<i class="fas fa-fw fa-2x fa-envelope"></i>
+</a><a class="nav-link social-link" target=_blank href=https://github.com/kstenerud title=GitHub rel="noopener noreferrer">
+<i class="fa-fw fa-2x fab fa-github"></i>
+</a><a class="nav-link social-link" target=_blank href=https://linkedin.com/in/kstenerud title=LinkedIn rel="noopener noreferrer">
+<i class="fa-fw fa-2x fab fa-linkedin-in"></i>
+</a></nav>
+<div class="copyright mb-2">
+Copyright © 2018-2021 Karl Stenerud. All Rights Reserved.
+</div>
+<div class="powered-by mb-2">
+Powered by <a href=https://gohugo.io target=_blank rel="noopener noreferrer">Hugo</a> and the <a href=https://github.com/razonyang/hugo-theme-bootstrap target=_blank rel="noopener noreferrer">Bootstrap</a> theme.
+</div><a href=https://www.netlify.com>
+<img src=https://www.netlify.com/img/global/badges/netlify-color-accent.svg alt="Deploys by Netlify">
+</a>
+</footer>
+<script src=/js/bundle.min.c9a2705a4f7960fa93b78fcbd45bced560cf3993d862169dec489d9a4ba3b97e.js integrity="sha256-yaJwWk95YPqTt4/L1FvO1WDPOZPYYhad7EidmkujuX4=" crossorigin=anonymous defer></script><script>'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('/service-worker.js').then(function(a){console.log('Successfully registered service worker',a)}).catch(function(a){console.warn('Error whilst registering service worker',a)})})</script>
+</body>
+</html>

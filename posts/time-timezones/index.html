@@ -1,0 +1,387 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Time and Timezones: Getting it Right - 🪄 Technical Sourcery</title><link rel=apple-touch-icon href=/images/icons/icon-180x180.png sizes=180x180>
+<link rel=icon href=/images/icons/icon-32x32.png sizes=32x32 type=image/png>
+<link rel=icon href=/images/icons/icon-16x16.png sizes=16x16 type=image/png>
+<link rel=icon href=/images/icons/favicon.ico>
+<link rel=manifest href=/manifest.json>
+<meta name=keywords content>
+<meta name=description content="Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a brief tour of computerized time, and see why we keep getting it wrong."><meta itemprop=name content="Time and Timezones: Getting it Right">
+<meta itemprop=description content="Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a brief tour of computerized time, and see why we keep getting it wrong."><meta itemprop=datePublished content="2019-03-30T16:09:13+01:00">
+<meta itemprop=dateModified content="2019-03-30T16:09:13+01:00">
+<meta itemprop=wordCount content="1302"><meta itemprop=image content="/images/thumbnails/time-timezones.jpg">
+<meta itemprop=keywords content="time,timezone,"><meta property="og:title" content="Time and Timezones: Getting it Right">
+<meta property="og:description" content="Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a brief tour of computerized time, and see why we keep getting it wrong.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="/posts/time-timezones/"><meta property="og:image" content="/images/thumbnails/time-timezones.jpg"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2019-03-30T16:09:13+01:00">
+<meta property="article:modified_time" content="2019-03-30T16:09:13+01:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="/images/thumbnails/time-timezones.jpg">
+<meta name=twitter:title content="Time and Timezones: Getting it Right">
+<meta name=twitter:description content="Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a brief tour of computerized time, and see why we keep getting it wrong.">
+<meta name=robots content="index, follow"><link rel=stylesheet href=/css/bundle.min.adafd81624e28648439656f4aeba9adda4e7586da003efb5780ca8cec9292a9a.css integrity="sha256-ra/YFiTihkhDllb0rrqa3aTnWG2gA++1eAyozskpKpo=" crossorigin=anonymous>
+<noscript><link rel=stylesheet href=/css/bundle.min.adafd81624e28648439656f4aeba9adda4e7586da003efb5780ca8cec9292a9a.css integrity="sha256-ra/YFiTihkhDllb0rrqa3aTnWG2gA++1eAyozskpKpo=" crossorigin=anonymous></noscript></head>
+<body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
+<div class=container>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<i class="fas fa-bars"></i>
+</button><a class="navbar-brand me-3" href=/>🪄 Technical Sourcery
+</a>
+<button class=navbar-social-share type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSocialShare aria-controls=offcanvasSocialShare aria-label="Toggle social share">
+<i class="fas fa-share-alt"></i>
+</button>
+<div class="offcanvas offcanvas-bottom surface" tabindex=-1 id=offcanvasSocialShare aria-labelledby=offcanvasSocialShare>
+<div class=offcanvas-header>
+<h3 class=offcanvas-title>Share</h3>
+<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class=offcanvas-body>
+<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button" target=_blank href="https://twitter.com/intent/tweet?title=Time%20and%20Timezones%3a%20Getting%20it%20Right&url=%2fposts%2ftime-timezones%2f">
+<i class="fab fa-fw fa-twitter"></i> Twitter
+</a>
+<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button" target=_blank href="https://www.facebook.com/sharer/sharer.php?u=%2fposts%2ftime-timezones%2f">
+<i class="fab fa-fw fa-facebook-f"></i> Facebook
+</a>
+</div>
+</div>
+<button class=navbar-settings type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSettings aria-controls=offcanvasSettings aria-label="Toggle settings">
+<i class="fas fa-ellipsis-v"></i>
+</button>
+<div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasSettings aria-labelledby=offcanvasSettings>
+<div class=offcanvas-header>
+<h3 class=offcanvas-title>Settings</h3>
+<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class="offcanvas-body d-flex flex-column"><section class=setting>
+<form class=row>
+<div class=col-auto>
+<label for=fontSize class=form-label><i class="fas fa-fw fa-language"></i> Language</label>
+</div>
+<div class="col-auto ms-auto">
+<div class=dropdown>
+<a class="btn btn-sm btn-outline-primary dropdown-toggle" href=# id=languageDropdown role=button data-bs-toggle=dropdown aria-expanded=false>
+English
+</a>
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby=languageDropdown><li><a class=dropdown-item href=/fr/></a></li></ul>
+</div>
+</div>
+</form>
+</section>
+<section class=setting>
+<form class=row>
+<div class=col-auto>
+<label><i class="fas fa-fw fa-adjust"></i> Mode</label>
+</div>
+<div class="col-auto ms-auto">
+<div class="form-check form-switch">
+<input class=form-check-input type=checkbox id=modeSwitcher>
+</div>
+</div>
+</form>
+</section>
+<section class=setting>
+<form class="font-size-switcher-form row">
+<div class=col-auto>
+<label for=fontSize class=form-label><i class="fas fa-fw fa-font"></i> Font Size</label>
+</div>
+<div class="col-auto ms-auto">
+<input type=range class=form-range min=-2 max=2 id=fontSize>
+</div>
+</form>
+</section>
+<section class="setting palettes">
+<form class=row>
+<div class=col-auto>
+<label><i class="fas fa-fw fa-palette"></i> Palette</label>
+</div>
+<div class="col-auto ms-auto">
+<a id=btnPalette class="btn btn-sm btn-outline-primary" role=button aria-label=palettePicker>
+<i class="fas fa-eye-dropper"></i>
+</a>
+</div>
+</form>
+<div class="mt-2 d-flex visually-hidden" id=palettePicker><button type=button id=palette-blue aria-label=Blue class="btn btn-sm palette" data-palette=blue>
+</button><button type=button id=palette-blue-gray aria-label="Blue Gray" class="btn btn-sm palette" data-palette=blue-gray>
+</button><button type=button id=palette-brown aria-label=Brown class="btn btn-sm palette" data-palette=brown>
+</button><button type=button id=palette-cyan aria-label=Cyan class="btn btn-sm palette" data-palette=cyan>
+</button><button type=button id=palette-green aria-label=Green class="btn btn-sm palette" data-palette=green>
+</button><button type=button id=palette-indigo aria-label=Indigo class="btn btn-sm palette" data-palette=indigo>
+</button><button type=button id=palette-orange aria-label=Orange class="btn btn-sm palette" data-palette=orange>
+</button><button type=button id=palette-pink aria-label=Pink class="btn btn-sm palette" data-palette=pink>
+</button><button type=button id=palette-purple aria-label=Purple class="btn btn-sm palette" data-palette=purple>
+</button><button type=button id=palette-red aria-label=Red class="btn btn-sm palette" data-palette=red>
+</button><button type=button id=palette-teal aria-label=Teal class="btn btn-sm palette" data-palette=teal>
+</button><button type=button id=palette-yellow aria-label=Yellow class="btn btn-sm palette" data-palette=yellow>
+</button></div>
+</section>
+<section class="setting actions d-flex justify-content-center mt-auto">
+<a role=button class="d-flex flex-column align-items-center" id=pageReloader>
+<i class="fas fa-2x fa-redo-alt"></i> Reload
+</a>
+</section>
+</div>
+</div>
+<div class="collapse navbar-collapse" tabindex=-1 id=navbarSupportedContent aria-labelledby=navbarSupportedContent>
+<form class="search-bar my-1" action=/search>
+<div class="input-group input-group-sm">
+<span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+<input class="form-control rounded-pill" name=q type=search aria-label=Search>
+</div>
+</form>
+<ul class="navbar-nav ms-auto"><li class=nav-item>
+<a class=nav-link href=/archives/>
+<i class="fas fa-fw fa-file-archive"></i>Archives
+</a>
+</li><li class=nav-item>
+<a class=nav-link href=/categories/>
+<i class="fas fa-fw fa-folder"></i>Categories
+</a>
+</li><li class=nav-item>
+<a class=nav-link href=/tags/>
+<i class="fas fa-fw fa-tags"></i>Tags
+</a>
+</li><li class=nav-item>
+<a class=nav-link href=/series/>
+<i class="fas fa-fw fa-columns"></i>Series
+</a>
+</li><li class="nav-item dropdown">
+<a class=nav-link id=navbarDropdownLinks role=button data-bs-toggle=dropdown aria-expanded=false>
+<i class="fas fa-fw fa-chevron-circle-down"></i>Quick Links
+</a>
+<ul class=dropdown-menu aria-labelledby=navbarDropdownLinks><li>
+<a class=dropdown-item href=https://concise-encoding.org target=_blank rel="noopener noreferrer">
+Concise Encoding
+</a>
+</li><li>
+<a class=dropdown-item href=https://github.com/kstenerud target=_blank rel="noopener noreferrer">
+Github
+</a>
+</li></ul>
+</li></ul>
+</div>
+</div>
+</nav>
+</header>
+<main role=main class=container>
+<div class="row content">
+<div class=col-lg-8>
+<div class=container><nav class="row card component" aria-label=breadcrumb>
+<div class=card-body>
+<ol class=breadcrumb><li class=breadcrumb-item><a href=/>Home</a></li><li class=breadcrumb-item><a href=/posts/>Posts</a></li><li class="breadcrumb-item active">Time and Timezones: Getting It Right</li></ol>
+</div>
+</nav><article class="row card component mb-4 post"><div class=post-panel-wrapper>
+<div class="d-flex flex-column component rounded post-panel">
+<a id=sidebarToggler class="action d-none d-lg-block" role=button>
+<i class="fas fa-fw fa-expand-alt" data-fa-transform=rotate-45></i>
+</a>
+<a class=action data-bs-container=body data-bs-toggle=popover data-bs-html=true data-bs-placement=bottom data-bs-trigger=focus tabindex=0 role=button aria-label=Copyright data-bs-content='<a target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">CC BY-NC-ND 4.0 <i class="fab fa-fw fa-creative-commons"></i><i class="fab fa-fw fa-creative-commons-by"></i><i class="fab fa-fw fa-creative-commons-nc"></i><i class="fab fa-fw fa-creative-commons-nd"></i></a>
+'>
+<i class="fas fa-fw fa-copyright"></i>
+</a>
+<a class=action data-bs-toggle=offcanvas href=#offcanvasTOC aria-controls=offcanvasTOC role=button>
+<i class="fas fa-fw fa-list-alt"></i>
+</a>
+</div>
+</div>
+<div class=card-body>
+<h1 class="card-title post-title">Time and Timezones: Getting It Right
+</h1><div class=post-meta>
+<span class=post-date title="created on 2019-03-30 15:09:13 +0000 UTC.">
+Mar 30, 2019
+</span><span class=post-reading-time>
+7 min read
+</span><span class=post-taxonomies><a href=/categories/time/ class="badge rounded-pill post-taxonomy">time</a><a href=/tags/time/ class="badge rounded-pill post-taxonomy">time</a><a href=/tags/timezone/ class="badge rounded-pill post-taxonomy">timezone</a></span>
+</div>
+<div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasTOC aria-labelledby=offcanvasTOCLabel>
+<div class=offcanvas-header>
+<h2 class=offcanvas-title id=offcanvasTOCLabel>Table Of Contents</h5>
+<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i>
+</button>
+</div>
+<div class=offcanvas-body>
+<nav id=TableOfContents>
+<ul>
+<li>
+<ul>
+<li><a href=#time-zones>Time Zones</a></li>
+</ul>
+</li>
+<li><a href=#the-politics-of-time>The Politics of Time</a></li>
+<li><a href=#a-time-and-place-for-everything>A Time and Place for Everything</a></li>
+<li><a href=#different-times>Different Times</a></li>
+<li><a href=#time-in-a-bottle>Time in a Bottle</a></li>
+<li><a href=#keeping-time>Keeping Time</a></li>
+<li><a href=#a-brief-rant-about-is0-8601>A Brief Rant About IS0 8601</a></li>
+<li><a href=#presenting-time>Presenting Time</a></li>
+<li><a href=#time-keeps-on-slipping>Time Keeps on Slipping</a></li>
+</ul>
+</nav>
+</div>
+</div><div class="post-content mb-3"><p>Time is a tricky beast - quite possibly one of the trickiest things to get right in software engineering. Walk with me on a tour of time, and see why we keep getting it wrong.</p>
+<p>There are two levels of time problems: advancing time and storing time. Advancing time deals with the nuances of leap years and leap seconds, and when and how and where you resolve the lost or gained time. Storing time is about how to store time values in an unambiguous way. We&rsquo;ve seen plenty of posts about advancing time, so I&rsquo;m going to focus on storing time in this post.</p>
+<h3 id=time-zones>Time Zones</h3>
+<p>Time zones are deceptively simple on the surface. Every zone has a time offset from UTC in hours and minutes. Most people don&rsquo;t think too deeply about them - after all, they&rsquo;re just bands on a globe, right? Why should we care too much? But time zones are not that clean. Even picturing &ldquo;bands on a globe&rdquo; leads to the mistaken assumption that zones at the same longitude share the same time. But consider this:</p>
+<figure><img src=australia-timezones.png alt="Australian Time Zones"><figcaption>
+<p>Australian Time Zones</p>
+</figcaption>
+</figure>
+<p>Yep! Mind blown.</p>
+<h2 id=the-politics-of-time>The Politics of Time</h2>
+<p>Time zones are not simply a way to keep the sun shining at an appropriate hour; they are political and economic tools, and as such, follow arbitrary and ever-changing rules. A territory at +0100 one year may be +0000 the next year, and I&rsquo;m not talking about daylight savings time (although that&rsquo;s also a complicated political and economic subject).</p>
+<p>Time - at least as humans experience it - is not absolute. Time for us is meaningless without a corresponding location, and cannot even be calculated without it. At 14:00, July 1st, 1939 UTC, it was 15:20 in Amsterdam. Exactly one year later, it was 16:00. Meanwhile, in Kiev, it remained 17:00, but then switched to 16:00 in 1941, and then back to 17:00 in 1943, 17:00 and 18:00 between 1981 and 1990, and it&rsquo;s 16:00 and 17:00 at the moment (but re-read this post in a decade and it may not be).</p>
+<p>How often does this happen? <a href=https://www.iana.org/time-zones target=_blank rel="noopener noreferrer">Often enough to give you gray hairs!</a>
+</p>
+<h2 id=a-time-and-place-for-everything>A Time and Place for Everything</h2>
+<p>Imagine you have a daily workout schedule. Every weekday morning, you do a half hour workout from 7:30 to 8:00. If you took a week-long trip from Seattle to Berlin, that would, in absolute time, become a workout from 13:30 to 14:00. However, being human, you&rsquo;re not concerned with absolute time, and would rather do your workout from 7:30 to 8:00 regardless of where you are. The absolute time changes in this case, and the local time does not.</p>
+<p>Now imagine you&rsquo;ve got a meeting for 9:00 in Naples on the morning of August 2, 2021. Will the meeting occur at 8:00 UTC? Maybe, maybe not. Europe has voted to end daylight savings in 2021, but has left it up to each member state to decide whether to remain on daylight savings time, or go to standard time, when the changeover occurs. Depending on what Italy decides, the absolute time value of 9:00 in Naples will change. How will this affect your meeting? <em>When</em> will your meeting even be?</p>
+<p>The issue with future events is that political changes will affect how time is interpreted. For past events, we don&rsquo;t have this problem, as all changes have alreay been resolved. It doesn&rsquo;t matter whether daylight savings time was in effect, or what time offset was in effect; that information is not necessary to determine the <strong>when</strong> of something in the past (although if you wanted to know what time it was locally at the time of the event, you&rsquo;d of course need the location information).</p>
+<h2 id=different-times>Different Times</h2>
+<p>Since time is both political and circumstantial, we must define multiple kinds of time. <a href=https://tools.ietf.org/html/rfc5545 target=_blank rel="noopener noreferrer">RFC 5545</a>
+defines three main kinds:</p>
+<ul>
+<li><strong>Absolute Time</strong>: A time value fixed to UTC.</li>
+<li><strong>Fixed Time</strong>: A time value fixed to a specific time zone.</li>
+<li><strong>Floating Time</strong>: A time value that is interpreted according to the time zone of the observer.</li>
+</ul>
+<h2 id=time-in-a-bottle>Time in a Bottle</h2>
+<p>With all of these different ways of experiencing time, how do we store it? Ideally, you&rsquo;d want to store time values in a way such that you don&rsquo;t have to constantly update already stored data. It wouldn&rsquo;t make sense to store floating times as UTC values, because you&rsquo;d have to update your calendar database every time you changed time zones or went to/from daylight savings time. Different kinds of time have different storage requirements:</p>
+<ul>
+<li><strong>Absolute time</strong> is always in UTC, and therefore only needs a time value.</li>
+<li><strong>Floating time</strong> is always relative to your current time zone, and therefore also only needs a time value.</li>
+<li><strong>Fixed time</strong> is relative to a specific time zone, and must therefore be stored along with that time zone, in values relative to that time zone.</li>
+</ul>
+<p>You could in theory store fixed time in UTC, but then you&rsquo;d need to sweep your database to update your times every time a time zone rule changes.</p>
+<h2 id=keeping-time>Keeping Time</h2>
+<p>Think carefully about how time affects all observers, and tailor the kind of time to whichever observer is most important to the data being captured. For example:</p>
+<ul>
+<li><em>An event in the past</em>: Absolute time</li>
+<li><em>Your daily schedule</em>: Floating time</li>
+<li><em>An appointment</em>: Fixed time</li>
+<li><em>Log entries</em>: Absolute time</li>
+<li><em>Deadlines (local)</em>: Probably fixed time</li>
+<li><em>Deadlines (international)</em>: Probably absolute time</li>
+</ul>
+<p>Remember: Your goal is to store data such that it doesn&rsquo;t need to be updated, because database update sweeps suck, and break, and lose data.</p>
+<h2 id=a-brief-rant-about-is0-8601>A Brief Rant About IS0 8601</h2>
+<p><a href=https://www.iso.org/iso-8601-date-and-time-format.html target=_blank rel="noopener noreferrer">ISO 8601</a>
+(and <a href=https://www.ietf.org/rfc/rfc3339.txt target=_blank rel="noopener noreferrer">RFC 3339</a>
+) is an attempt to standardize a textual representation of time in an unambiguous manner. It mostly succeeds, except for one major problem: It only refers to time zones as numerical offsets. Why is this a problem? <em>Future events</em>!</p>
+<p>Going back to the 2021 issue, there&rsquo;s a 50% chance that <code>2021-08-02T09:00:00+0200</code> will refer to different times in Naples vs Berlin, <em>because the location portion of the fixed time is missing!</em> So the &ldquo;time zone&rdquo; information of <code>+0200</code> doesn&rsquo;t gain you a thing when you&rsquo;re referring to future events. And even if the dev was aware enough to store <code>Europe/Berlin</code> along with the time, how confusing would it be if Germany were to choose standard time? Now you&rsquo;d have a time containing <code>+0200</code> that actually refers to a time at <code>+0100</code>!</p>
+<p>The really annoying part is that a time without a timezone offset specifier is considered by the standard to be in local (floating) time. So you must either break the spec with a special rule that no-offset time refers to a location-based time zone that you promise to accompany all time values (i.e. the time is fixed, not floating), or you must store a confusing value for future events (plus the location-based time zone info if you want any hope of it being resolvable), or even worse, store as UTC and location, and suffer the database update sweep issue.</p>
+<p>What we really need is something like <code>2021-08-02T09:00:00/Europe/Berlin</code></p>
+<h2 id=presenting-time>Presenting Time</h2>
+<p>When presenting data, you&rsquo;re best off using an established time engine rather than writing your own, because you WILL get it wrong. A good time engine is capable of converting any kind of time to any other kind. So long as you keep the kinds straight in your head, you&rsquo;ll be able to present time values to your users in a sane, meaningful way.</p>
+<h2 id=time-keeps-on-slipping>Time Keeps on Slipping</h2>
+<p>Dealing with time is no simple task. From Y2K to leap year failures to internationalization gaffes, time - and its storage - is a source of more bugs than possibly any other data type. So the next time someone says &ldquo;Easy! Just store it as UTC!&rdquo;, be sure to take them quietly aside, take a firm hold, and dunk their head in a nearby toilet.</p>
+</div><hr><div class="post-navs d-flex mb-3 justify-content-evenly">
+<div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
+<a href=/offline/>Offline
+</a>
+</div><div class="post-nav post-next">
+<a href=/posts/intro-high-availability/>Introduction to High Availability
+</a>
+<i class="fas fa-fw fa-chevron-right"></i>
+</div></div><section class=related-posts-wrapper>
+<h3>Related Posts</h3>
+<ul class=related-posts><li><a href=/offline/>Offline
+</a></li></ul>
+</section></div>
+</article><div class="card component row post-comments">
+<div class=card-body><script src=https://utteranc.es/client.js repo=kstenerud/technicalsourcery issue-term=pathname label=comment theme=github-light crossorigin=anonymous async></script></div>
+</div></div>
+</div><aside class="col-lg-4 sidebar d-flex">
+<div class=container>
+<section class="card row text-center profile component">
+<div class=card-body>
+<div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="Karl Stenerud" src=/images/profile.jpg loading=lazy width=460 height=460>
+</div>
+<div class="col-12 profile-meta"><div class=profile-name>Karl Stenerud</div><div class=profile-bio>Networking, protocols, & nitty gritty details.</div><div class=profile-about><i class="fas fa-fw fa-user"></i><a href=/about/>About Me</a></div></div>
+</div>
+</section>
+<section class="recent-posts row card component">
+<div class=card-body>
+<h2 class=card-title>Recent Posts</h2>
+<ul class=post-list><li><a href=/posts/nixos-in-libvirt/>Test-Driving a NixOS VM Using Libvirt
+</a></li><li><a href=/posts/on-endianness/>On Endianness
+</a></li><li><a href=/posts/line-lengths/>Line Lengths
+</a></li><li><a href=/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop
+</a></li><li><a href=/posts/intro-high-availability/>Introduction to High Availability
+</a></li></ul>
+</div>
+</section><section class="taxonomies row card component">
+<div class=card-body>
+<h2 class=card-title>
+<a href=/categories>Categories</a>
+</h2>
+<div class=py-2><a href=/categories/endianness/ class="badge rounded post-taxonomy" title=endianness>
+endianness
+</a><a href=/categories/high-availability/ class="badge rounded post-taxonomy" title=high-availability>
+high-availability
+</a><a href=/categories/programming/ class="badge rounded post-taxonomy" title=programming>
+programming
+</a><a href=/categories/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>
+remote-desktop
+</a><a href=/categories/time/ class="badge rounded post-taxonomy" title=time>
+time
+</a><a href=/categories/virtualization/ class="badge rounded post-taxonomy" title=virtualization>
+virtualization
+</a></div>
+</div>
+</section><section class="taxonomies row card component">
+<div class=card-body>
+<h2 class=card-title>
+<a href=/tags>Tags</a>
+</h2>
+<div class=py-2><a href=/tags/endianness/ class="badge rounded post-taxonomy" title=endianness>
+endianness
+</a><a href=/tags/headless/ class="badge rounded post-taxonomy" title=headless>
+headless
+</a><a href=/tags/high-availability/ class="badge rounded post-taxonomy" title=high-availability>
+high-availability
+</a><a href=/tags/libvirt/ class="badge rounded post-taxonomy" title=libvirt>
+libvirt
+</a><a href=/tags/linux/ class="badge rounded post-taxonomy" title=linux>
+linux
+</a><a href=/tags/nixos/ class="badge rounded post-taxonomy" title=nixos>
+nixos
+</a><a href=/tags/programming/ class="badge rounded post-taxonomy" title=programming>
+programming
+</a><a href=/tags/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>
+remote-desktop
+</a><a href=/tags/time/ class="badge rounded post-taxonomy" title=time>
+time
+</a><a href=/tags/timezone/ class="badge rounded post-taxonomy" title=timezone>
+timezone
+</a></div>
+</div>
+</section>
+</div>
+</aside>
+</div>
+</main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"><a class="nav-link social-link" href=mailto:kstenerud@gmail.com title=Email>
+<i class="fas fa-fw fa-2x fa-envelope"></i>
+</a><a class="nav-link social-link" target=_blank href=https://github.com/kstenerud title=GitHub rel="noopener noreferrer">
+<i class="fa-fw fa-2x fab fa-github"></i>
+</a><a class="nav-link social-link" target=_blank href=https://linkedin.com/in/kstenerud title=LinkedIn rel="noopener noreferrer">
+<i class="fa-fw fa-2x fab fa-linkedin-in"></i>
+</a></nav>
+<div class="copyright mb-2">
+Copyright © 2018-2021 Karl Stenerud. All Rights Reserved.
+</div>
+<div class="powered-by mb-2">
+Powered by <a href=https://gohugo.io target=_blank rel="noopener noreferrer">Hugo</a> and the <a href=https://github.com/razonyang/hugo-theme-bootstrap target=_blank rel="noopener noreferrer">Bootstrap</a> theme.
+</div><a href=https://www.netlify.com>
+<img src=https://www.netlify.com/img/global/badges/netlify-color-accent.svg alt="Deploys by Netlify">
+</a>
+</footer>
+<script src=/js/bundle.min.c9a2705a4f7960fa93b78fcbd45bced560cf3993d862169dec489d9a4ba3b97e.js integrity="sha256-yaJwWk95YPqTt4/L1FvO1WDPOZPYYhad7EidmkujuX4=" crossorigin=anonymous defer></script><script>'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('/service-worker.js').then(function(a){console.log('Successfully registered service worker',a)}).catch(function(a){console.warn('Error whilst registering service worker',a)})})</script>
+</body>
+</html>
