@@ -9,17 +9,18 @@ categories:
 tags:
   - encoding
   - qr-code
+  - concise-encoding
 ---
 
 [QR codes](https://en.wikipedia.org/wiki/QR_code) have replaced bar codes in many places because they can store a lot more information, but this advantage is limited by the fact that they can only store textual data and have no inherent structure. In this post, I'll demonstrate how to overcome these limitations and give QR codes superpowers!
 
 ## QR Codes and Their Limitations
 
-QR codes were invented by the Japanese company Denso Wave in the mid-90s as a way to get higher information density into machine-readable optical labels. They support a number of encoding methods including numeric digits, alphanumerics, kanji, and raw text. Although the QR format does have an encoding called "byte mode", each byte in this mode represents an ISO 8859-1 character, not binary data. So there's no way to directly encode binary data into a QR code.
+QR codes were invented by the Japanese company Denso Wave in the mid-90s as a way to get higher information density in machine-readable optical labels. They support a number of encoding methods including numeric digits, alphanumerics, kanji, and raw text. Although the QR format does have an encoding called "byte mode", each byte in this mode represents an ISO 8859-1 character, not binary data. So there's no way to directly encode binary data into a QR code.
 
-... Or is there? With a little creative thinking and some algorithmic tweaks, it's possible to work around this limitation to encode binary data into a QR code.
+... Or is there? With a little creative thinking and some algorithmic tweaks, it is possible to work around this limitation to encode binary data into a QR code.
 
-To see how, let's take a look at the "byte mode" encoding format: **ISO 8859-1**.
+To see how, let's take a look at the text encoding used for "byte mode": **ISO 8859-1**.
 
 
 |    | x0   | x1 | x2 | x3 | x4 | x5 | x6 | x7 | x8 | x9 | xA | xB | xC | xD  | xE | xF|
@@ -41,19 +42,21 @@ To see how, let's take a look at the "byte mode" encoding format: **ISO 8859-1**
 | Ex | à    |  á |  â |  ã |  ä |  å |  æ |  ç |  è |  é |  ê |  ë |  ì | í   |  î |  ï|
 | Fx | ð    |  ñ |  ò |  ó |  ô |  õ |  ö |  ÷ |  ø |  ù |  ú |  û |  ü | ý   |  þ |  ÿ|
 
-Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any data containing these values is invalid because it can't be decoded as ISO 8859-1. Not all QR decoders actually validate this, though, which is why you sometimes get strange results after decoding a QR code that was mistakenly encoded in UTF-8 format.
+Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any data containing these values is invalid because it can't be decoded as ISO 8859-1.
+
+**Side Note**: Not all QR decoders actually validate this, which is why you sometimes get strange results after decoding a QR code that was mistakenly encoded in UTF-8 format.
 
 So even though there's no technical limitation against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.
 
-Or to put it another way: **these characters are completely up for grabs!**
+Or to put it another way: **these characters are up for grabs!**
 
-What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-ISO-8859-1 data. Any scanner that knows how to handle the sentinel character and special data format can decode the data, without negatively affecting existing implementations!
+What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-ISO-8859-1 data. Any scanner that knows how to handle the sentinel character and special data format can decode the data *without negatively affecting existing implementations*!
 
 ## Encoding ad-hoc binary data into QR codes
 
-[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. The [binary format](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md) begins all documents with the sentinel byte [0x83](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) specifically because such a value is an invalid starting byte in most popular text formats. We'll leverage this to encode a binary document into a QR code.
+[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x83](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats). We'll leverage this to encode a CBE document into a QR code.
 
-I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x83`. You can follow along by [installing go on your system](https://go.dev/doc/install) and then installing `enctool` like so:
+I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x83`. You can follow along by [installing the go language on your system](https://go.dev/doc/install) and then installing `enctool` like so:
 ```
 go install github.com/kstenerud/enctool@latest
 ```
@@ -68,7 +71,7 @@ enctool convert -h
 
 ### Example
 
-As an example, let's assume that we're coming up with a new international shipping and storage requirements QR code format. We have an example document that we want to encode into a QR code. I'm writing it here in the text format ([CTE](https://github.com/kstenerud/concise-encoding/blob/master/cte-specification.md)) for convenience - the actual data will be written in the binary format ([CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md)).
+As an example, let's assume that we're coming up with a new international shipping and storage requirements QR code format. We have an example document that we want to encode into a QR code. I'm writing it here in the text format ([CTE](https://github.com/kstenerud/concise-encoding/blob/master/cte-specification.md)) for convenience, but the actual data will be written in the binary format ([CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md)).
 
 ```cte
 c1 {
@@ -87,13 +90,18 @@ Save this document as `with-text.cte`, and then convert to CBE like so:
 
 ```
 enctool convert -s with-text.cte -sf cte -df cbe -d with-text.cbe
+```
+
+How big is it?
+
+```
 ls -l with-text.cbe
 -rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
 ```
 
-The resulting `with-text.cbe` file is 105 bytes long due to the many text fields. We could encode it as-is, but that would produce a pretty big QR code!
+105 bytes... But that's mainly due to the many text fields it contains. We could encode it as-is, but it would produce a pretty big QR code!
 
-What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness we'll also include a "fourCC" style identifier so that any reader can identify which schema the data was encoded with (we'll assume that all documents use key 0 to specify the schema).
+What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
 
 Fictional Schema:
 * 0 = schema ID and version adherence: **(fourCC-style integer: "TSS" + version)**
@@ -131,6 +139,11 @@ Because integers from -100 to 100 encode into a single byte in CBE, you can achi
 
 ```
 enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
+```
+
+Now how big is it?
+
+```
 ls -l with-enums.cbe 
 -rw-rw-r-- 1 karl karl 28 Jan  6 17:22 with-enums.cbe
 ```
@@ -143,11 +156,11 @@ Now let's try encoding this data into a QR code:
 enctool convert -s with-enums.cte -sf cte -df qr -d qr.png -b 1 -is 400
 ```
 
-`qr.png` is a newly created PNG file containing the QR code:
+The newly created `qr.png` contains the QR code:
 
 {{< figure src="qr.png" >}}
 
-Now let's read the data back (I'm omitting the destination file so that it prints to stdout, in CTE for convenience):
+Now let's read the data back (I'm omitting the destination file so that `enctool` prints to stdout, and I'm making it print in CTE for human convenience):
 
 ```
 enctool convert -s qr.png -sf qr -df cte
@@ -168,6 +181,6 @@ c0
 }
 ```
 
-Now that we can get the document back, we can do schema processing to get the true meaning of the data.
+Once we've got our document, we can process it through the schema to recover the true meaning of the data.
 
-So there you have it! Supercharged QR codes that can hold arbitrary data!
+So there you have it: Supercharged QR codes that can hold arbitrary structured data! Neat!
