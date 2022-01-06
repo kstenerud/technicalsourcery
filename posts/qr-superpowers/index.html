@@ -11,8 +11,8 @@
 <meta name=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=name content="Giving QR codes superpowers">
 <meta itemprop=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=datePublished content="2022-01-06T13:10:21+02:00">
 <meta itemprop=dateModified content="2022-01-06T13:10:21+02:00">
-<meta itemprop=wordCount content="1218"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
-<meta itemprop=keywords content="encoding,qr-code,"><meta property="og:title" content="Giving QR codes superpowers">
+<meta itemprop=wordCount content="1239"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
+<meta itemprop=keywords content="encoding,qr-code,concise-encoding,"><meta property="og:title" content="Giving QR codes superpowers">
 <meta property="og:description" content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://www.technicalsourcery.net/posts/qr-superpowers/"><meta property="og:image" content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png"><meta property="article:section" content="posts">
@@ -197,7 +197,7 @@ Github
 Jan 6, 2022
 </span><span class=post-reading-time>
 6 min read
-</span><span class=post-taxonomies><a href=https://www.technicalsourcery.net/categories/encoding/ class="badge rounded-pill post-taxonomy">encoding</a><a href=https://www.technicalsourcery.net/tags/encoding/ class="badge rounded-pill post-taxonomy">encoding</a><a href=https://www.technicalsourcery.net/tags/qr-code/ class="badge rounded-pill post-taxonomy">qr-code</a></span>
+</span><span class=post-taxonomies><a href=https://www.technicalsourcery.net/categories/encoding/ class="badge rounded-pill post-taxonomy">encoding</a><a href=https://www.technicalsourcery.net/tags/encoding/ class="badge rounded-pill post-taxonomy">encoding</a><a href=https://www.technicalsourcery.net/tags/qr-code/ class="badge rounded-pill post-taxonomy">qr-code</a><a href=https://www.technicalsourcery.net/tags/concise-encoding/ class="badge rounded-pill post-taxonomy">concise-encoding</a></span>
 </div>
 <div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasTOC aria-labelledby=offcanvasTOCLabel>
 <div class=offcanvas-header>
@@ -221,9 +221,9 @@ Jan 6, 2022
 </div><div class="post-content mb-3"><p><a href=https://en.wikipedia.org/wiki/QR_code target=_blank rel="noopener noreferrer">QR codes</a>
 have replaced bar codes in many places because they can store a lot more information, but this advantage is limited by the fact that they can only store textual data and have no inherent structure. In this post, I&rsquo;ll demonstrate how to overcome these limitations and give QR codes superpowers!</p>
 <h2 id=qr-codes-and-their-limitations>QR Codes and Their Limitations</h2>
-<p>QR codes were invented by the Japanese company Denso Wave in the mid-90s as a way to get higher information density into machine-readable optical labels. They support a number of encoding methods including numeric digits, alphanumerics, kanji, and raw text. Although the QR format does have an encoding called &ldquo;byte mode&rdquo;, each byte in this mode represents an ISO 8859-1 character, not binary data. So there&rsquo;s no way to directly encode binary data into a QR code.</p>
-<p>&mldr; Or is there? With a little creative thinking and some algorithmic tweaks, it&rsquo;s possible to work around this limitation to encode binary data into a QR code.</p>
-<p>To see how, let&rsquo;s take a look at the &ldquo;byte mode&rdquo; encoding format: <strong>ISO 8859-1</strong>.</p>
+<p>QR codes were invented by the Japanese company Denso Wave in the mid-90s as a way to get higher information density in machine-readable optical labels. They support a number of encoding methods including numeric digits, alphanumerics, kanji, and raw text. Although the QR format does have an encoding called &ldquo;byte mode&rdquo;, each byte in this mode represents an ISO 8859-1 character, not binary data. So there&rsquo;s no way to directly encode binary data into a QR code.</p>
+<p>&mldr; Or is there? With a little creative thinking and some algorithmic tweaks, it is possible to work around this limitation to encode binary data into a QR code.</p>
+<p>To see how, let&rsquo;s take a look at the text encoding used for &ldquo;byte mode&rdquo;: <strong>ISO 8859-1</strong>.</p>
 <table>
 <thead>
 <tr>
@@ -553,17 +553,18 @@ have replaced bar codes in many places because they can store a lot more informa
 </tr>
 </tbody>
 </table>
-<p>Notice how the codes <strong>00-1f</strong> and <strong>7f-9f</strong> are unassigned (many text formats do this for legacy reasons). This means that any data containing these values is invalid because it can&rsquo;t be decoded as ISO 8859-1. Not all QR decoders actually validate this, though, which is why you sometimes get strange results after decoding a QR code that was mistakenly encoded in UTF-8 format.</p>
+<p>Notice how the codes <strong>00-1f</strong> and <strong>7f-9f</strong> are unassigned (many text formats do this for legacy reasons). This means that any data containing these values is invalid because it can&rsquo;t be decoded as ISO 8859-1.</p>
+<p><strong>Side Note</strong>: Not all QR decoders actually validate this, which is why you sometimes get strange results after decoding a QR code that was mistakenly encoded in UTF-8 format.</p>
 <p>So even though there&rsquo;s no technical limitation against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.</p>
-<p>Or to put it another way: <strong>these characters are completely up for grabs!</strong></p>
-<p>What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-ISO-8859-1 data. Any scanner that knows how to handle the sentinel character and special data format can decode the data, without negatively affecting existing implementations!</p>
+<p>Or to put it another way: <strong>these characters are up for grabs!</strong></p>
+<p>What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-ISO-8859-1 data. Any scanner that knows how to handle the sentinel character and special data format can decode the data <em>without negatively affecting existing implementations</em>!</p>
 <h2 id=encoding-ad-hoc-binary-data-into-qr-codes>Encoding ad-hoc binary data into QR codes</h2>
 <p><a href=https://concise-encoding.org target=_blank rel="noopener noreferrer">Concise Encoding</a>
-is an ad-hoc data format with a text and a binary encoding form. The <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md target=_blank rel="noopener noreferrer">binary format</a>
-begins all documents with the sentinel byte <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier target=_blank rel="noopener noreferrer">0x83</a>
-specifically because such a value is an invalid starting byte in most popular text formats. We&rsquo;ll leverage this to encode a binary document into a QR code.</p>
+is an ad-hoc data format with a text and a binary encoding form. In the <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md target=_blank rel="noopener noreferrer">binary format (CBE)</a>
+, all documents begin with the sentinel byte <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier target=_blank rel="noopener noreferrer">0x83</a>
+(specifically chosen because it&rsquo;s an invalid starting byte in most popular text formats). We&rsquo;ll leverage this to encode a CBE document into a QR code.</p>
 <p>I&rsquo;ve adapted <a href=https://github.com/kstenerud/enctool target=_blank rel="noopener noreferrer">https://github.com/kstenerud/enctool</a>
-to support QR codes and initiate special processing when the first byte of the QR data is <code>0x83</code>. You can follow along by <a href=https://go.dev/doc/install target=_blank rel="noopener noreferrer">installing go on your system</a>
+to support QR codes and initiate special processing when the first byte of the QR data is <code>0x83</code>. You can follow along by <a href=https://go.dev/doc/install target=_blank rel="noopener noreferrer">installing the go language on your system</a>
 and then installing <code>enctool</code> like so:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>go install github.com/kstenerud/enctool@latest
 </code></pre></div><p>This will install <code>enctool</code> into <code>$GOPATH/bin</code> (usually <code>go/bin</code> in your home directory).</p>
@@ -571,7 +572,7 @@ and then installing <code>enctool</code> like so:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -h
 </code></pre></div><h3 id=example>Example</h3>
 <p>As an example, let&rsquo;s assume that we&rsquo;re coming up with a new international shipping and storage requirements QR code format. We have an example document that we want to encode into a QR code. I&rsquo;m writing it here in the text format (<a href=https://github.com/kstenerud/concise-encoding/blob/master/cte-specification.md target=_blank rel="noopener noreferrer">CTE</a>
-) for convenience - the actual data will be written in the binary format (<a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md target=_blank rel="noopener noreferrer">CBE</a>
+) for convenience, but the actual data will be written in the binary format (<a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md target=_blank rel="noopener noreferrer">CBE</a>
 ).</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span>c1 {
 <span class=ln> 2</span>    &#34;temperature range&#34; = [-20 5]
@@ -585,10 +586,11 @@ and then installing <code>enctool</code> like so:</p>
 <span class=ln>10</span>}
 </code></pre></div><p>Save this document as <code>with-text.cte</code>, and then convert to CBE like so:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s with-text.cte -sf cte -df cbe -d with-text.cbe
-<span class=ln>2</span>ls -l with-text.cbe
-<span class=ln>3</span>-rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
-</code></pre></div><p>The resulting <code>with-text.cbe</code> file is 105 bytes long due to the many text fields. We could encode it as-is, but that would produce a pretty big QR code!</p>
-<p>What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness we&rsquo;ll also include a &ldquo;fourCC&rdquo; style identifier so that any reader can identify which schema the data was encoded with (we&rsquo;ll assume that all documents use key 0 to specify the schema).</p>
+</code></pre></div><p>How big is it?</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>ls -l with-text.cbe
+<span class=ln>2</span>-rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
+</code></pre></div><p>105 bytes&mldr; But that&rsquo;s mainly due to the many text fields it contains. We could encode it as-is, but it would produce a pretty big QR code!</p>
+<p>What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness sake we&rsquo;ll also include a &ldquo;fourCC&rdquo; style identifier so that any reader can identify which schema and version the data was encoded with (let&rsquo;s say that key 0 is always used to specify the schema).</p>
 <p>Fictional Schema:</p>
 <ul>
 <li>0 = schema ID and version adherence: <strong>(fourCC-style integer: &ldquo;TSS&rdquo; + version)</strong></li>
@@ -624,15 +626,16 @@ and then installing <code>enctool</code> like so:</p>
 <span class=ln>11</span>}
 </code></pre></div><p>Because integers from -100 to 100 encode into a single byte in CBE, you can achieve tremendous space savings using them as enumerated types. Let&rsquo;s try it with our modifications (saving this document as <code>with-enums.cte</code>):</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
-<span class=ln>2</span>ls -l with-enums.cbe 
-<span class=ln>3</span>-rw-rw-r-- 1 karl karl 28 Jan  6 17:22 with-enums.cbe
+</code></pre></div><p>Now how big is it?</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>ls -l with-enums.cbe 
+<span class=ln>2</span>-rw-rw-r-- 1 karl karl 28 Jan  6 17:22 with-enums.cbe
 </code></pre></div><p>From our original 105 bytes to 28 bytes! Much better!</p>
 <p>Now let&rsquo;s try encoding this data into a QR code:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s with-enums.cte -sf cte -df qr -d qr.png -b 1 -is 400
-</code></pre></div><p><code>qr.png</code> is a newly created PNG file containing the QR code:</p>
+</code></pre></div><p>The newly created <code>qr.png</code> contains the QR code:</p>
 <figure><img src=qr.png>
 </figure>
-<p>Now let&rsquo;s read the data back (I&rsquo;m omitting the destination file so that it prints to stdout, in CTE for convenience):</p>
+<p>Now let&rsquo;s read the data back (I&rsquo;m omitting the destination file so that <code>enctool</code> prints to stdout, and I&rsquo;m making it print in CTE for human convenience):</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span>enctool convert -s qr.png -sf qr -df cte
 <span class=ln> 2</span>c0
 <span class=ln> 3</span>{
@@ -649,8 +652,8 @@ and then installing <code>enctool</code> like so:</p>
 <span class=ln>14</span>    4 = 15
 <span class=ln>15</span>    9 = 2022-12-05
 <span class=ln>16</span>}
-</code></pre></div><p>Now that we can get the document back, we can do schema processing to get the true meaning of the data.</p>
-<p>So there you have it! Supercharged QR codes that can hold arbitrary data!</p>
+</code></pre></div><p>Once we&rsquo;ve got our document, we can process it through the schema to recover the true meaning of the data.</p>
+<p>So there you have it: Supercharged QR codes that can hold arbitrary structured data! Neat!</p>
 </div><hr><div class="post-navs d-flex mb-3 justify-content-evenly">
 <div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
 <a href=https://www.technicalsourcery.net/about/>About Me
@@ -712,7 +715,9 @@ virtualization
 <h2 class=card-title>
 <a href=https://www.technicalsourcery.net/tags>Tags</a>
 </h2>
-<div class=py-2><a href=https://www.technicalsourcery.net/tags/encoding/ class="badge rounded post-taxonomy" title=encoding>
+<div class=py-2><a href=https://www.technicalsourcery.net/tags/concise-encoding/ class="badge rounded post-taxonomy" title=concise-encoding>
+concise-encoding
+</a><a href=https://www.technicalsourcery.net/tags/encoding/ class="badge rounded post-taxonomy" title=encoding>
 encoding
 </a><a href=https://www.technicalsourcery.net/tags/endianness/ class="badge rounded post-taxonomy" title=endianness>
 endianness
@@ -730,8 +735,6 @@ nixos
 programming
 </a><a href=https://www.technicalsourcery.net/tags/qr-code/ class="badge rounded post-taxonomy" title=qr-code>
 qr-code
-</a><a href=https://www.technicalsourcery.net/tags/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>
-remote-desktop
 </a></div>
 </div>
 </section>
