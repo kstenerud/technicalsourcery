@@ -164,10 +164,15 @@ The newly created `qr.png` contains the QR code:
 
 {{< figure src="qr.png" >}}
 
-Now let's read the data back (I'm omitting the destination file so that `enctool` prints to stdout, and I'm making it print in CTE for human convenience):
+Now let's read the data back (I'm omitting the destination file so that `enctool` prints to stdout, and I'm making it output CTE for human convenience):
 
 ```
 enctool convert -s qr.png -sf qr -df cte
+```
+
+Output:
+
+```
 c0
 {
     0 = 1414746881
