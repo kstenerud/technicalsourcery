@@ -11,7 +11,7 @@
 <meta name=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=name content="Giving QR codes superpowers">
 <meta itemprop=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=datePublished content="2022-01-06T13:10:21+02:00">
 <meta itemprop=dateModified content="2022-01-06T13:10:21+02:00">
-<meta itemprop=wordCount content="1331"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
+<meta itemprop=wordCount content="1347"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
 <meta itemprop=keywords content="encoding,qr-code,concise-encoding,"><meta property="og:title" content="Giving QR codes superpowers">
 <meta property="og:description" content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!">
 <meta property="og:type" content="article">
@@ -561,12 +561,12 @@ escape sequences allow encoding of nonstandard text encodings, but each escape c
 <p><strong>Side Note</strong>: Not all QR decoders actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header.</p>
 <p>So even though there are no technical limitations against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.</p>
 <p>Or to put it another way: <strong>these characters are up for grabs!</strong></p>
-<p>What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. Any scanner that knows about the sentinel character can decode the data reliably.</p>
+<p>What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. When a scanner that knows about the sentinel byte encounters it as the first byte of the payload, it can switch decoding modes reliably.</p>
 <h2 id=encoding-ad-hoc-binary-data-into-qr-codes>Encoding ad-hoc binary data into QR codes</h2>
 <p><a href=https://concise-encoding.org target=_blank rel="noopener noreferrer">Concise Encoding</a>
 is an ad-hoc data format with a text and a binary encoding form. In the <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md target=_blank rel="noopener noreferrer">binary format (CBE)</a>
 , all documents begin with the sentinel byte <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier target=_blank rel="noopener noreferrer">0x83</a>
-(specifically chosen because it&rsquo;s an invalid starting byte in most popular text formats). We&rsquo;ll leverage this to encode a CBE document into a QR code.</p>
+(specifically chosen because it&rsquo;s an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We&rsquo;ll leverage this to encode a CBE document into a QR code.</p>
 <p>I&rsquo;ve adapted <a href=https://github.com/kstenerud/enctool target=_blank rel="noopener noreferrer">https://github.com/kstenerud/enctool</a>
 to support QR codes and initiate special processing when the first byte of the QR data is <code>0x83</code>. You can follow along by <a href=https://go.dev/doc/install target=_blank rel="noopener noreferrer">installing the go language on your system</a>
 and then installing <code>enctool</code> like so:</p>
