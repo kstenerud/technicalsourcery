@@ -639,23 +639,24 @@ and then installing <code>enctool</code> like so:</p>
 </code></pre></div><p>The newly created <code>qr.png</code> contains the QR code:</p>
 <figure><img src=qr.png>
 </figure>
-<p>Now let&rsquo;s read the data back (I&rsquo;m omitting the destination file so that <code>enctool</code> prints to stdout, and I&rsquo;m making it print in CTE for human convenience):</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span>enctool convert -s qr.png -sf qr -df cte
-<span class=ln> 2</span>c0
-<span class=ln> 3</span>{
-<span class=ln> 4</span>    0 = 1414746881
-<span class=ln> 5</span>    1 = [
-<span class=ln> 6</span>        -20
-<span class=ln> 7</span>        5
-<span class=ln> 8</span>    ]
-<span class=ln> 9</span>    2 = [
-<span class=ln>10</span>        4
-<span class=ln>11</span>        6
-<span class=ln>12</span>        19
-<span class=ln>13</span>    ]
-<span class=ln>14</span>    4 = 15
-<span class=ln>15</span>    9 = 2022-12-05
-<span class=ln>16</span>}
+<p>Now let&rsquo;s read the data back (I&rsquo;m omitting the destination file so that <code>enctool</code> prints to stdout, and I&rsquo;m making it output CTE for human convenience):</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s qr.png -sf qr -df cte
+</code></pre></div><p>Output:</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span>c0
+<span class=ln> 2</span>{
+<span class=ln> 3</span>    0 = 1414746881
+<span class=ln> 4</span>    1 = [
+<span class=ln> 5</span>        -20
+<span class=ln> 6</span>        5
+<span class=ln> 7</span>    ]
+<span class=ln> 8</span>    2 = [
+<span class=ln> 9</span>        4
+<span class=ln>10</span>        6
+<span class=ln>11</span>        19
+<span class=ln>12</span>    ]
+<span class=ln>13</span>    4 = 15
+<span class=ln>14</span>    9 = 2022-12-05
+<span class=ln>15</span>}
 </code></pre></div><p>Once we&rsquo;ve got our document, we can process it through the schema to recover the true meaning of the data.</p>
 <p>So there you have it: Supercharged QR codes that can hold arbitrary structured data! Neat!</p>
 </div><hr><div class="post-navs d-flex mb-3 justify-content-evenly">
