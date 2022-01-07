@@ -160,7 +160,7 @@ Here are the byte contents of the CBE document. Note the first byte 0x83, which 
 83 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
 ```
 
-Now let's encode this data into a QR code:
+Now let's encode this data into a QR code (border size 1, 400x400 pixels):
 
 ```
 enctool convert -s with-enums.cte -sf cte -df qr -d qr.png -b 1 -is 400
