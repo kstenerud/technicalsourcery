@@ -11,7 +11,7 @@
 <meta name=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=name content="Giving QR codes superpowers">
 <meta itemprop=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=datePublished content="2022-01-06T13:10:21+02:00">
 <meta itemprop=dateModified content="2022-01-06T13:10:21+02:00">
-<meta itemprop=wordCount content="1390"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
+<meta itemprop=wordCount content="1395"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
 <meta itemprop=keywords content="encoding,qr-code,concise-encoding,"><meta property="og:title" content="Giving QR codes superpowers">
 <meta property="og:description" content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!">
 <meta property="og:type" content="article">
@@ -636,7 +636,7 @@ and then installing <code>enctool</code> like so:</p>
 </code></pre></div><p>We&rsquo;ve shrunk down our payload from 105 bytes to 28 bytes! Much better!</p>
 <p>Here are the byte contents of the CBE document. Note the first byte 0x83, which is an unassigned character in ISO 8859-1:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>83 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
-</code></pre></div><p>Now let&rsquo;s encode this data into a QR code:</p>
+</code></pre></div><p>Now let&rsquo;s encode this data into a QR code (border size 1, 400x400 pixels):</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s with-enums.cte -sf cte -df qr -d qr.png -b 1 -is 400
 </code></pre></div><p>Our QR code is in the newly created <code>qr.png</code>:</p>
 <figure><img src=qr.png>
