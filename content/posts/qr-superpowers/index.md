@@ -16,9 +16,13 @@ tags:
 
 ## QR Codes and Their Limitations
 
-QR codes were invented by the Japanese company Denso Wave in the mid-90s as a way to get higher information density in machine-readable optical labels. They support a number of encoding methods including numeric digits, alphanumerics, kanji, and raw text. Although the QR format does have an encoding called "byte mode", each byte in this mode represents an ISO 8859-1 character, not binary data. So there's no way to directly encode binary data into a QR code.
+QR codes were invented by the Japanese company Denso Wave in the mid-90s as a way to get higher information density in machine-readable optical labels. They support a number of encoding methods including numeric digits, alphanumerics, kanji, and raw text. Although the QR format does have an encoding called "byte mode", each byte in this mode represents an ISO 8859-1 character, not binary data.
 
-... Or is there? With a little creative thinking and some algorithmic tweaks, it is possible to work around this limitation to encode binary data into a QR code.
+[ECI](https://symbology.dev/docs/encoding.html#extended-channel-interpolation-eci) escape sequences allow encoding of nonstandard text encodings, but each escape code bloats the message with out-of-band data (they have to be long in order to minimize the chance of misinterpreting data as escapes), and still binary data is not supported 😞
+
+If you did try to write binary data, it would likely just end up garbled once a reader tries to interpret it as text (some decoders apply heuristics to guess at the intended format, complicating things even further). So there's no reliable way to directly encode binary data into a QR code, let alone ad-hoc structured binary data.
+
+... Or is there? With a little creative thinking, some minor algorithmic tweaks and the [Concise Encoding format](https://concise-encoding.org), it's possible to work around this limitation to reliably read and write binary ad-hoc structured data in QR codes!
 
 To see how, let's take a look at the text encoding used for "byte mode": **ISO 8859-1**.
 
@@ -42,15 +46,15 @@ To see how, let's take a look at the text encoding used for "byte mode": **ISO 8
 | Ex | à    |  á |  â |  ã |  ä |  å |  æ |  ç |  è |  é |  ê |  ë |  ì | í   |  î |  ï|
 | Fx | ð    |  ñ |  ò |  ó |  ô |  õ |  ö |  ÷ |  ø |  ù |  ú |  û |  ü | ý   |  þ |  ÿ|
 
-Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any data containing these values is invalid because it can't be decoded as ISO 8859-1.
+Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any non-ECI data containing these values is invalid because it can't be decoded as text.
 
-**Side Note**: Not all QR decoders actually validate this, which is why you sometimes get strange results after decoding a QR code that was mistakenly encoded in UTF-8 format.
+**Side Note**: Not all QR decoders actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header.
 
-So even though there's no technical limitation against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.
+So even though there are no technical limitations against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.
 
 Or to put it another way: **these characters are up for grabs!**
 
-What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-ISO-8859-1 data. Any scanner that knows how to handle the sentinel character and special data format can decode the data *without negatively affecting existing implementations*!
+What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. Any scanner that knows about the sentinel character can decode the data reliably.
 
 ## Encoding ad-hoc binary data into QR codes
 
