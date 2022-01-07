@@ -152,19 +152,25 @@ ls -l with-enums.cbe
 -rw-rw-r-- 1 karl karl 28 Jan  6 17:22 with-enums.cbe
 ```
 
-From our original 105 bytes to 28 bytes! Much better!
+We've shrunk down our payload from 105 bytes to 28 bytes! Much better!
 
-Now let's try encoding this data into a QR code:
+Here are the byte contents of the CBE document. Note the first byte 0x83, which is an unassigned character in ISO 8859-1:
+
+```
+83 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
+```
+
+Now let's encode this data into a QR code:
 
 ```
 enctool convert -s with-enums.cte -sf cte -df qr -d qr.png -b 1 -is 400
 ```
 
-The newly created `qr.png` contains the QR code:
+Our QR code is in the newly created `qr.png`:
 
 {{< figure src="qr.png" >}}
 
-Now let's read the data back (I'm omitting the destination file so that `enctool` prints to stdout, and I'm making it output CTE for human convenience):
+Now let's read the data back. I'll convert it to CTE for convenience, printing to stdout:
 
 ```
 enctool convert -s qr.png -sf qr -df cte
