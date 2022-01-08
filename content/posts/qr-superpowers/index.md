@@ -31,15 +31,15 @@ To see how, let's take a look at the text encoding used for "byte mode": **ISO 8
 | -- | ---- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | --- | -- | --|
 | 0x |      |    |    |    |    |    |    |    |    |    |    |    |    |     |    |   |
 | 1x |      |    |    |    |    |    |    |    |    |    |    |    |    |     |    |   |
-| 2x | SP   |  ! |  " |  # |  $ |  % |  & |  ' |  ( |  ) |  * |  + |  , | -   |  . |  /|
+| 2x | sp   |  ! |  " |  # |  $ |  % |  & |  ' |  ( |  ) |  * |  + |  , | -   |  . |  /|
 | 3x | 0    |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 |  : |  ; |  < | =   |  > |  ?|
 | 4x | @    |  A |  B |  C |  D |  E |  F |  G |  H |  I |  J |  K |  L | M   |  N |  O|
 | 5x | P    |  Q |  R |  S |  T |  U |  V |  W |  X |  Y |  Z |  [ |  \ | ]   |  ^ |  _|
 | 6x | `    |  a |  b |  c |  d |  e |  f |  g |  h |  i |  j |  k |  l | m   |  n |  o|
-| 7x | p    |  q |  r |  s |  t |  u |  v |  w |  x |  y |  z |  { |  | | }   |  ~ |   |
+| 7x | p    |  q |  r |  s |  t |  u |  v |  w |  x |  y |  z |  { | \| | }   |  ~ |   |
 | 8x |      |    |    |    |    |    |    |    |    |    |    |    |    |     |    |   |
 | 9x |      |    |    |    |    |    |    |    |    |    |    |    |    |     |    |   |
-| Ax | NBSP |  ¡ |  ¢ |  £ |  ¤ |  ¥ |  ¦ |  § |  ¨ |  © |  ª |  « |  ¬ | SHY |  ® |  ¯|
+| Ax | nbsp |  ¡ |  ¢ |  £ |  ¤ |  ¥ |  ¦ |  § |  ¨ |  © |  ª |  « |  ¬ | shy |  ® |  ¯|
 | Bx | °    |  ± |  ² |  ³ |  ´ |  µ |  ¶ |  · |  ¸ |  ¹ |  º |  » |  ¼ | ½   |  ¾ |  ¿|
 | Cx | À    |  Á |  Â |  Ã |  Ä |  Å |  Æ |  Ç |  È |  É |  Ê |  Ë |  Ì | Í   |  Î |  Ï|
 | Dx | Ð    |  Ñ |  Ò |  Ó |  Ô |  Õ |  Ö |  × |  Ø |  Ù |  Ú |  Û |  Ü | Ý   |  Þ |  ß|
@@ -103,11 +103,11 @@ ls -l with-text.cbe
 -rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
 ```
 
-105 bytes... But that's mainly due to the many text fields it contains. We could encode it as-is, but it would produce a pretty big QR code!
+105 bytes... But that's mainly due to the many text fields it contains. We could encode it as-is, but that would produce a pretty big QR code!
 
 What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
 
-Fictional Schema:
+**Fictional Schema**:
 * 0 = schema ID and version adherence: **(fourCC-style integer: "TSS" + version)**
 * 1 = temperature range: **(list of two integers)**
 * 2 = hazards: **(list of enumerated integers)**:
@@ -124,7 +124,7 @@ Fictional Schema:
 * ...
 * 9 = perishes after: **(date)**
 
-Document (CTE):
+**Document (CTE)**:
 ```cte
 c1 {
     0 = 0x54535301 // Transport and Storage Schema version 1 ("TSS" + 1)
@@ -139,7 +139,7 @@ c1 {
 }
 ```
 
-Because integers from -100 to 100 encode into a single byte in CBE, you can achieve tremendous space savings using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
+Because integers from -100 to 100 are their own type codes in CBE and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
 
 ```
 enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
@@ -178,7 +178,7 @@ enctool convert -s qr.png -sf qr -df cte
 
 Output:
 
-```
+```cte
 c0
 {
     0 = 1414746881
