@@ -139,7 +139,7 @@ c1 {
 }
 ```
 
-Because integers from -100 to 100 are their own type codes in CBE and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
+Because [integers from -100 to 100 are their own type codes in CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#type-field) and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
 
 ```
 enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
