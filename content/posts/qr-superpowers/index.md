@@ -166,7 +166,7 @@ Now let's encode this data into a QR code (border size 1, 400x400 pixels):
 enctool convert -s with-enums.cte -sf cte -df qr -d qr.png -b 1 -is 400
 ```
 
-Our QR code is in the newly created `qr.png`:
+This creates `qr.png`, which contains our QR code:
 
 {{< figure src="qr.png" >}}
 
