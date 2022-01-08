@@ -628,7 +628,8 @@ and then installing <code>enctool</code> like so:</p>
 <span class=ln> 9</span>    4 = 15         // Max 15 degrees tilt
 <span class=ln>10</span>    9 = 2022-12-05 // Perishes after Dec 5, 2022
 <span class=ln>11</span>}
-</code></pre></div><p>Because integers from -100 to 100 are their own type codes in CBE and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let&rsquo;s try it with our modifications (saving this document as <code>with-enums.cte</code>):</p>
+</code></pre></div><p>Because <a href=https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#type-field target=_blank rel="noopener noreferrer">integers from -100 to 100 are their own type codes in CBE</a>
+and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let&rsquo;s try it with our modifications (saving this document as <code>with-enums.cte</code>):</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
 </code></pre></div><p>Now how big is it?</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>ls -l with-enums.cbe 
