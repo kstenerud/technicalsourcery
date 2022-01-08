@@ -11,7 +11,7 @@
 <meta name=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=name content="Giving QR codes superpowers">
 <meta itemprop=description content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"><meta itemprop=datePublished content="2022-01-06T13:10:21+02:00">
 <meta itemprop=dateModified content="2022-01-06T13:10:21+02:00">
-<meta itemprop=wordCount content="1395"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
+<meta itemprop=wordCount content="1404"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
 <meta itemprop=keywords content="encoding,qr-code,concise-encoding,"><meta property="og:title" content="Giving QR codes superpowers">
 <meta property="og:description" content="QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!">
 <meta property="og:type" content="article">
@@ -291,7 +291,7 @@ escape sequences allow encoding of nonstandard text encodings, but each escape c
 </tr>
 <tr>
 <td>2x</td>
-<td>SP</td>
+<td>sp</td>
 <td>!</td>
 <td>"</td>
 <td>#</td>
@@ -398,10 +398,10 @@ escape sequences allow encoding of nonstandard text encodings, but each escape c
 <td>y</td>
 <td>z</td>
 <td>{</td>
-<td></td>
-<td></td>
+<td>|</td>
 <td>}</td>
 <td>~</td>
+<td></td>
 </tr>
 <tr>
 <td>8x</td>
@@ -443,7 +443,7 @@ escape sequences allow encoding of nonstandard text encodings, but each escape c
 </tr>
 <tr>
 <td>Ax</td>
-<td>NBSP</td>
+<td>nbsp</td>
 <td>¡</td>
 <td>¢</td>
 <td>£</td>
@@ -456,7 +456,7 @@ escape sequences allow encoding of nonstandard text encodings, but each escape c
 <td>ª</td>
 <td>«</td>
 <td>¬</td>
-<td>SHY</td>
+<td>shy</td>
 <td>®</td>
 <td>¯</td>
 </tr>
@@ -593,9 +593,9 @@ and then installing <code>enctool</code> like so:</p>
 </code></pre></div><p>How big is it?</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>ls -l with-text.cbe
 <span class=ln>2</span>-rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
-</code></pre></div><p>105 bytes&mldr; But that&rsquo;s mainly due to the many text fields it contains. We could encode it as-is, but it would produce a pretty big QR code!</p>
+</code></pre></div><p>105 bytes&mldr; But that&rsquo;s mainly due to the many text fields it contains. We could encode it as-is, but that would produce a pretty big QR code!</p>
 <p>What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness sake we&rsquo;ll also include a &ldquo;fourCC&rdquo; style identifier so that any reader can identify which schema and version the data was encoded with (let&rsquo;s say that key 0 is always used to specify the schema).</p>
-<p>Fictional Schema:</p>
+<p><strong>Fictional Schema</strong>:</p>
 <ul>
 <li>0 = schema ID and version adherence: <strong>(fourCC-style integer: &ldquo;TSS&rdquo; + version)</strong></li>
 <li>1 = temperature range: <strong>(list of two integers)</strong></li>
@@ -616,7 +616,7 @@ and then installing <code>enctool</code> like so:</p>
 <li>&mldr;</li>
 <li>9 = perishes after: <strong>(date)</strong></li>
 </ul>
-<p>Document (CTE):</p>
+<p><strong>Document (CTE)</strong>:</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln> 1</span>c1 {
 <span class=ln> 2</span>    0 = 0x54535301 // Transport and Storage Schema version 1 (&#34;TSS&#34; + 1)
 <span class=ln> 3</span>    1 = [-20 5]    // Temperature range from -20 to 5
@@ -628,7 +628,7 @@ and then installing <code>enctool</code> like so:</p>
 <span class=ln> 9</span>    4 = 15         // Max 15 degrees tilt
 <span class=ln>10</span>    9 = 2022-12-05 // Perishes after Dec 5, 2022
 <span class=ln>11</span>}
-</code></pre></div><p>Because integers from -100 to 100 encode into a single byte in CBE, you can achieve tremendous space savings using them as enumerated types. Let&rsquo;s try it with our modifications (saving this document as <code>with-enums.cte</code>):</p>
+</code></pre></div><p>Because integers from -100 to 100 are their own type codes in CBE and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let&rsquo;s try it with our modifications (saving this document as <code>with-enums.cte</code>):</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
 </code></pre></div><p>Now how big is it?</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=ln>1</span>ls -l with-enums.cbe 
