@@ -597,7 +597,8 @@ and then installing <code>enctool</code> like so:</p>
 <span class=ln>2</span>-rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
 </code></pre></div><p>A whopping 105 bytes (mainly due to the many text fields the data contains). We could encode it as-is, but that would produce a pretty big QR code.</p>
 <p>What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? That should really shrink things!</p>
-<p><strong>Note</strong>: For completeness sake we&rsquo;ll also include a &ldquo;fourCC&rdquo; style identifier so that any reader can identify which schema and version the data was encoded with (let&rsquo;s say that key 0 is always used to specify the schema).</p>
+<p><strong>Note</strong>: For completeness sake we&rsquo;ll also include a <a href=https://en.wikipedia.org/wiki/FourCC target=_blank rel="noopener noreferrer">fourCC</a>
+style identifier so that any reader can identify which schema and version the data was encoded with (let&rsquo;s say that key 0 is always used to specify the schema).</p>
 <p><strong>Fictional Schema</strong>:</p>
 <ul>
 <li>0 = schema ID and version adherence: <strong>(fourCC-style integer: &ldquo;TSS&rdquo; + version)</strong></li>
