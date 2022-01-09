@@ -58,7 +58,7 @@ Or to put it another way: **these characters are up for grabs!**
 
 What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. When a scanner that knows about the sentinel byte encounters it as the first byte of the payload, it can switch decoding modes reliably.
 
-Existing standards-compliant QR decoders will still function correctly because they'll rightly reject the code due to the invalid 0x83 byte. They won't be able to decode the binary data, but they also won't malfunction and give incorrect results.
+Existing standards-compliant QR decoders will still function correctly because they'll rightly reject the code due to the (technically invalid) sentinel byte. They won't be able to decode the binary data, but they also won't malfunction and give incorrect results.
 
 ## Encoding ad-hoc binary data into QR codes
 
