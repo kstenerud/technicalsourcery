@@ -1,5 +1,5 @@
 ---
-title: "Giving QR codes superpowers"
+title: "Giving QR Codes Superpowers"
 date: 2022-01-06T13:10:21+02:00
 description: "Harness the power of Concise Encoding to store ad-hoc binary data in QR codes!"
 images:
