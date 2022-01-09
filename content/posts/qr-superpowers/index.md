@@ -1,7 +1,7 @@
 ---
 title: "Giving QR codes superpowers"
 date: 2022-01-06T13:10:21+02:00
-description: "QR codes are popular because they can store more information than bar codes, but they can't store binary data and have no inherent structure. In this post, I'll show how to overcome these limitations and give QR codes superpowers!"
+description: "Harness the power of Concise Encoding to store ad-hoc binary data in QR codes!"
 images:
   - images/thumbnails/qr-superpowers.png
 categories:
