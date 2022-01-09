@@ -107,9 +107,11 @@ ls -l with-text.cbe
 -rw-rw-r-- 1 karl karl 105 Jan  6 17:15 with-text.cbe
 ```
 
-105 bytes... But that's mainly due to the many text fields it contains. We could encode it as-is, but that would produce a pretty big QR code!
+A whopping 105 bytes (mainly due to the many text fields the data contains). We could encode it as-is, but that would produce a pretty big QR code.
 
-What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
+What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? That should really shrink things!
+
+Note: For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
 
 **Fictional Schema**:
 * 0 = schema ID and version adherence: **(fourCC-style integer: "TSS" + version)**
@@ -143,7 +145,7 @@ c1 {
 }
 ```
 
-Because [integers from -100 to 100 are their own type codes in CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#type-field) and therefore encode into a single byte, you can achieve tremendous space savings by using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
+Because [integers from -100 to 100 are their own type codes in CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#type-field) (thereby  encoding into a single byte), you can achieve tremendous space savings by using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
 
 ```
 enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
