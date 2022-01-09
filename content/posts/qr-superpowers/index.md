@@ -113,7 +113,7 @@ A whopping 105 bytes (mainly due to the many text fields the data contains). We 
 
 What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? That should really shrink things!
 
-**Note**: For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
+**Note**: For completeness sake we'll also include a [fourCC](https://en.wikipedia.org/wiki/FourCC) style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
 
 **Fictional Schema**:
 * 0 = schema ID and version adherence: **(fourCC-style integer: "TSS" + version)**
