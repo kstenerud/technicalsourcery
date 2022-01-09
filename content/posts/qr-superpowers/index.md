@@ -1,7 +1,7 @@
 ---
 title: "Giving QR codes superpowers"
 date: 2022-01-06T13:10:21+02:00
-description: "QR codes have replaced bar codes in many places because they can store so much more information, but this advantage limited because they can only store textual data and have no inherent structure. In this post, Here's how to overcome these problems and give QR codes superpowers!"
+description: "QR codes are popular because they can store more information than bar codes, but they can't store binary data and have no inherent structure. In this post, I'll show how to overcome these limitations and give QR codes superpowers!"
 images:
   - images/thumbnails/qr-superpowers.png
 categories:
@@ -9,10 +9,12 @@ categories:
 tags:
   - encoding
   - qr-code
+  - binary
+  - structured-data
   - concise-encoding
 ---
 
-[QR codes](https://en.wikipedia.org/wiki/QR_code) have replaced bar codes in many places because they can store a lot more information, but this advantage is limited by the fact that they can only store textual data and have no inherent structure. In this post, I'll demonstrate how to overcome these limitations and give QR codes superpowers!
+[QR codes](https://en.wikipedia.org/wiki/QR_code) are popular because they can store more information than bar codes, but they can't store binary data and have no inherent structure. In this post, I'll show how to overcome these limitations and give QR codes superpowers!
 
 ## QR Codes and Their Limitations
 
