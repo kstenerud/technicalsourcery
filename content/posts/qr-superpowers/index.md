@@ -50,7 +50,7 @@ To see how, let's take a look at the text encoding used for "byte mode": **ISO 8
 
 Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any non-ECI data containing these values is invalid because it can't be decoded as text.
 
-**Side Note**: Not all QR decoders actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header.
+**Side Note**: Non-conformant QR decoders might not actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header.
 
 So even though there are no technical limitations against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.
 
