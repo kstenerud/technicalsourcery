@@ -24,7 +24,7 @@ QR codes were invented by the Japanese company Denso Wave in the mid-90s as a wa
 
 If you did try to write binary data, it would likely just end up garbled once a reader tries to interpret it as text (some decoders apply heuristics to guess at the intended format, complicating things even further). So there's no reliable way to directly encode binary data into a QR code, let alone ad-hoc structured binary data.
 
-... Or is there? With a little creative thinking, some minor algorithmic tweaks and the [Concise Encoding format](https://concise-encoding.org), it's possible to work around this limitation to reliably read and write binary ad-hoc structured data in QR codes!
+... Or is there? With a little creative thinking, some minor algorithmic tweaks and the [Concise Encoding format](https://concise-encoding.org), it's possible to work around this limitation to reliably read and write binary ad-hoc structured data in QR codes without breaking the standard!
 
 To see how, let's take a look at the text encoding used for "byte mode": **ISO 8859-1**.
 
@@ -57,6 +57,8 @@ So even though there are no technical limitations against using them, unassigned
 Or to put it another way: **these characters are up for grabs!**
 
 What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. When a scanner that knows about the sentinel byte encounters it as the first byte of the payload, it can switch decoding modes reliably.
+
+Existing standards-compliant QR decoders will still function correctly because they'll rightly reject the code due to the invalid 0x83 byte. They won't be able to decode the binary data, but they also won't malfunction and give incorrect results.
 
 ## Encoding ad-hoc binary data into QR codes
 
