@@ -22,7 +22,7 @@ QR codes were invented by the Japanese company Denso Wave in the mid-90s as a wa
 
 [ECI](https://symbology.dev/docs/encoding.html#extended-channel-interpolation-eci) escape sequences allow encoding of nonstandard text encodings, but each escape code bloats the message with out-of-band data (they have to be long in order to minimize the chance of misinterpreting data as escapes), and still binary data is not supported 😞
 
-If you did try to write binary data, it would likely just end up garbled once a reader tries to interpret it as text (some decoders apply heuristics to guess at the intended format, complicating things even further). So there's no reliable way to directly encode binary data into a QR code, let alone ad-hoc structured binary data.
+If you did try to write binary data, it would either be rejected (if the decoder is conformant), or just end up garbled once a reader tries to interpret it as text (some decoders apply heuristics to guess at the intended format, complicating things even further). So there's no reliable way to directly encode binary data into a QR code, let alone ad-hoc structured binary data.
 
 ... Or is there? With a little creative thinking, some minor algorithmic tweaks and the [Concise Encoding format](https://concise-encoding.org), it's possible to work around this limitation to reliably read and write binary ad-hoc structured data in QR codes without breaking the standard!
 
@@ -48,7 +48,7 @@ To see how, let's take a look at the text encoding used for "byte mode": **ISO 8
 | Ex | à    |  á |  â |  ã |  ä |  å |  æ |  ç |  è |  é |  ê |  ë |  ì | í   |  î |  ï|
 | Fx | ð    |  ñ |  ò |  ó |  ô |  õ |  ö |  ÷ |  ø |  ù |  ú |  û |  ü | ý   |  þ |  ÿ|
 
-Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any non-ECI data containing these values is invalid because it can't be decoded as text.
+Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any non-ECI data containing these values is invalid because it can't be decoded as ISO 8859-1 text.
 
 **Side Note**: Non-conformant QR decoders might not actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header (by a non-conformant encoder).
 
@@ -79,7 +79,9 @@ enctool convert -h
 
 ### Example
 
-As an example, let's assume that we're coming up with a new international shipping and storage requirements QR code format. We have an example document that we want to encode into a QR code. I'm writing it here in the text format ([CTE](https://github.com/kstenerud/concise-encoding/blob/master/cte-specification.md)) for convenience, but the actual data will be written in the binary format ([CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md)).
+As an example, let's say that we're developing a new "international shipping and storage requirements" QR code format.
+
+Here's a sample document that we want to encode into a QR code. I'm writing it here in the text format ([CTE](https://github.com/kstenerud/concise-encoding/blob/master/cte-specification.md)) for convenience, but the actual data will be written in the binary format ([CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md)).
 
 ```cte
 c1 {
@@ -111,7 +113,7 @@ A whopping 105 bytes (mainly due to the many text fields the data contains). We 
 
 What if instead we came up with a schema that replaces all well-known text keys and values with integer enumerations? That should really shrink things!
 
-Note: For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
+**Note**: For completeness sake we'll also include a "fourCC" style identifier so that any reader can identify which schema and version the data was encoded with (let's say that key 0 is always used to specify the schema).
 
 **Fictional Schema**:
 * 0 = schema ID and version adherence: **(fourCC-style integer: "TSS" + version)**
@@ -145,7 +147,9 @@ c1 {
 }
 ```
 
-Because [integers from -100 to 100 are their own type codes in CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#type-field) (thereby  encoding into a single byte), you can achieve tremendous space savings by using them as enumerated types. Let's try it with our modifications (saving this document as `with-enums.cte`):
+Because [integers from -100 to 100 are their own type codes in CBE](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#type-field) (thereby  encoding into a single byte), you can achieve tremendous space savings by using them as enumerated types.
+
+Let's see how our modifications do (save this document as `with-enums.cte`):
 
 ```
 enctool convert -s with-enums.cte -sf cte -df cbe -d with-enums.cbe
