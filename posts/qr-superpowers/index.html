@@ -11,7 +11,7 @@
 <meta name=description content="QR codes are popular because they can store more information than bar codes, but they can't store binary data and have no inherent structure. In this post, I'll show how to overcome these limitations and give QR codes superpowers!"><meta itemprop=name content="Giving QR codes superpowers">
 <meta itemprop=description content="QR codes are popular because they can store more information than bar codes, but they can't store binary data and have no inherent structure. In this post, I'll show how to overcome these limitations and give QR codes superpowers!"><meta itemprop=datePublished content="2022-01-06T13:10:21+02:00">
 <meta itemprop=dateModified content="2022-01-06T13:10:21+02:00">
-<meta itemprop=wordCount content="1440"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
+<meta itemprop=wordCount content="1444"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/qr-superpowers.png">
 <meta itemprop=keywords content="encoding,qr-code,binary,structured-data,concise-encoding,"><meta property="og:title" content="Giving QR codes superpowers">
 <meta property="og:description" content="QR codes are popular because they can store more information than bar codes, but they can't store binary data and have no inherent structure. In this post, I'll show how to overcome these limitations and give QR codes superpowers!">
 <meta property="og:type" content="article">
@@ -558,7 +558,7 @@ escape sequences allow encoding of nonstandard text encodings, but each escape c
 </tbody>
 </table>
 <p>Notice how the codes <strong>00-1f</strong> and <strong>7f-9f</strong> are unassigned (many text formats do this for legacy reasons). This means that any non-ECI data containing these values is invalid because it can&rsquo;t be decoded as text.</p>
-<p><strong>Side Note</strong>: Non-conformant QR decoders might not actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header.</p>
+<p><strong>Side Note</strong>: Non-conformant QR decoders might not actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header (by a non-conformant encoder).</p>
 <p>So even though there are no technical limitations against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.</p>
 <p>Or to put it another way: <strong>these characters are up for grabs!</strong></p>
 <p>What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. When a scanner that knows about the sentinel byte encounters it as the first byte of the payload, it can switch decoding modes reliably.</p>
