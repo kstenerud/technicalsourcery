@@ -62,9 +62,9 @@ Existing standards-compliant QR decoders will still function correctly because t
 
 ## Encoding ad-hoc binary data into QR codes
 
-[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x83](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We'll leverage this to encode a CBE document into a QR code.
+[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x8f](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We'll leverage this to encode a CBE document into a QR code.
 
-I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x83`. You can follow along by [installing the go language on your system](https://go.dev/doc/install) and then installing `enctool` like so:
+I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x8f`. You can follow along by [installing the go language on your system](https://go.dev/doc/install) and then installing `enctool` like so:
 ```
 go install github.com/kstenerud/enctool@latest
 ```
@@ -164,10 +164,10 @@ ls -l with-enums.cbe
 
 We've shrunk down our payload from 105 bytes to 28 bytes! Much better!
 
-Here are the byte contents of the CBE document. Note the first byte 0x83, which is an unassigned character in ISO 8859-1:
+Here are the byte contents of the CBE document. Note the first byte 0x8f, which is an unassigned character in ISO 8859-1:
 
 ```
-83 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
+8f 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
 ```
 
 Now let's encode this data into a QR code (border size 1, 400x400 pixels):
