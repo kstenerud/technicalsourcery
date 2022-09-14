@@ -24,7 +24,7 @@ QR codes were invented by the Japanese company Denso Wave in the mid-90s as a wa
 
 If you did try to write binary data, it would either be rejected (if the decoder is conformant), or just end up garbled once a reader tries to interpret it as text (some decoders apply heuristics to guess at the intended format, complicating things even further). So there's no reliable way to directly encode binary data into a QR code, let alone ad-hoc structured binary data.
 
-... Or is there? With a little creative thinking, some minor algorithmic tweaks and the [Concise Encoding format](https://concise-encoding.org), it's possible to work around this limitation to reliably read and write binary ad-hoc structured data in QR codes without breaking the standard!
+However, with a little creative thinking, some minor algorithmic tweaks and the [Concise Encoding format](https://concise-encoding.org), it's possible to work around this limitation to reliably read and write binary ad-hoc structured data in QR codes for slightly modified decoders!
 
 To see how, let's take a look at the text encoding used for "byte mode": **ISO 8859-1**.
 
@@ -54,17 +54,15 @@ Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats d
 
 So even though there are no technical limitations against using them, unassigned characters are considered invalid, which means that any valid QR code will not contain them.
 
-Or to put it another way: **these characters are up for grabs!**
-
-What we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. When a scanner that knows about the sentinel byte encounters it as the first byte of the payload, it can switch decoding modes reliably.
+So, what we could do is re-purpose one of these unassigned characters and use it as a sentinel to indicate the presence of special, non-textual data. When a scanner that knows about the sentinel byte encounters it as the first byte of the payload, it can switch decoding modes reliably.
 
 Existing standards-compliant QR decoders will still function correctly because they'll rightly reject the code due to the (technically invalid) sentinel byte. They won't be able to decode the binary data, but they also won't malfunction and give incorrect results.
 
 ## Encoding ad-hoc binary data into QR codes
 
-[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x8f](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We'll leverage this to encode a CBE document into a QR code.
+[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x81](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We'll leverage this to encode a CBE document into a QR code.
 
-I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x8f`. You can follow along by [installing the go language on your system](https://go.dev/doc/install) and then installing `enctool` like so:
+I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x81`. You can follow along by [installing the go language on your system](https://go.dev/doc/install) and then installing `enctool` like so:
 ```
 go install github.com/kstenerud/enctool@latest
 ```
@@ -164,10 +162,10 @@ ls -l with-enums.cbe
 
 We've shrunk down our payload from 105 bytes to 28 bytes! Much better!
 
-Here are the byte contents of the CBE document. Note the first byte 0x8f, which is an unassigned character in ISO 8859-1:
+Here are the byte contents of the CBE document. Note the first byte 0x81, which is an unassigned character in ISO 8859-1:
 
 ```
-8f 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
+81 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
 ```
 
 Now let's encode this data into a QR code (border size 1, 400x400 pixels):
