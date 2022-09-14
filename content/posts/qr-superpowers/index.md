@@ -60,7 +60,7 @@ Existing standards-compliant QR decoders will still function correctly because t
 
 ## Encoding ad-hoc binary data into QR codes
 
-[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x81](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We'll leverage this to encode a CBE document into a QR code.
+[Concise Encoding](https://concise-encoding.org) is an ad-hoc data format with a text and a binary encoding form. In the [binary format (CBE)](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md), all documents begin with the sentinel byte [0x81](https://github.com/kstenerud/concise-encoding/blob/master/cbe-specification.md#document-version-specifier) (specifically chosen because it's an invalid starting byte in most popular text formats, including ISO 8859 and UTF-8). We'll leverage this to encode a CBE document into a QR code.
 
 I've adapted https://github.com/kstenerud/enctool to support QR codes and initiate special processing when the first byte of the QR data is `0x81`. You can follow along by [installing the go language on your system](https://go.dev/doc/install) and then installing `enctool` like so:
 ```
