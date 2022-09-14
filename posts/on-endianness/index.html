@@ -1,113 +1,12 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>On Endianness - 🪄 Technical Sourcery</title><link rel=apple-touch-icon href=https://www.technicalsourcery.net/images/icons/icon-180x180.png sizes=180x180>
-<link rel=icon href=https://www.technicalsourcery.net/images/icons/icon-32x32.png sizes=32x32 type=image/png>
-<link rel=icon href=https://www.technicalsourcery.net/images/icons/icon-16x16.png sizes=16x16 type=image/png>
-<link rel=icon href=https://www.technicalsourcery.net/images/icons/favicon.ico>
-<link rel=manifest href=https://www.technicalsourcery.net/manifest.json>
-<meta name=keywords content>
-<meta name=description content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"><meta itemprop=name content="On Endianness">
-<meta itemprop=description content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"><meta itemprop=datePublished content="2021-07-05T08:02:22+01:00">
-<meta itemprop=dateModified content="2021-07-05T08:02:22+01:00">
-<meta itemprop=wordCount content="2745"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/endianness.png">
-<meta itemprop=keywords content="endianness,"><meta property="og:title" content="On Endianness">
-<meta property="og:description" content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://www.technicalsourcery.net/posts/on-endianness/"><meta property="og:image" content="https://www.technicalsourcery.net/images/thumbnails/endianness.png"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2021-07-05T08:02:22+01:00">
-<meta property="article:modified_time" content="2021-07-05T08:02:22+01:00">
-<meta name=twitter:card content="summary_large_image">
-<meta name=twitter:image content="https://www.technicalsourcery.net/images/thumbnails/endianness.png">
-<meta name=twitter:title content="On Endianness">
-<meta name=twitter:description content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?">
-<meta name=robots content="index, follow"><link rel=stylesheet href=https://www.technicalsourcery.net/css/bundle.min.adafd81624e28648439656f4aeba9adda4e7586da003efb5780ca8cec9292a9a.css integrity="sha256-ra/YFiTihkhDllb0rrqa3aTnWG2gA++1eAyozskpKpo=" crossorigin=anonymous>
-<noscript><link rel=stylesheet href=https://www.technicalsourcery.net/css/bundle.min.adafd81624e28648439656f4aeba9adda4e7586da003efb5780ca8cec9292a9a.css integrity="sha256-ra/YFiTihkhDllb0rrqa3aTnWG2gA++1eAyozskpKpo=" crossorigin=anonymous></noscript></head>
-<body><script>const items=['mode','palette'];items.forEach(function(a){const b=localStorage.getItem('hbs-'+a);b&&document.body.parentElement.setAttribute('data-'+a,b)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top">
-<div class=container>
-<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>On Endianness - 🪄 Technical Sourcery</title><link rel=apple-touch-icon href=https://www.technicalsourcery.net/images/icons/icon-180x180.png sizes=180x180><link rel=icon href=https://www.technicalsourcery.net/images/icons/icon-32x32.png sizes=32x32 type=image/png><link rel=icon href=https://www.technicalsourcery.net/images/icons/icon-16x16.png sizes=16x16 type=image/png><link rel=icon href=https://www.technicalsourcery.net/images/icons/favicon.ico><link rel=manifest href=https://www.technicalsourcery.net/manifest.json><meta name=keywords content><meta name=description content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"><meta itemprop=name content="On Endianness"><meta itemprop=description content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"><meta itemprop=datePublished content="2021-07-05T08:02:22+01:00"><meta itemprop=dateModified content="2021-07-05T08:02:22+01:00"><meta itemprop=wordCount content="2745"><meta itemprop=image content="https://www.technicalsourcery.net/images/thumbnails/endianness.png"><meta itemprop=keywords content="endianness,"><meta property="og:title" content="On Endianness"><meta property="og:description" content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"><meta property="og:type" content="article"><meta property="og:url" content="https://www.technicalsourcery.net/posts/on-endianness/"><meta property="og:image" content="https://www.technicalsourcery.net/images/thumbnails/endianness.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-07-05T08:02:22+01:00"><meta property="article:modified_time" content="2021-07-05T08:02:22+01:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://www.technicalsourcery.net/images/thumbnails/endianness.png"><meta name=twitter:title content="On Endianness"><meta name=twitter:description content="Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"><meta name=robots content="index, follow"><link rel=stylesheet href=https://www.technicalsourcery.net/css/bundle.min.26e81a6e81a1af58c6f55615544d74911aef1dbb94607cd0125020acf540160a.css integrity="sha256-JugaboGhr1jG9VYVVE10kRrvHbuUYHzQElAgrPVAFgo=" crossorigin=anonymous><noscript><link rel=stylesheet href=https://www.technicalsourcery.net/css/bundle.min.26e81a6e81a1af58c6f55615544d74911aef1dbb94607cd0125020acf540160a.css integrity="sha256-JugaboGhr1jG9VYVVE10kRrvHbuUYHzQElAgrPVAFgo=" crossorigin=anonymous></noscript></head><body><script>const items=["mode","palette"];items.forEach(function(e){const t=localStorage.getItem("hbs-"+e);t&&document.body.parentElement.setAttribute("data-"+e,t)})</script><header><nav class="navbar top-app-bar top-app-bar-expand-lg fixed-top"><div class=container><button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
 <i class="fas fa-bars"></i>
-</button><a class="navbar-brand me-3" href=https://www.technicalsourcery.net/>🪄 Technical Sourcery
-</a>
+</button><a class="navbar-brand me-3" href=https://www.technicalsourcery.net/>🪄 Technical Sourcery</a>
 <button class=navbar-social-share type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSocialShare aria-controls=offcanvasSocialShare aria-label="Toggle social share">
-<i class="fas fa-share-alt"></i>
-</button>
-<div class="offcanvas offcanvas-bottom surface" tabindex=-1 id=offcanvasSocialShare aria-labelledby=offcanvasSocialShare>
-<div class=offcanvas-header>
-<h3 class=offcanvas-title>Share</h3>
-<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
-<i class="fas fa-times"></i>
-</button>
-</div>
-<div class=offcanvas-body>
-<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button" target=_blank href="https://twitter.com/intent/tweet?title=On%20Endianness&url=https%3a%2f%2fwww.technicalsourcery.net%2fposts%2fon-endianness%2f">
-<i class="fab fa-fw fa-twitter"></i> Twitter
-</a>
-<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button" target=_blank href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.technicalsourcery.net%2fposts%2fon-endianness%2f">
-<i class="fab fa-fw fa-facebook-f"></i> Facebook
-</a>
-</div>
-</div>
-<button class=navbar-settings type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSettings aria-controls=offcanvasSettings aria-label="Toggle settings">
-<i class="fas fa-ellipsis-v"></i>
-</button>
-<div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasSettings aria-labelledby=offcanvasSettings>
-<div class=offcanvas-header>
-<h3 class=offcanvas-title>Settings</h3>
-<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
-<i class="fas fa-times"></i>
-</button>
-</div>
-<div class="offcanvas-body d-flex flex-column"><section class=setting>
-<form class=row>
-<div class=col-auto>
-<label for=fontSize class=form-label><i class="fas fa-fw fa-language"></i> Language</label>
-</div>
-<div class="col-auto ms-auto">
-<div class=dropdown>
-<a class="btn btn-sm btn-outline-primary dropdown-toggle" href=# id=languageDropdown role=button data-bs-toggle=dropdown aria-expanded=false>
-English
-</a>
-<ul class="dropdown-menu dropdown-menu-end" aria-labelledby=languageDropdown><li><a class=dropdown-item href=https://www.technicalsourcery.net/fr/></a></li></ul>
-</div>
-</div>
-</form>
-</section>
-<section class=setting>
-<form class=row>
-<div class=col-auto>
-<label><i class="fas fa-fw fa-adjust"></i> Mode</label>
-</div>
-<div class="col-auto ms-auto">
-<div class="form-check form-switch">
-<input class=form-check-input type=checkbox id=modeSwitcher>
-</div>
-</div>
-</form>
-</section>
-<section class=setting>
-<form class="font-size-switcher-form row">
-<div class=col-auto>
-<label for=fontSize class=form-label><i class="fas fa-fw fa-font"></i> Font Size</label>
-</div>
-<div class="col-auto ms-auto">
-<input type=range class=form-range min=-2 max=2 id=fontSize>
-</div>
-</form>
-</section>
-<section class="setting palettes">
-<form class=row>
-<div class=col-auto>
-<label><i class="fas fa-fw fa-palette"></i> Palette</label>
-</div>
-<div class="col-auto ms-auto">
-<a id=btnPalette class="btn btn-sm btn-outline-primary" role=button aria-label=palettePicker>
-<i class="fas fa-eye-dropper"></i>
-</a>
-</div>
-</form>
-<div class="mt-2 d-flex visually-hidden" id=palettePicker><button type=button id=palette-blue aria-label=Blue class="btn btn-sm palette" data-palette=blue>
+<i class="fas fa-share-alt"></i></button><div class="offcanvas offcanvas-bottom surface" tabindex=-1 id=offcanvasSocialShare aria-labelledby=offcanvasSocialShare><div class=offcanvas-header><h3 class=offcanvas-title>Share</h3><button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i></button></div><div class=offcanvas-body><a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Twitter Share Button" target=_blank href="https://twitter.com/intent/tweet?title=On%20Endianness&url=https%3a%2f%2fwww.technicalsourcery.net%2fposts%2fon-endianness%2f"><i class="fab fa-fw fa-twitter"></i> Twitter</a>
+<a class="btn btn-sm btn-outline-primary social-share-button" rel="noopener noreferrer" aria-label="Facebook Share Button" target=_blank href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fwww.technicalsourcery.net%2fposts%2fon-endianness%2f"><i class="fab fa-fw fa-facebook-f"></i> Facebook</a></div></div><button class=navbar-settings type=button data-bs-toggle=offcanvas data-bs-target=#offcanvasSettings aria-controls=offcanvasSettings aria-label="Toggle settings">
+<i class="fas fa-ellipsis-v"></i></button><div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasSettings aria-labelledby=offcanvasSettings><div class=offcanvas-header><h3 class=offcanvas-title>Settings</h3><button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i></button></div><div class="offcanvas-body d-flex flex-column"><section class=setting><form class=row><div class=col-auto><label for=fontSize class=form-label><i class="fas fa-fw fa-language"></i> Language</label></div><div class="col-auto ms-auto"><div class=dropdown><a class="btn btn-sm btn-outline-primary dropdown-toggle" href=# id=languageDropdown role=button data-bs-toggle=dropdown aria-expanded=false>English</a><ul class="dropdown-menu dropdown-menu-end" aria-labelledby=languageDropdown><li><a class=dropdown-item href=https://www.technicalsourcery.net/fr/></a></li></ul></div></div></form></section><section class=setting><form class=row><div class=col-auto><label><i class="fas fa-fw fa-adjust"></i> Mode</label></div><div class="col-auto ms-auto"><div class="form-check form-switch"><input class=form-check-input type=checkbox id=modeSwitcher></div></div></form></section><section class=setting><form class="font-size-switcher-form row"><div class=col-auto><label for=fontSize class=form-label><i class="fas fa-fw fa-font"></i> Font Size</label></div><div class="col-auto ms-auto"><input type=range class=form-range min=-2 max=2 id=fontSize></div></form></section><section class="setting palettes"><form class=row><div class=col-auto><label><i class="fas fa-fw fa-palette"></i> Palette</label></div><div class="col-auto ms-auto"><a id=btnPalette class="btn btn-sm btn-outline-primary" role=button aria-label=palettePicker><i class="fas fa-eye-dropper"></i></a></div></form><div class="mt-2 d-flex visually-hidden" id=palettePicker><button type=button id=palette-blue aria-label=Blue class="btn btn-sm palette" data-palette=blue>
 </button><button type=button id=palette-blue-gray aria-label="Blue Gray" class="btn btn-sm palette" data-palette=blue-gray>
 </button><button type=button id=palette-brown aria-label=Brown class="btn btn-sm palette" data-palette=brown>
 </button><button type=button id=palette-cyan aria-label=Cyan class="btn btn-sm palette" data-palette=cyan>
@@ -118,520 +17,108 @@ English
 </button><button type=button id=palette-purple aria-label=Purple class="btn btn-sm palette" data-palette=purple>
 </button><button type=button id=palette-red aria-label=Red class="btn btn-sm palette" data-palette=red>
 </button><button type=button id=palette-teal aria-label=Teal class="btn btn-sm palette" data-palette=teal>
-</button><button type=button id=palette-yellow aria-label=Yellow class="btn btn-sm palette" data-palette=yellow>
-</button></div>
-</section>
-<section class="setting actions d-flex justify-content-center mt-auto">
-<a role=button class="d-flex flex-column align-items-center" id=pageReloader>
-<i class="fas fa-2x fa-redo-alt"></i> Reload
-</a>
-</section>
-</div>
-</div>
-<div class="collapse navbar-collapse" tabindex=-1 id=navbarSupportedContent aria-labelledby=navbarSupportedContent>
-<form class="search-bar my-1" action=https://www.technicalsourcery.net/search>
-<div class="input-group input-group-sm">
-<span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
-<input class="form-control rounded-pill" name=q type=search aria-label=Search>
-</div>
-</form>
-<ul class="navbar-nav ms-auto"><li class=nav-item>
-<a class=nav-link href=https://www.technicalsourcery.net/archives/>
-<i class="fas fa-fw fa-file-archive"></i>Archives
-</a>
-</li><li class=nav-item>
-<a class=nav-link href=https://www.technicalsourcery.net/categories/>
-<i class="fas fa-fw fa-folder"></i>Categories
-</a>
-</li><li class=nav-item>
-<a class=nav-link href=https://www.technicalsourcery.net/tags/>
-<i class="fas fa-fw fa-tags"></i>Tags
-</a>
-</li><li class=nav-item>
-<a class=nav-link href=https://www.technicalsourcery.net/series/>
-<i class="fas fa-fw fa-columns"></i>Series
-</a>
-</li><li class="nav-item dropdown">
-<a class=nav-link id=navbarDropdownLinks role=button data-bs-toggle=dropdown aria-expanded=false>
-<i class="fas fa-fw fa-chevron-circle-down"></i>Quick Links
-</a>
-<ul class=dropdown-menu aria-labelledby=navbarDropdownLinks><li>
-<a class=dropdown-item href=https://concise-encoding.org target=_blank rel="noopener noreferrer">
-Concise Encoding
-</a>
-</li><li>
-<a class=dropdown-item href=https://github.com/kstenerud target=_blank rel="noopener noreferrer">
-Github
-</a>
-</li></ul>
-</li></ul>
-</div>
-</div>
-</nav>
-</header>
-<main role=main class=container>
-<div class="row content">
-<div class=col-lg-8>
-<div class=container><nav class="row card component" aria-label=breadcrumb>
-<div class=card-body>
-<ol class=breadcrumb><li class=breadcrumb-item><a href=https://www.technicalsourcery.net/>Home</a></li><li class=breadcrumb-item><a href=https://www.technicalsourcery.net/posts/>Posts</a></li><li class="breadcrumb-item active">On Endianness</li></ol>
-</div>
-</nav><article class="row card component mb-4 post"><div class=post-panel-wrapper>
-<div class="d-flex flex-column component rounded post-panel">
-<a id=sidebarToggler class="action d-none d-lg-block" role=button>
-<i class="fas fa-fw fa-expand-alt" data-fa-transform=rotate-45></i>
-</a>
+</button><button type=button id=palette-yellow aria-label=Yellow class="btn btn-sm palette" data-palette=yellow></button></div></section><section class="setting actions d-flex justify-content-center mt-auto"><a role=button class="d-flex flex-column align-items-center" id=pageReloader><i class="fas fa-2x fa-redo-alt"></i> Reload</a></section></div></div><div class="collapse navbar-collapse" tabindex=-1 id=navbarSupportedContent aria-labelledby=navbarSupportedContent><form class="search-bar my-1" action=https://www.technicalsourcery.net/search><div class="input-group input-group-sm"><span class="btn btn-search disabled position-absolute left-0"><i class="fas fa-fw fa-search"></i></span>
+<input class="form-control rounded-pill" name=q type=search aria-label=Search></div></form><ul class="navbar-nav ms-auto"><li class=nav-item><a class=nav-link href=https://www.technicalsourcery.net/archives/><i class="fas fa-fw fa-file-archive"></i>Archives</a></li><li class=nav-item><a class=nav-link href=https://www.technicalsourcery.net/categories/><i class="fas fa-fw fa-folder"></i>Categories</a></li><li class=nav-item><a class=nav-link href=https://www.technicalsourcery.net/tags/><i class="fas fa-fw fa-tags"></i>Tags</a></li><li class=nav-item><a class=nav-link href=https://www.technicalsourcery.net/series/><i class="fas fa-fw fa-columns"></i>Series</a></li><li class="nav-item dropdown"><a class=nav-link id=navbarDropdownLinks role=button data-bs-toggle=dropdown aria-expanded=false><i class="fas fa-fw fa-chevron-circle-down"></i>Quick Links</a><ul class=dropdown-menu aria-labelledby=navbarDropdownLinks><li><a class=dropdown-item href=https://concise-encoding.org target=_blank rel="noopener noreferrer">Concise Encoding</a></li><li><a class=dropdown-item href=https://github.com/kstenerud target=_blank rel="noopener noreferrer">Github</a></li></ul></li></ul></div></div></nav></header><main role=main class=container><div class="row content"><div class=col-lg-8><div class=container><nav class="row card component" aria-label=breadcrumb><div class=card-body><ol class=breadcrumb><li class=breadcrumb-item><a href=https://www.technicalsourcery.net/>Home</a></li><li class=breadcrumb-item><a href=https://www.technicalsourcery.net/posts/>Posts</a></li><li class="breadcrumb-item active">On Endianness</li></ol></div></nav><article class="row card component mb-4 post"><div class=post-panel-wrapper><div class="d-flex flex-column component rounded post-panel"><a id=sidebarToggler class="action d-none d-lg-block" role=button><i class="fas fa-fw fa-expand-alt" data-fa-transform=rotate-45></i></a>
 <a class=action data-bs-container=body data-bs-toggle=popover data-bs-html=true data-bs-placement=bottom data-bs-trigger=focus tabindex=0 role=button aria-label=Copyright data-bs-content='<a target="_blank" rel="license noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en">CC BY-NC-ND 4.0 <i class="fab fa-fw fa-creative-commons"></i><i class="fab fa-fw fa-creative-commons-by"></i><i class="fab fa-fw fa-creative-commons-nc"></i><i class="fab fa-fw fa-creative-commons-nd"></i></a>
-'>
-<i class="fas fa-fw fa-copyright"></i>
-</a>
-<a class=action data-bs-toggle=offcanvas href=#offcanvasTOC aria-controls=offcanvasTOC role=button>
-<i class="fas fa-fw fa-list-alt"></i>
-</a>
-</div>
-</div>
-<div class=card-body>
-<h1 class="card-title post-title">On Endianness
-</h1><div class=post-meta>
-<span class=post-date title="created on 2021-07-05 07:02:22 +0000 UTC.">
-Jul 5, 2021
-</span><span class=post-reading-time>
-13 min read
-</span><span class=post-taxonomies><a href=https://www.technicalsourcery.net/categories/endianness/ class="badge rounded-pill post-taxonomy">endianness</a><a href=https://www.technicalsourcery.net/tags/endianness/ class="badge rounded-pill post-taxonomy">endianness</a></span>
-</div>
-<div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasTOC aria-labelledby=offcanvasTOCLabel>
-<div class=offcanvas-header>
-<h2 class=offcanvas-title id=offcanvasTOCLabel>Table Of Contents</h5>
-<button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
-<i class="fas fa-times"></i>
-</button>
-</div>
-<div class=offcanvas-body>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#origins-of-our-numbering-system>Origins of our Numbering System</a></li>
-<li><a href=#consequences-of-endianness-on-a-numbering-system>Consequences of Endianness on a Numbering System</a></li>
-<li><a href=#so-what>So What?</a></li>
-</ul>
-<ul>
-<li><a href=#advantages>Advantages</a>
-<ul>
-<li><a href=#detecting-oddeven>Detecting odd/even</a></li>
-<li><a href=#detecting-sign>Detecting sign</a></li>
-<li><a href=#recasting-a-pointer>Recasting a pointer</a></li>
-<li><a href=#arbitrary-precision-numbers-and-arithmetic>Arbitrary precision numbers and arithmetic</a></li>
-<li><a href=#arbitrary-length-encodings>Arbitrary length encodings</a></li>
-<li><a href=#variable-length-encoding-with-a-prepended-length-field>Variable length encoding with a prepended length field</a></li>
-<li><a href=#convention>Convention</a></li>
-<li><a href=#naturalness>&ldquo;Naturalness&rdquo;</a></li>
-<li><a href=#sorting-unknown-uint-struct-blobs>Sorting unknown uint-struct blobs</a></li>
-</ul>
-</li>
-<li><a href=#conclusion>Conclusion</a>
-<ul>
-<li><a href=#big-endian-advantages>Big Endian Advantages</a></li>
-<li><a href=#little-endian-advantages>Little Endian Advantages</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div><div class="post-content mb-3"><p>Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other? Let&rsquo;s explore together!</p>
-<h1 id=origins>Origins</h1>
-<p>The terms &ldquo;Little Endian&rdquo; and &ldquo;Big Endian&rdquo; originate from Jonathan Swift&rsquo;s 1726 novel &ldquo;Gulliver&rsquo;s Travels&rdquo;. It tells of long strife culminating in a great and costly war between the empires of &ldquo;Lilliput&rdquo; and &ldquo;Blefuscu&rdquo;, because they disagreed about which end of a boiled egg to break for eating. The &ldquo;Big-Endians&rdquo; went with the Emperor of Blefuscu&rsquo;s court, and the &ldquo;Little-Endians&rdquo; rallied to Lilliput.</p>
-<p>The terms were adapted for computer science in 1980 by Danny Cohen in an Internet Experiment Note titled <a href=https://www.rfc-editor.org/ien/ien137.txt target=_blank rel="noopener noreferrer">&ldquo;On Holy Wars and a Plea for Peace&rdquo;</a>
-, describing the conflict over the different ways of arranging bits and bytes in memory as components of larger data types. For byte-oriented data, &ldquo;Little Endian&rdquo; places the least significant byte of the value at the lowest address, and &ldquo;Big Endian&rdquo; places the most significant byte at the lowest address.</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>+0</th>
-<th>+1</th>
-<th>+2</th>
-<th>+3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Big Endian</td>
-<td>0xDE</td>
-<td>0xAD</td>
-<td>0xBE</td>
-<td>0xEF</td>
-</tr>
-<tr>
-<td>Little Endian</td>
-<td>0xEF</td>
-<td>0xBE</td>
-<td>0xAD</td>
-<td>0xDE</td>
-</tr>
-</tbody>
-</table>
-<p>Both approaches have their adherents, and many flame wars erupted as rival CPU architectures, data formats, and protocols jockeyed for supremacy.</p>
-<h1 id=endianness-in-meatspace>Endianness in Meatspace</h1>
-<p>The most common argument for big endian ordering in computers is that it matches the &ldquo;natural order&rdquo; for writing numbers. This makes it easier to read numbers in a hex dump, and is less of a cognitive load overall when humans are looking at the encoded data. But how exactly did this &ldquo;natural order&rdquo; come about?</p>
-<h2 id=origins-of-our-numbering-system>Origins of our Numbering System</h2>
-<p>Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. Like the dominant writing system of the time, numbers were written right-to-left, with the lower magnitude numerals appearing in the rightmost positions (i.e. a little endian numbering system).</p>
-<p>This numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.</p>
-<p>Although European languages used left-to-right scripts, the numerical ordering of highest-magnitude-to-the-left was maintained in order to keep compatibility with existing mathematical texts and documents (the same thing happened when India switched to a left-to-right script). Numbers were written in big endian order in Europe and India, and remained little endian in the Arab world. Most of Asia was a mix, eventually settling on big endian.</p>
-<p>Thus, our concept of &ldquo;natural&rdquo; number endianness turns out to be a cultural artifact resulting from a backward compatibility issue when using a left-to-right or top-to-bottom writing system.</p>
-<h2 id=consequences-of-endianness-on-a-numbering-system>Consequences of Endianness on a Numbering System</h2>
-<p>What happens when a culture adopts a particular endianness for writing numbers? Let&rsquo;s have a look.</p>
-<p>Consider the following list of numbers:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span> 1839555
-<span class=ln>2</span>   84734
-<span class=ln>3</span>67526634
-<span class=ln>4</span>     495
-<span class=ln>5</span>       2
-<span class=ln>6</span>   20345
-<span class=ln>7</span>       ^
-<span class=ln>8</span>       &#34;Ones&#34; digit
-</code></pre></div><p>The numerals here are ordered the way we expect them to be ordered: with the most significant digit on the left and the least significant digit on the right. All of the numbers need to be aligned along the &ldquo;ones&rdquo; digit so that they can be easily compared.</p>
-<p>To write such numbers in a left-to-right system, we must first estimate how much room the digits could take, and then pre-emptively push to the right so that our &ldquo;ones&rdquo; column can remain aligned vertically (ledger pages are always right-aligned to get around this problem).</p>
-<p>Notice how I had to use a preformatted section with a monospaced font so that I could add a bunch of spaces to align the numbers properly!</p>
-<p>In a right-to-left writing system, the &ldquo;ones&rdquo; digits would be aligned along the margin (to the right) and would grow outwards (left) into the free space. To better visualize this, observe the numerals mirrored for left-to-right readers:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>5559381
-<span class=ln>2</span>43748
-<span class=ln>3</span>43662576
-<span class=ln>4</span>594
-<span class=ln>5</span>2
-<span class=ln>6</span>54302
-<span class=ln>7</span>^
-<span class=ln>8</span>&#34;Ones&#34; digit
-</code></pre></div><p>That is, the 4th number is four-hundred-and-ninety-five, not five-hundred-and-ninety-four.</p>
-<p>Notice how the &ldquo;ones&rdquo; digits naturally align to the left margin. There&rsquo;s no need to pre-emptively space anything; just write the numbers, no matter how long they get.</p>
-<p>Everyone remembers the hassles of doing long multiplication, right?</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>  2 4 1 6 5
-<span class=ln>2</span>×   3 8 4 1
-<span class=ln>3</span>-----------
-</code></pre></div><p>Before you even start, you have to think about how much room you&rsquo;ll eventually need, because if you get it wrong you&rsquo;ll end up running into the left margin:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>        2 4 1 6 5
-<span class=ln>2</span>      ×   3 8 4 1
-<span class=ln>3</span>      -----------
-<span class=ln>4</span>        2 4 1 6 5
-<span class=ln>5</span>+     9 6 6 6 0
-<span class=ln>6</span>+ 1 9 3 3 2 0
-<span class=ln>7</span>+ 7 2 4 9 5
-<span class=ln>8</span>-----------------
-<span class=ln>9</span>  9 2 8 1 7 7 6 5
-</code></pre></div><p>But what if the numbers were written in little endian order?</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>  5 6 1 4 2
-<span class=ln>2</span>× 1 4 8 3
-<span class=ln>3</span>-----------
-<span class=ln>4</span>  5 6 1 4 2
-<span class=ln>5</span>+   0 6 6 6 9
-<span class=ln>6</span>+     0 2 3 3 9 1
-<span class=ln>7</span>+       5 9 4 2 7
-<span class=ln>8</span>-----------------
-<span class=ln>9</span>  5 6 7 7 1 8 2 9
-</code></pre></div><p>Now it&rsquo;s no problem. The empty space is to the right, and the numbers also grow to the right! Instead of fighting the writing system order, numbers now flow with it.</p>
-<p>So while everyone of course considers their culture&rsquo;s number endianness to be &ldquo;natural&rdquo;, there is a distinct advantage to writing numbers in little endian order. And in fact, that&rsquo;s the way they were first invented!</p>
-<h2 id=so-what>So What?</h2>
-<p>What does this have to do with endianness in computers? We don&rsquo;t have &ldquo;space to the right&rdquo; to be mindful of, so none of the arguments about number endianness in meatspace would seem to apply to computers at first glance. But computers and data formats do have characteristics that endianness can take advantage of.</p>
-<h1 id=endianness-in-computers>Endianness in Computers</h1>
-<p>When dealing with computers, matching endianness to our way of visualizing numbers would be argument enough if the decision were otherwise arbitrary. Even if our system <em>is</em> backwards, keeping things consistent between computers and the more dominant left-to-right scripts is at least a small advantage.</p>
-<p>So what exactly are the advantages each endian order enjoys in computing?</p>
-<h2 id=advantages>Advantages</h2>
-<h3 id=detecting-oddeven>Detecting odd/even</h3>
-<p>With big endian order, you need to check the last byte. With little endian order, you check the first byte.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>Big Endian:    8f 31 aa 9e c2 5a 1b 3d
-<span class=ln>2</span>                                     ^ 3d is odd
-<span class=ln>3</span>
-<span class=ln>4</span>Little Endian: 3d 1b 5a c2 9e aa 31 8f
-<span class=ln>5</span>                ^ 3d is odd
-</code></pre></div><p><strong>Advantage</strong>: Little Endian</p>
-<h3 id=detecting-sign>Detecting sign</h3>
-<p>With little endian order, you need to check the last byte. With big endian order, you check the first byte.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>Big Endian:    8f 31 aa 9e c2 5a 1b 3d
-<span class=ln>2</span>               ^ 8f has sign &#34;negative&#34;
-<span class=ln>3</span>
-<span class=ln>4</span>Little Endian: 3d 1b 5a c2 9e aa 31 8f
-<span class=ln>5</span>                                    ^ 8f has sign &#34;negative&#34;
-</code></pre></div><p><strong>Advantage</strong>: Big Endian</p>
-<h3 id=recasting-a-pointer>Recasting a pointer</h3>
-<p>Recasting pointers involves interpreting a memory location as different types. For example, taking a memory location that contains a 32-bit integer and recasting the pointed-to value as a 16-bit integer. Recasting pointers isn&rsquo;t very common in higher level languages, but it happens often in compilers and assemblers.</p>
-<p>With big endian order, you must adjust the pointer&rsquo;s address to match the beginning of a different sized type. With little endian, a recast degenerates into a no-op.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>|    Big Endian value 1         |    Little Endian value 1      |
-<span class=ln>2</span>|                               |                               |
-<span class=ln>3</span>|    +0 +1 +2 +3 +4 +5 +6 +7    |    +0 +1 +2 +3 +4 +5 +6 +7    |
-<span class=ln>4</span>|                               |                               |
-<span class=ln>5</span>|    |       32 bits       |    |    |       32 bits       |    |
-<span class=ln>6</span>|    00 00 00 00 00 00 00 01    |    01 00 00 00 00 00 00 00    |
-<span class=ln>7</span>|                               |                               |
-<span class=ln>8</span>|                | 16 bits |    |    | 16 bits |                |
-<span class=ln>9</span>|    00 00 00 00 00 00 00 01    |    01 00 00 00 00 00 00 00    |
-</code></pre></div><p><strong>Advantage</strong>: Little Endian</p>
-<h3 id=arbitrary-precision-numbers-and-arithmetic>Arbitrary precision numbers and arithmetic</h3>
-<p>Arbitrary precision numbers (aka big integers) are composed of integer elements in an array, which allows computing with values greater than the largest discrete integer type. Nowadays, the most common discrete type used for big integer arrays is uint32 or uint64.</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>| u64 | u64 | u64 | ...
-</code></pre></div><p>The first element contains the lowest 64 bits of data, followed by the next higher 64 bits of data, and so on (little endian ordering). The reason for this is because, as carry values spill over, it&rsquo;s simply added or removed from the next element in the array.</p>
-<p>If the elements were ordered big endian, you&rsquo;d have to do a bunch of shifts and masks to correct everything whenever a carry occurred. The more array entries are in play, the more correction operations you&rsquo;d have to do. You also have to shift everything over whenever the number grows bigger (basically the computer equivalent of shifting the whole number over when we run out of left-margin space on paper).</p>
-<p>Although this scheme can be realized with either byte order, there is an extra advantage to little endian byte ordering: If the CPU is little endian, you wouldn&rsquo;t even need to care about the element size in the array because the bytes would naturally arrange themselves smoothly in little endian order across the entire array. Thus you could perform arithmetic using a single byte-by-byte algorithm, regardless of the actual element size (some little endian CPUs even have special multibyte instructions to help with this).</p>
-<table>
-<thead>
-<tr>
-<th>Ordering</th>
-<th>Element 0</th>
-<th>Element 1</th>
-<th>Byte-by-byte?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Big</td>
-<td>b7 b6 b5 b4 b3 b2 b1 b0</td>
-<td>b7 b6 b5 b4 b3 b2 b1 b0</td>
-<td>No</td>
-</tr>
-<tr>
-<td>Little</td>
-<td>b0 b1 b2 b3 b4 b5 b6 b7</td>
-<td>b0 b1 b2 b3 b4 b5 b6 b7</td>
-<td>Yes</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Advantage</strong>: Little Endian</p>
-<h3 id=arbitrary-length-encodings>Arbitrary length encodings</h3>
-<p>Arbitrary length encodings such as <a href=https://en.wikipedia.org/wiki/Variable-length_quantity target=_blank rel="noopener noreferrer">VLQ</a>
-allow for lightweight compression of integer values. The idea is that integers most often have the upper bits cleared, and so they don&rsquo;t actually need the full integer width in order to be accurately represented.</p>
-<p>VLQ uses big endian ordering, which works fine when representing values up to the maximum bit width of the architecture, but once you start storing larger values that would require big int types, you run into problems:</p>
-<p>For simplicity and real estate given this blog format, let&rsquo;s assume a CPU with a word size of 8 bits, but the same concepts apply to bigger word sizes too. To store larger values, we use a big int type, which requires arranging the words into an array in little endian order. Since VLQ is encoded in big endian order, the first chunk marks the highest bit position, and we work our way down from there.</p>
-<p><em>First chunk (continuation bit &ldquo;on&rdquo;, so more chunks coming):</em></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>   W0 Bits                  W1 Bits
-<span class=ln>2</span>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
-<span class=ln>3</span>|    H6 H5 H4 H3 H2 H1 H0 |                        |
-</code></pre></div><p>For the next chunk, we need to shift the high bits over into the next element to make room for the next set of bits (sound familiar?).</p>
-<p><em>Second chunk (continuation bit &ldquo;off&rdquo;, so this is the end):</em></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>   W0 Bits                  W1 Bits
-<span class=ln>2</span>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
-<span class=ln>3</span>| H0 L6 L5 L4 L3 L2 L1 L0 |      H6 H5 H4 H3 H2 H1 |
-</code></pre></div><p>Shifting across only one element required:</p>
-<ul>
-<li>Copying W0 to W1</li>
-<li>Shifting W1 right by 1</li>
-<li>Shifting W0 left by 7</li>
-<li>Logical OR next 7 bits from the next VLQ element into W0</li>
-</ul>
-<p>And this gets worse the more elements are in play.</p>
-<p>Now let&rsquo;s see how it would work if the data were encoded using <a href=https://en.wikipedia.org/wiki/LEB128 target=_blank rel="noopener noreferrer">LEB128</a>
-(basically the same thing, but in little endian order):</p>
-<p><em>First chunk (continuation bit &ldquo;on&rdquo;, so more chunks coming):</em></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>   W0 Bits                  W1 Bits
-<span class=ln>2</span>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
-<span class=ln>3</span>|    L6 L5 L4 L3 L2 L1 L0 |                        |
-</code></pre></div><p>For the next chunk, we split the value across two elements.</p>
-<p><em>Second chunk (continuation bit &ldquo;off&rdquo;, so this is the end):</em></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>   W0 Bits                  W1 Bits
-<span class=ln>2</span>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
-<span class=ln>3</span>| H0 L6 L5 L4 L3 L2 L1 L0 |      H6 H5 H4 H3 H2 H1 |
-</code></pre></div><p>Splitting the last VLQ element required:</p>
-<ul>
-<li>Logical OR W0 with (element&#171;7)</li>
-<li>Copy (element&#187;1) to W1</li>
-</ul>
-<p>And this remains at constant complexity no matter how many elements are in play.</p>
-<p><strong>Bonus</strong>: It&rsquo;s also possible to do arithmetic in LEB128 while it remains encoded!</p>
-<p><strong>Aside</strong>: Did you notice how disjointed it looks listing the high bits to the left in a left-to-right system? It would have flowed much better were they listed this way:</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>   W0 Bits                  W1 Bits
-<span class=ln>2</span>|  0  1  2  3  4  5  6  7 |  0  1  2  3  4  5  6  7 |
-<span class=ln>3</span>| L0 L1 L2 L3 L4 L5 L6 H0 | H1 H2 H3 H4 H5 H6       |
-</code></pre></div><p><strong>Advantage</strong>: Little Endian</p>
-<h3 id=variable-length-encoding-with-a-prepended-length-field>Variable length encoding with a prepended length field</h3>
-<p>A common encoding trick is to reserve a few bits of the encoded space to store the length of the field (low bits of the low byte if little endian, high bits of the high byte if big endian).</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=ln>1</span>(XXXXXX LL) (XXXXXXXX) (XXXXXXXX) (XXXXXXXX) ...
-<span class=ln>2</span>                   - or -
-<span class=ln>3</span>(LL XXXXXX) (XXXXXXXX) (XXXXXXXX) (XXXXXXXX) ...
-</code></pre></div><p>Generally with this encoding pattern, the two bits LL represent the total size of the data.</p>
-<p><strong>Example</strong>:</p>
-<table>
-<thead>
-<tr>
-<th>LL</th>
-<th>Bytes</th>
-<th>Data Size</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>00</td>
-<td>1</td>
-<td>6 bits</td>
-</tr>
-<tr>
-<td>01</td>
-<td>2</td>
-<td>14 bits</td>
-</tr>
-<tr>
-<td>10</td>
-<td>4</td>
-<td>30 bits</td>
-</tr>
-<tr>
-<td>11</td>
-<td>8</td>
-<td>62 bits</td>
-</tr>
-</tbody>
-</table>
-<p>If this data is encoded in little endian byte order, the decoding routine is pretty easy:</p>
-<ul>
-<li>Read the first byte and extract the length field.</li>
-<li>For each byte to be read:
-<ul>
-<li>Read the byte into the current position.</li>
-<li>Increment current position by 1 byte.</li>
-</ul>
-</li>
-<li>Shift the result right 2 bits.</li>
-</ul>
-<p>You can simply decode the whole thing and then shift the decoded value two bits to the right because the size field is always in the two lowest bits of the value, regardless of the size.</p>
-<p>If the CPU is also little endian, the algorithm gets even simpler:</p>
-<ul>
-<li>Read the first byte to extract the length field.</li>
-<li>Read the same address again using the correct sized load instruction (recasting the pointer).</li>
-<li>Shift the result right 2 bits.</li>
-</ul>
-<p>If the encoding used big endian order, the length field would be at the top of the high byte, which means that you&rsquo;d need to mask out a different part of the decoded value depending on the data size.</p>
-<p><strong>Advantage</strong>: Little Endian</p>
-<h3 id=convention>Convention</h3>
-<p>Most network protocols and formats until recently have been big endian (Network Byte Order).</p>
-<p><strong>Advantage</strong>: Big Endian</p>
-<h3 id=naturalness>&ldquo;Naturalness&rdquo;</h3>
-<p>Binary dumps look more in line with how humans with left-to-right scripts expect to read numbers.</p>
-<p><strong>Advantage</strong>: Big Endian</p>
-<h3 id=sorting-unknown-uint-struct-blobs>Sorting unknown uint-struct blobs</h3>
-<p>If you have a series of unknown blobs, and know only that the internal structure has only unsigned integers stored in descending order of significance, you can sort these blobs without knowing what the actual structure is.</p>
-<p>Yeah, that&rsquo;s a pretty rare thing, but technically it&rsquo;s an advantage, and someone, somewhere is using it!</p>
-<p><strong>Advantage</strong>: Big Endian</p>
-<h2 id=conclusion>Conclusion</h2>
-<p>The big endian advantages tend to be cosmetic or convention based, or of minor usefulness. The little endian advantages offer real world performance boosts in many cases (given the right algorithm or encoding to take advantage of it).</p>
-<h3 id=big-endian-advantages>Big Endian Advantages</h3>
-<ul>
-<li>Detecting sign</li>
-<li>Convention</li>
-<li>&ldquo;Naturalness&rdquo;</li>
-<li>Sorting unknown uint-struct blobs</li>
-</ul>
-<h3 id=little-endian-advantages>Little Endian Advantages</h3>
-<ul>
-<li>Detecting odd/even</li>
-<li>Recasting a pointer</li>
-<li>Arbitrary precision numbers and arithmetic</li>
-<li>Arbitrary length encodings</li>
-<li>Variable length encoding with a prepended length field</li>
-</ul>
-<p>The biggest advantages go to little endian because little endian works best with &ldquo;upward-growing&rdquo; data (meaning data whose bits cluster to the low bits and grow into the upper empty bits). An example would be integers, which use higher and higher order bits as more digits are needed. And since integers are the most common data type in use, they offer the most opportunities.</p>
-<p>Big endian ordering works best with &ldquo;downward-growing&rdquo; data. An example would be floating point, which in some little endian architectures is actually stored in big endian byte order (although this practice is not very common due to portability issues).</p>
-</div><hr><div class="post-navs d-flex mb-3 justify-content-evenly">
-<div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
-<a href=https://www.technicalsourcery.net/posts/line-lengths/>Line Lengths
-</a>
-</div><div class="post-nav post-next">
-<a href=https://www.technicalsourcery.net/posts/nixos-in-libvirt/>Test-Driving a NixOS VM Using Libvirt
-</a>
-<i class="fas fa-fw fa-chevron-right"></i>
-</div></div><section class=related-posts-wrapper>
-<h3>Related Posts</h3>
-<ul class=related-posts><li><a href=https://www.technicalsourcery.net/posts/line-lengths/>Line Lengths
-</a></li><li><a href=https://www.technicalsourcery.net/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop
-</a></li><li><a href=https://www.technicalsourcery.net/posts/intro-high-availability/>Introduction to High Availability
-</a></li><li><a href=https://www.technicalsourcery.net/posts/time-timezones/>Time and Timezones: Getting It Right
-</a></li><li><a href=https://www.technicalsourcery.net/offline/>Offline
-</a></li></ul>
-</section></div>
-</article><div class="card component row post-comments">
-<div class=card-body><script src=https://utteranc.es/client.js repo=kstenerud/technicalsourcery issue-term=pathname label=comment theme=github-light crossorigin=anonymous async></script></div>
-</div></div>
-</div><aside class="col-lg-4 sidebar d-flex">
-<div class=container>
-<section class="card row text-center profile component">
-<div class=card-body>
-<div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="Karl Stenerud" src=https://www.technicalsourcery.net/images/profile.jpg loading=lazy width=460 height=460>
-</div>
-<div class="col-12 profile-meta"><div class=profile-name>Karl Stenerud</div><div class=profile-bio>Networking, protocols, & nitty gritty details.</div><div class=profile-about><i class="fas fa-fw fa-user"></i><a href=https://www.technicalsourcery.net/about/>About Me</a></div></div>
-</div>
-</section>
-<section class="recent-posts row card component">
-<div class=card-body>
-<h2 class=card-title>Recent Posts</h2>
-<ul class=post-list><li><a href=https://www.technicalsourcery.net/posts/qr-superpowers/>Giving QR Codes Superpowers
-</a></li><li><a href=https://www.technicalsourcery.net/posts/nixos-in-libvirt/>Test-Driving a NixOS VM Using Libvirt
-</a></li><li><a href=https://www.technicalsourcery.net/posts/on-endianness/>On Endianness
-</a></li><li><a href=https://www.technicalsourcery.net/posts/line-lengths/>Line Lengths
-</a></li><li><a href=https://www.technicalsourcery.net/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop
-</a></li></ul>
-</div>
-</section><section class="taxonomies row card component">
-<div class=card-body>
-<h2 class=card-title>
-<a href=https://www.technicalsourcery.net/categories>Categories</a>
-</h2>
-<div class=py-2><a href=https://www.technicalsourcery.net/categories/encoding/ class="badge rounded post-taxonomy" title=encoding>
-encoding
-</a><a href=https://www.technicalsourcery.net/categories/endianness/ class="badge rounded post-taxonomy" title=endianness>
-endianness
-</a><a href=https://www.technicalsourcery.net/categories/high-availability/ class="badge rounded post-taxonomy" title=high-availability>
-high-availability
-</a><a href=https://www.technicalsourcery.net/categories/programming/ class="badge rounded post-taxonomy" title=programming>
-programming
-</a><a href=https://www.technicalsourcery.net/categories/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>
-remote-desktop
-</a><a href=https://www.technicalsourcery.net/categories/time/ class="badge rounded post-taxonomy" title=time>
-time
-</a><a href=https://www.technicalsourcery.net/categories/virtualization/ class="badge rounded post-taxonomy" title=virtualization>
-virtualization
-</a></div>
-</div>
-</section><section class="taxonomies row card component">
-<div class=card-body>
-<h2 class=card-title>
-<a href=https://www.technicalsourcery.net/tags>Tags</a>
-</h2>
-<div class=py-2><a href=https://www.technicalsourcery.net/tags/binary/ class="badge rounded post-taxonomy" title=binary>
-binary
-</a><a href=https://www.technicalsourcery.net/tags/concise-encoding/ class="badge rounded post-taxonomy" title=concise-encoding>
-concise-encoding
-</a><a href=https://www.technicalsourcery.net/tags/encoding/ class="badge rounded post-taxonomy" title=encoding>
-encoding
-</a><a href=https://www.technicalsourcery.net/tags/endianness/ class="badge rounded post-taxonomy" title=endianness>
-endianness
-</a><a href=https://www.technicalsourcery.net/tags/headless/ class="badge rounded post-taxonomy" title=headless>
-headless
-</a><a href=https://www.technicalsourcery.net/tags/high-availability/ class="badge rounded post-taxonomy" title=high-availability>
-high-availability
-</a><a href=https://www.technicalsourcery.net/tags/libvirt/ class="badge rounded post-taxonomy" title=libvirt>
-libvirt
-</a><a href=https://www.technicalsourcery.net/tags/linux/ class="badge rounded post-taxonomy" title=linux>
-linux
-</a><a href=https://www.technicalsourcery.net/tags/nixos/ class="badge rounded post-taxonomy" title=nixos>
-nixos
-</a><a href=https://www.technicalsourcery.net/tags/programming/ class="badge rounded post-taxonomy" title=programming>
-programming
-</a></div>
-</div>
-</section>
-</div>
-</aside>
-</div>
-</main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"><a class="nav-link social-link" href=mailto:kstenerud@gmail.com title=Email>
-<i class="fas fa-fw fa-2x fa-envelope"></i>
-</a><a class="nav-link social-link" target=_blank href=https://github.com/kstenerud title=GitHub rel="noopener noreferrer">
-<i class="fa-fw fa-2x fab fa-github"></i>
-</a><a class="nav-link social-link" target=_blank href=https://linkedin.com/in/kstenerud title=LinkedIn rel="noopener noreferrer">
-<i class="fa-fw fa-2x fab fa-linkedin-in"></i>
-</a></nav>
-<div class="copyright mb-2">
-Copyright © 2018-2022 Karl Stenerud. All Rights Reserved.
-</div>
-<div class="powered-by mb-2">
-Powered by <a href=https://gohugo.io target=_blank rel="noopener noreferrer">Hugo</a> and the <a href=https://github.com/razonyang/hugo-theme-bootstrap target=_blank rel="noopener noreferrer">Bootstrap</a> theme.
-</div><a href=https://www.netlify.com>
-<img src=https://www.netlify.com/img/global/badges/netlify-color-accent.svg alt="Deploys by Netlify">
-</a>
-</footer>
-<script src=https://www.technicalsourcery.net/js/bundle.min.79ffd22b8c9cb2390073fcc3826d041b2b898e3b7e4f7ddff39fb4b0ca8f4731.js integrity="sha256-ef/SK4ycsjkAc/zDgm0EGyuJjjt+T33f85+0sMqPRzE=" crossorigin=anonymous defer></script><script>'serviceWorker'in navigator&&window.addEventListener('load',()=>{navigator.serviceWorker.register('https://www.technicalsourcery.net/service-worker.js').then(function(a){console.log('Successfully registered service worker',a)}).catch(function(a){console.warn('Error whilst registering service worker',a)})})</script>
-</body>
-</html>
+'><i class="fas fa-fw fa-copyright"></i></a>
+<a class=action data-bs-toggle=offcanvas href=#offcanvasTOC aria-controls=offcanvasTOC role=button><i class="fas fa-fw fa-list-alt"></i></a></div></div><div class=card-body><h1 class="card-title post-title">On Endianness</h1><div class=post-meta><span class=post-date title="created on 2021-07-05 07:02:22 +0000 UTC.">Jul 5, 2021
+</span><span class=post-reading-time>13 min read
+</span><span class=post-taxonomies><a href=https://www.technicalsourcery.net/categories/endianness/ class="badge rounded-pill post-taxonomy">endianness</a><a href=https://www.technicalsourcery.net/tags/endianness/ class="badge rounded-pill post-taxonomy">endianness</a></span></div><div class="offcanvas offcanvas-end surface h-100" tabindex=-1 id=offcanvasTOC aria-labelledby=offcanvasTOCLabel><div class=offcanvas-header><h2 class=offcanvas-title id=offcanvasTOCLabel>Table Of Contents</h5><button type=button class="btn btn-sm btn-outline-primary" data-bs-dismiss=offcanvas aria-label=Close>
+<i class="fas fa-times"></i></button></div><div class=offcanvas-body><nav id=TableOfContents><ul><li><a href=#origins-of-our-numbering-system>Origins of our Numbering System</a></li><li><a href=#consequences-of-endianness-on-a-numbering-system>Consequences of Endianness on a Numbering System</a></li><li><a href=#so-what>So What?</a></li></ul><ul><li><a href=#advantages>Advantages</a><ul><li><a href=#detecting-oddeven>Detecting odd/even</a></li><li><a href=#detecting-sign>Detecting sign</a></li><li><a href=#recasting-a-pointer>Recasting a pointer</a></li><li><a href=#arbitrary-precision-numbers-and-arithmetic>Arbitrary precision numbers and arithmetic</a></li><li><a href=#arbitrary-length-encodings>Arbitrary length encodings</a></li><li><a href=#variable-length-encoding-with-a-prepended-length-field>Variable length encoding with a prepended length field</a></li><li><a href=#convention>Convention</a></li><li><a href=#naturalness>&ldquo;Naturalness&rdquo;</a></li><li><a href=#sorting-unknown-uint-struct-blobs>Sorting unknown uint-struct blobs</a></li></ul></li><li><a href=#conclusion>Conclusion</a><ul><li><a href=#big-endian-advantages>Big Endian Advantages</a></li><li><a href=#little-endian-advantages>Little Endian Advantages</a></li></ul></li></ul></nav></div></div><div class="post-content mb-3"><p>Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other? Let&rsquo;s explore together!</p><h1 id=origins>Origins</h1><p>The terms &ldquo;Little Endian&rdquo; and &ldquo;Big Endian&rdquo; originate from Jonathan Swift&rsquo;s 1726 novel &ldquo;Gulliver&rsquo;s Travels&rdquo;. It tells of long strife culminating in a great and costly war between the empires of &ldquo;Lilliput&rdquo; and &ldquo;Blefuscu&rdquo;, because they disagreed about which end of a boiled egg to break for eating. The &ldquo;Big-Endians&rdquo; went with the Emperor of Blefuscu&rsquo;s court, and the &ldquo;Little-Endians&rdquo; rallied to Lilliput.</p><p>The terms were adapted for computer science in 1980 by Danny Cohen in an Internet Experiment Note titled <a href=https://www.rfc-editor.org/ien/ien137.txt target=_blank rel="noopener noreferrer">&ldquo;On Holy Wars and a Plea for Peace&rdquo;</a>
+, describing the conflict over the different ways of arranging bits and bytes in memory as components of larger data types. For byte-oriented data, &ldquo;Little Endian&rdquo; places the least significant byte of the value at the lowest address, and &ldquo;Big Endian&rdquo; places the most significant byte at the lowest address.</p><table><thead><tr><th></th><th>+0</th><th>+1</th><th>+2</th><th>+3</th></tr></thead><tbody><tr><td>Big Endian</td><td>0xDE</td><td>0xAD</td><td>0xBE</td><td>0xEF</td></tr><tr><td>Little Endian</td><td>0xEF</td><td>0xBE</td><td>0xAD</td><td>0xDE</td></tr></tbody></table><p>Both approaches have their adherents, and many flame wars erupted as rival CPU architectures, data formats, and protocols jockeyed for supremacy.</p><h1 id=endianness-in-meatspace>Endianness in Meatspace</h1><p>The most common argument for big endian ordering in computers is that it matches the &ldquo;natural order&rdquo; for writing numbers. This makes it easier to read numbers in a hex dump, and is less of a cognitive load overall when humans are looking at the encoded data. But how exactly did this &ldquo;natural order&rdquo; come about?</p><h2 id=origins-of-our-numbering-system>Origins of our Numbering System</h2><p>Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. Like the dominant writing system of the time, numbers were written right-to-left, with the lower magnitude numerals appearing in the rightmost positions (i.e. a little endian numbering system).</p><p>This numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.</p><p>Although European languages used left-to-right scripts, the numerical ordering of highest-magnitude-to-the-left was maintained in order to keep compatibility with existing mathematical texts and documents (the same thing happened when India switched to a left-to-right script). Numbers were written in big endian order in Europe and India, and remained little endian in the Arab world. Most of Asia was a mix, eventually settling on big endian.</p><p>Thus, our concept of &ldquo;natural&rdquo; number endianness turns out to be a cultural artifact resulting from a backward compatibility issue when using a left-to-right or top-to-bottom writing system.</p><h2 id=consequences-of-endianness-on-a-numbering-system>Consequences of Endianness on a Numbering System</h2><p>What happens when a culture adopts a particular endianness for writing numbers? Let&rsquo;s have a look.</p><p>Consider the following list of numbers:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl> 1839555
+</span></span><span class=line><span class=ln>2</span><span class=cl>   84734
+</span></span><span class=line><span class=ln>3</span><span class=cl>67526634
+</span></span><span class=line><span class=ln>4</span><span class=cl>     495
+</span></span><span class=line><span class=ln>5</span><span class=cl>       2
+</span></span><span class=line><span class=ln>6</span><span class=cl>   20345
+</span></span><span class=line><span class=ln>7</span><span class=cl>       ^
+</span></span><span class=line><span class=ln>8</span><span class=cl>       &#34;Ones&#34; digit
+</span></span></code></pre></div><p>The numerals here are ordered the way we expect them to be ordered: with the most significant digit on the left and the least significant digit on the right. All of the numbers need to be aligned along the &ldquo;ones&rdquo; digit so that they can be easily compared.</p><p>To write such numbers in a left-to-right system, we must first estimate how much room the digits could take, and then pre-emptively push to the right so that our &ldquo;ones&rdquo; column can remain aligned vertically (ledger pages are always right-aligned to get around this problem).</p><p>Notice how I had to use a preformatted section with a monospaced font so that I could add a bunch of spaces to align the numbers properly!</p><p>In a right-to-left writing system, the &ldquo;ones&rdquo; digits would be aligned along the margin (to the right) and would grow outwards (left) into the free space. To better visualize this, observe the numerals mirrored for left-to-right readers:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>5559381
+</span></span><span class=line><span class=ln>2</span><span class=cl>43748
+</span></span><span class=line><span class=ln>3</span><span class=cl>43662576
+</span></span><span class=line><span class=ln>4</span><span class=cl>594
+</span></span><span class=line><span class=ln>5</span><span class=cl>2
+</span></span><span class=line><span class=ln>6</span><span class=cl>54302
+</span></span><span class=line><span class=ln>7</span><span class=cl>^
+</span></span><span class=line><span class=ln>8</span><span class=cl>&#34;Ones&#34; digit
+</span></span></code></pre></div><p>That is, the 4th number is four-hundred-and-ninety-five, not five-hundred-and-ninety-four.</p><p>Notice how the &ldquo;ones&rdquo; digits naturally align to the left margin. There&rsquo;s no need to pre-emptively space anything; just write the numbers, no matter how long they get.</p><p>Everyone remembers the hassles of doing long multiplication, right?</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>  2 4 1 6 5
+</span></span><span class=line><span class=ln>2</span><span class=cl>×   3 8 4 1
+</span></span><span class=line><span class=ln>3</span><span class=cl>-----------
+</span></span></code></pre></div><p>Before you even start, you have to think about how much room you&rsquo;ll eventually need, because if you get it wrong you&rsquo;ll end up running into the left margin:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>        2 4 1 6 5
+</span></span><span class=line><span class=ln>2</span><span class=cl>      ×   3 8 4 1
+</span></span><span class=line><span class=ln>3</span><span class=cl>      -----------
+</span></span><span class=line><span class=ln>4</span><span class=cl>        2 4 1 6 5
+</span></span><span class=line><span class=ln>5</span><span class=cl>+     9 6 6 6 0
+</span></span><span class=line><span class=ln>6</span><span class=cl>+ 1 9 3 3 2 0
+</span></span><span class=line><span class=ln>7</span><span class=cl>+ 7 2 4 9 5
+</span></span><span class=line><span class=ln>8</span><span class=cl>-----------------
+</span></span><span class=line><span class=ln>9</span><span class=cl>  9 2 8 1 7 7 6 5
+</span></span></code></pre></div><p>But what if the numbers were written in little endian order?</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>  5 6 1 4 2
+</span></span><span class=line><span class=ln>2</span><span class=cl>× 1 4 8 3
+</span></span><span class=line><span class=ln>3</span><span class=cl>-----------
+</span></span><span class=line><span class=ln>4</span><span class=cl>  5 6 1 4 2
+</span></span><span class=line><span class=ln>5</span><span class=cl>+   0 6 6 6 9
+</span></span><span class=line><span class=ln>6</span><span class=cl>+     0 2 3 3 9 1
+</span></span><span class=line><span class=ln>7</span><span class=cl>+       5 9 4 2 7
+</span></span><span class=line><span class=ln>8</span><span class=cl>-----------------
+</span></span><span class=line><span class=ln>9</span><span class=cl>  5 6 7 7 1 8 2 9
+</span></span></code></pre></div><p>Now it&rsquo;s no problem. The empty space is to the right, and the numbers also grow to the right! Instead of fighting the writing system order, numbers now flow with it.</p><p>So while everyone of course considers their culture&rsquo;s number endianness to be &ldquo;natural&rdquo;, there is a distinct advantage to writing numbers in little endian order. And in fact, that&rsquo;s the way they were first invented!</p><h2 id=so-what>So What?</h2><p>What does this have to do with endianness in computers? We don&rsquo;t have &ldquo;space to the right&rdquo; to be mindful of, so none of the arguments about number endianness in meatspace would seem to apply to computers at first glance. But computers and data formats do have characteristics that endianness can take advantage of.</p><h1 id=endianness-in-computers>Endianness in Computers</h1><p>When dealing with computers, matching endianness to our way of visualizing numbers would be argument enough if the decision were otherwise arbitrary. Even if our system <em>is</em> backwards, keeping things consistent between computers and the more dominant left-to-right scripts is at least a small advantage.</p><p>So what exactly are the advantages each endian order enjoys in computing?</p><h2 id=advantages>Advantages</h2><h3 id=detecting-oddeven>Detecting odd/even</h3><p>With big endian order, you need to check the last byte. With little endian order, you check the first byte.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>Big Endian:    8f 31 aa 9e c2 5a 1b 3d
+</span></span><span class=line><span class=ln>2</span><span class=cl>                                     ^ 3d is odd
+</span></span><span class=line><span class=ln>3</span><span class=cl>
+</span></span><span class=line><span class=ln>4</span><span class=cl>Little Endian: 3d 1b 5a c2 9e aa 31 8f
+</span></span><span class=line><span class=ln>5</span><span class=cl>                ^ 3d is odd
+</span></span></code></pre></div><p><strong>Advantage</strong>: Little Endian</p><h3 id=detecting-sign>Detecting sign</h3><p>With little endian order, you need to check the last byte. With big endian order, you check the first byte.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>Big Endian:    8f 31 aa 9e c2 5a 1b 3d
+</span></span><span class=line><span class=ln>2</span><span class=cl>               ^ 8f has sign &#34;negative&#34;
+</span></span><span class=line><span class=ln>3</span><span class=cl>
+</span></span><span class=line><span class=ln>4</span><span class=cl>Little Endian: 3d 1b 5a c2 9e aa 31 8f
+</span></span><span class=line><span class=ln>5</span><span class=cl>                                    ^ 8f has sign &#34;negative&#34;
+</span></span></code></pre></div><p><strong>Advantage</strong>: Big Endian</p><h3 id=recasting-a-pointer>Recasting a pointer</h3><p>Recasting pointers involves interpreting a memory location as different types. For example, taking a memory location that contains a 32-bit integer and recasting the pointed-to value as a 16-bit integer. Recasting pointers isn&rsquo;t very common in higher level languages, but it happens often in compilers and assemblers.</p><p>With big endian order, you must adjust the pointer&rsquo;s address to match the beginning of a different sized type. With little endian, a recast degenerates into a no-op.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>|    Big Endian value 1         |    Little Endian value 1      |
+</span></span><span class=line><span class=ln>2</span><span class=cl>|                               |                               |
+</span></span><span class=line><span class=ln>3</span><span class=cl>|    +0 +1 +2 +3 +4 +5 +6 +7    |    +0 +1 +2 +3 +4 +5 +6 +7    |
+</span></span><span class=line><span class=ln>4</span><span class=cl>|                               |                               |
+</span></span><span class=line><span class=ln>5</span><span class=cl>|    |       32 bits       |    |    |       32 bits       |    |
+</span></span><span class=line><span class=ln>6</span><span class=cl>|    00 00 00 00 00 00 00 01    |    01 00 00 00 00 00 00 00    |
+</span></span><span class=line><span class=ln>7</span><span class=cl>|                               |                               |
+</span></span><span class=line><span class=ln>8</span><span class=cl>|                | 16 bits |    |    | 16 bits |                |
+</span></span><span class=line><span class=ln>9</span><span class=cl>|    00 00 00 00 00 00 00 01    |    01 00 00 00 00 00 00 00    |
+</span></span></code></pre></div><p><strong>Advantage</strong>: Little Endian</p><h3 id=arbitrary-precision-numbers-and-arithmetic>Arbitrary precision numbers and arithmetic</h3><p>Arbitrary precision numbers (aka big integers) are composed of integer elements in an array, which allows computing with values greater than the largest discrete integer type. Nowadays, the most common discrete type used for big integer arrays is uint32 or uint64.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>| u64 | u64 | u64 | ...
+</span></span></code></pre></div><p>The first element contains the lowest 64 bits of data, followed by the next higher 64 bits of data, and so on (little endian ordering). The reason for this is because, as carry values spill over, it&rsquo;s simply added or removed from the next element in the array.</p><p>If the elements were ordered big endian, you&rsquo;d have to do a bunch of shifts and masks to correct everything whenever a carry occurred. The more array entries are in play, the more correction operations you&rsquo;d have to do. You also have to shift everything over whenever the number grows bigger (basically the computer equivalent of shifting the whole number over when we run out of left-margin space on paper).</p><p>Although this scheme can be realized with either byte order, there is an extra advantage to little endian byte ordering: If the CPU is little endian, you wouldn&rsquo;t even need to care about the element size in the array because the bytes would naturally arrange themselves smoothly in little endian order across the entire array. Thus you could perform arithmetic using a single byte-by-byte algorithm, regardless of the actual element size (some little endian CPUs even have special multibyte instructions to help with this).</p><table><thead><tr><th>Ordering</th><th>Element 0</th><th>Element 1</th><th>Byte-by-byte?</th></tr></thead><tbody><tr><td>Big</td><td>b7 b6 b5 b4 b3 b2 b1 b0</td><td>b7 b6 b5 b4 b3 b2 b1 b0</td><td>No</td></tr><tr><td>Little</td><td>b0 b1 b2 b3 b4 b5 b6 b7</td><td>b0 b1 b2 b3 b4 b5 b6 b7</td><td>Yes</td></tr></tbody></table><p><strong>Advantage</strong>: Little Endian</p><h3 id=arbitrary-length-encodings>Arbitrary length encodings</h3><p>Arbitrary length encodings such as <a href=https://en.wikipedia.org/wiki/Variable-length_quantity target=_blank rel="noopener noreferrer">VLQ</a>
+allow for lightweight compression of integer values. The idea is that integers most often have the upper bits cleared, and so they don&rsquo;t actually need the full integer width in order to be accurately represented.</p><p>VLQ uses big endian ordering, which works fine when representing values up to the maximum bit width of the architecture, but once you start storing larger values that would require big int types, you run into problems:</p><p>For simplicity and real estate given this blog format, let&rsquo;s assume a CPU with a word size of 8 bits, but the same concepts apply to bigger word sizes too. To store larger values, we use a big int type, which requires arranging the words into an array in little endian order. Since VLQ is encoded in big endian order, the first chunk marks the highest bit position, and we work our way down from there.</p><p><em>First chunk (continuation bit &ldquo;on&rdquo;, so more chunks coming):</em></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>   W0 Bits                  W1 Bits
+</span></span><span class=line><span class=ln>2</span><span class=cl>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
+</span></span><span class=line><span class=ln>3</span><span class=cl>|    H6 H5 H4 H3 H2 H1 H0 |                        |
+</span></span></code></pre></div><p>For the next chunk, we need to shift the high bits over into the next element to make room for the next set of bits (sound familiar?).</p><p><em>Second chunk (continuation bit &ldquo;off&rdquo;, so this is the end):</em></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>   W0 Bits                  W1 Bits
+</span></span><span class=line><span class=ln>2</span><span class=cl>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
+</span></span><span class=line><span class=ln>3</span><span class=cl>| H0 L6 L5 L4 L3 L2 L1 L0 |      H6 H5 H4 H3 H2 H1 |
+</span></span></code></pre></div><p>Shifting across only one element required:</p><ul><li>Copying W0 to W1</li><li>Shifting W1 right by 1</li><li>Shifting W0 left by 7</li><li>Logical OR next 7 bits from the next VLQ element into W0</li></ul><p>And this gets worse the more elements are in play.</p><p>Now let&rsquo;s see how it would work if the data were encoded using <a href=https://en.wikipedia.org/wiki/LEB128 target=_blank rel="noopener noreferrer">LEB128</a>
+(basically the same thing, but in little endian order):</p><p><em>First chunk (continuation bit &ldquo;on&rdquo;, so more chunks coming):</em></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>   W0 Bits                  W1 Bits
+</span></span><span class=line><span class=ln>2</span><span class=cl>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
+</span></span><span class=line><span class=ln>3</span><span class=cl>|    L6 L5 L4 L3 L2 L1 L0 |                        |
+</span></span></code></pre></div><p>For the next chunk, we split the value across two elements.</p><p><em>Second chunk (continuation bit &ldquo;off&rdquo;, so this is the end):</em></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>   W0 Bits                  W1 Bits
+</span></span><span class=line><span class=ln>2</span><span class=cl>|  7  6  5  4  3  2  1  0 | 7  6  5  4  3  2  1  0 |
+</span></span><span class=line><span class=ln>3</span><span class=cl>| H0 L6 L5 L4 L3 L2 L1 L0 |      H6 H5 H4 H3 H2 H1 |
+</span></span></code></pre></div><p>Splitting the last VLQ element required:</p><ul><li>Logical OR W0 with (element&#171;7)</li><li>Copy (element&#187;1) to W1</li></ul><p>And this remains at constant complexity no matter how many elements are in play.</p><p><strong>Bonus</strong>: It&rsquo;s also possible to do arithmetic in LEB128 while it remains encoded!</p><p><strong>Aside</strong>: Did you notice how disjointed it looks listing the high bits to the left in a left-to-right system? It would have flowed much better were they listed this way:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>   W0 Bits                  W1 Bits
+</span></span><span class=line><span class=ln>2</span><span class=cl>|  0  1  2  3  4  5  6  7 |  0  1  2  3  4  5  6  7 |
+</span></span><span class=line><span class=ln>3</span><span class=cl>| L0 L1 L2 L3 L4 L5 L6 H0 | H1 H2 H3 H4 H5 H6       |
+</span></span></code></pre></div><p><strong>Advantage</strong>: Little Endian</p><h3 id=variable-length-encoding-with-a-prepended-length-field>Variable length encoding with a prepended length field</h3><p>A common encoding trick is to reserve a few bits of the encoded space to store the length of the field (low bits of the low byte if little endian, high bits of the high byte if big endian).</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-text data-lang=text><span class=line><span class=ln>1</span><span class=cl>(XXXXXX LL) (XXXXXXXX) (XXXXXXXX) (XXXXXXXX) ...
+</span></span><span class=line><span class=ln>2</span><span class=cl>                   - or -
+</span></span><span class=line><span class=ln>3</span><span class=cl>(LL XXXXXX) (XXXXXXXX) (XXXXXXXX) (XXXXXXXX) ...
+</span></span></code></pre></div><p>Generally with this encoding pattern, the two bits LL represent the total size of the data.</p><p><strong>Example</strong>:</p><table><thead><tr><th>LL</th><th>Bytes</th><th>Data Size</th></tr></thead><tbody><tr><td>00</td><td>1</td><td>6 bits</td></tr><tr><td>01</td><td>2</td><td>14 bits</td></tr><tr><td>10</td><td>4</td><td>30 bits</td></tr><tr><td>11</td><td>8</td><td>62 bits</td></tr></tbody></table><p>If this data is encoded in little endian byte order, the decoding routine is pretty easy:</p><ul><li>Read the first byte and extract the length field.</li><li>For each byte to be read:<ul><li>Read the byte into the current position.</li><li>Increment current position by 1 byte.</li></ul></li><li>Shift the result right 2 bits.</li></ul><p>You can simply decode the whole thing and then shift the decoded value two bits to the right because the size field is always in the two lowest bits of the value, regardless of the size.</p><p>If the CPU is also little endian, the algorithm gets even simpler:</p><ul><li>Read the first byte to extract the length field.</li><li>Read the same address again using the correct sized load instruction (recasting the pointer).</li><li>Shift the result right 2 bits.</li></ul><p>If the encoding used big endian order, the length field would be at the top of the high byte, which means that you&rsquo;d need to mask out a different part of the decoded value depending on the data size.</p><p><strong>Advantage</strong>: Little Endian</p><h3 id=convention>Convention</h3><p>Most network protocols and formats until recently have been big endian (Network Byte Order).</p><p><strong>Advantage</strong>: Big Endian</p><h3 id=naturalness>&ldquo;Naturalness&rdquo;</h3><p>Binary dumps look more in line with how humans with left-to-right scripts expect to read numbers.</p><p><strong>Advantage</strong>: Big Endian</p><h3 id=sorting-unknown-uint-struct-blobs>Sorting unknown uint-struct blobs</h3><p>If you have a series of unknown blobs, and know only that the internal structure has only unsigned integers stored in descending order of significance, you can sort these blobs without knowing what the actual structure is.</p><p>Yeah, that&rsquo;s a pretty rare thing, but technically it&rsquo;s an advantage, and someone, somewhere is using it!</p><p><strong>Advantage</strong>: Big Endian</p><h2 id=conclusion>Conclusion</h2><p>The big endian advantages tend to be cosmetic or convention based, or of minor usefulness. The little endian advantages offer real world performance boosts in many cases (given the right algorithm or encoding to take advantage of it).</p><h3 id=big-endian-advantages>Big Endian Advantages</h3><ul><li>Detecting sign</li><li>Convention</li><li>&ldquo;Naturalness&rdquo;</li><li>Sorting unknown uint-struct blobs</li></ul><h3 id=little-endian-advantages>Little Endian Advantages</h3><ul><li>Detecting odd/even</li><li>Recasting a pointer</li><li>Arbitrary precision numbers and arithmetic</li><li>Arbitrary length encodings</li><li>Variable length encoding with a prepended length field</li></ul><p>The biggest advantages go to little endian because little endian works best with &ldquo;upward-growing&rdquo; data (meaning data whose bits cluster to the low bits and grow into the upper empty bits). An example would be integers, which use higher and higher order bits as more digits are needed. And since integers are the most common data type in use, they offer the most opportunities.</p><p>Big endian ordering works best with &ldquo;downward-growing&rdquo; data. An example would be floating point, which in some little endian architectures is actually stored in big endian byte order (although this practice is not very common due to portability issues).</p></div><hr><div class="post-navs d-flex mb-3 justify-content-evenly"><div class="post-nav post-prev"><i class="fas fa-fw fa-chevron-left"></i>
+<a href=https://www.technicalsourcery.net/posts/line-lengths/>Line Lengths</a></div><div class="post-nav post-next"><a href=https://www.technicalsourcery.net/posts/nixos-in-libvirt/>Test-Driving a NixOS VM Using Libvirt</a>
+<i class="fas fa-fw fa-chevron-right"></i></div></div><section class=related-posts-wrapper><h3>Related Posts</h3><ul class=related-posts><li><a href=https://www.technicalsourcery.net/posts/line-lengths/>Line Lengths</a></li><li><a href=https://www.technicalsourcery.net/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop</a></li><li><a href=https://www.technicalsourcery.net/posts/intro-high-availability/>Introduction to High Availability</a></li><li><a href=https://www.technicalsourcery.net/posts/time-timezones/>Time and Timezones: Getting It Right</a></li><li><a href=https://www.technicalsourcery.net/offline/>Offline</a></li></ul></section></div></article><div class="card component row post-comments"><div class=card-body><script src=https://utteranc.es/client.js repo=kstenerud/technicalsourcery issue-term=pathname label=comment theme=github-light crossorigin=anonymous async></script></div></div></div></div><aside class="col-lg-4 sidebar d-flex"><div class=container><section class="card row text-center profile component"><div class=card-body><div class="col-12 d-flex align-items-center justify-content-center"><img class="profile-avatar rounded-circle" alt="Karl Stenerud" src=https://www.technicalsourcery.net/images/profile.jpg loading=lazy width=460 height=460></div><div class="col-12 profile-meta"><div class=profile-name>Karl Stenerud</div><div class=profile-bio>Networking, protocols, & nitty gritty details.</div><div class=profile-about><i class="fas fa-fw fa-user"></i><a href=https://www.technicalsourcery.net/about/>About Me</a></div></div></div></section><section class="recent-posts row card component"><div class=card-body><h2 class=card-title>Recent Posts</h2><ul class=post-list><li><a href=https://www.technicalsourcery.net/posts/qr-superpowers/>Giving QR Codes Superpowers</a></li><li><a href=https://www.technicalsourcery.net/posts/nixos-in-libvirt/>Test-Driving a NixOS VM Using Libvirt</a></li><li><a href=https://www.technicalsourcery.net/posts/on-endianness/>On Endianness</a></li><li><a href=https://www.technicalsourcery.net/posts/line-lengths/>Line Lengths</a></li><li><a href=https://www.technicalsourcery.net/posts/virtual-linux-remote-desktop/>Virtual Linux Remote Desktop</a></li></ul></div></section><section class="taxonomies row card component"><div class=card-body><h2 class=card-title><a href=https://www.technicalsourcery.net/categories>Categories</a></h2><div class=py-2><a href=https://www.technicalsourcery.net/categories/encoding/ class="badge rounded post-taxonomy" title=encoding>encoding
+</a><a href=https://www.technicalsourcery.net/categories/endianness/ class="badge rounded post-taxonomy" title=endianness>endianness
+</a><a href=https://www.technicalsourcery.net/categories/high-availability/ class="badge rounded post-taxonomy" title=high-availability>high-availability
+</a><a href=https://www.technicalsourcery.net/categories/programming/ class="badge rounded post-taxonomy" title=programming>programming
+</a><a href=https://www.technicalsourcery.net/categories/remote-desktop/ class="badge rounded post-taxonomy" title=remote-desktop>remote-desktop
+</a><a href=https://www.technicalsourcery.net/categories/time/ class="badge rounded post-taxonomy" title=time>time
+</a><a href=https://www.technicalsourcery.net/categories/virtualization/ class="badge rounded post-taxonomy" title=virtualization>virtualization</a></div></div></section><section class="taxonomies row card component"><div class=card-body><h2 class=card-title><a href=https://www.technicalsourcery.net/tags>Tags</a></h2><div class=py-2><a href=https://www.technicalsourcery.net/tags/binary/ class="badge rounded post-taxonomy" title=binary>binary
+</a><a href=https://www.technicalsourcery.net/tags/concise-encoding/ class="badge rounded post-taxonomy" title=concise-encoding>concise-encoding
+</a><a href=https://www.technicalsourcery.net/tags/encoding/ class="badge rounded post-taxonomy" title=encoding>encoding
+</a><a href=https://www.technicalsourcery.net/tags/endianness/ class="badge rounded post-taxonomy" title=endianness>endianness
+</a><a href=https://www.technicalsourcery.net/tags/headless/ class="badge rounded post-taxonomy" title=headless>headless
+</a><a href=https://www.technicalsourcery.net/tags/high-availability/ class="badge rounded post-taxonomy" title=high-availability>high-availability
+</a><a href=https://www.technicalsourcery.net/tags/libvirt/ class="badge rounded post-taxonomy" title=libvirt>libvirt
+</a><a href=https://www.technicalsourcery.net/tags/linux/ class="badge rounded post-taxonomy" title=linux>linux
+</a><a href=https://www.technicalsourcery.net/tags/nixos/ class="badge rounded post-taxonomy" title=nixos>nixos
+</a><a href=https://www.technicalsourcery.net/tags/programming/ class="badge rounded post-taxonomy" title=programming>programming</a></div></div></section></div></aside></div></main><footer class="footer mt-auto py-3 text-center container"><nav class="social-links nav my-2 justify-content-center"><a class="nav-link social-link" href=mailto:kstenerud@gmail.com title=Email><i class="fas fa-fw fa-2x fa-envelope"></i>
+</a><a class="nav-link social-link" target=_blank href=https://github.com/kstenerud title=GitHub rel="noopener noreferrer"><i class="fa-fw fa-2x fab fa-github"></i>
+</a><a class="nav-link social-link" target=_blank href=https://linkedin.com/in/kstenerud title=LinkedIn rel="noopener noreferrer"><i class="fa-fw fa-2x fab fa-linkedin-in"></i></a></nav><div class="copyright mb-2">Copyright © 2018-2022 Karl Stenerud. All Rights Reserved.</div><div class="powered-by mb-2">Powered by <a href=https://gohugo.io target=_blank rel="noopener noreferrer">Hugo</a> and the <a href=https://github.com/razonyang/hugo-theme-bootstrap target=_blank rel="noopener noreferrer">Bootstrap</a> theme.</div><a href=https://www.netlify.com><img src=https://www.netlify.com/img/global/badges/netlify-color-accent.svg alt="Deploys by Netlify"></a></footer><script src=https://www.technicalsourcery.net/js/bundle.min.b153457179af39891bd03f4b8e041490f6c0660833ea10ca92bf85eeda75ff09.js integrity="sha256-sVNFcXmvOYkb0D9LjgQUkPbAZggz6hDKkr+F7tp1/wk=" crossorigin=anonymous defer></script><script>"serviceWorker"in navigator&&window.addEventListener("load",()=>{navigator.serviceWorker.register("https://www.technicalsourcery.net/service-worker.js").then(function(e){console.log("Successfully registered service worker",e)}).catch(function(e){console.warn("Error whilst registering service worker",e)})})</script></body></html>
