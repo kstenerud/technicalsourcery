@@ -165,7 +165,7 @@ We've shrunk down our payload from 105 bytes to 28 bytes! Much better!
 Here are the byte contents of the CBE document. Note the first byte 0x81, which is an unassigned character in ISO 8859-1:
 
 ```
-81 00 79 00 6c 01 53 53 54 01 7a ec 05 7b 02 7a 04 06 13 7b 04 0f 09 99 85 59 00 7b
+81 00 99 00 6c 01 53 53 54 01 9a ec 05 9b 02 9a 04 06 13 9b 04 0f 09 7a 85 59 00 9b
 ```
 
 Now let's encode this data into a QR code (border size 1, 400x400 pixels):
