@@ -48,7 +48,7 @@ To see how, let's take a look at the text encoding used for "byte mode": **ISO 8
 | Ex | à    |  á |  â |  ã |  ä |  å |  æ |  ç |  è |  é |  ê |  ë |  ì | í   |  î |  ï|
 | Fx | ð    |  ñ |  ò |  ó |  ô |  õ |  ö |  ÷ |  ø |  ù |  ú |  û |  ü | ý   |  þ |  ÿ|
 
-Notice how the codes **00-1f** and **7f-9f** are unassigned (many text formats do this for legacy reasons). This means that any non-ECI data containing these values is invalid because it can't be decoded as ISO 8859-1 text.
+Notice how the codes **7f-9f** are unassigned (many text formats do this for [legacy reasons](https://en.wikipedia.org/wiki/ISO/IEC_2022)). This means that any non-ECI data containing these values is invalid because it can't be decoded as ISO 8859-1 text.
 
 **Side Note**: Non-conformant QR decoders might not actually validate this, which is why you sometimes get strange garbled results after decoding a QR code that was mistakenly encoded in UTF-8 without an ECI header (by a non-conformant encoder).
 
