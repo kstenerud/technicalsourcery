@@ -3,7 +3,7 @@ title: "On Endianness"
 date: 2021-07-05T08:02:22+01:00
 description: "Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other?"
 images:
-  - images/thumbnails/endianness.png
+  - images/thumbnails/endianness.jpg
 categories:
   - endianness
 tags:
@@ -13,7 +13,7 @@ tags:
 Byte Endianness in computers has been a constant source of conflict for decades. But is there really a clear advantage to one over the other? Let's explore together!
 
 
-# Origins
+# Origins of the Term
 
 The terms "Little Endian" and "Big Endian" originate from Jonathan Swift's 1726 novel "Gulliver's Travels". It tells of long strife culminating in a great and costly war between the empires of "Lilliput" and "Blefuscu", because they disagreed about which end of a boiled egg to break for eating. The "Big-Endians" went with the Emperor of Blefuscu's court, and the "Little-Endians" rallied to Lilliput.
 
@@ -27,98 +27,166 @@ The terms were adapted for computer science in 1980 by Danny Cohen in an Interne
 Both approaches have their adherents, and many flame wars erupted as rival CPU architectures, data formats, and protocols jockeyed for supremacy.
 
 
-
-# Endianness in Meatspace
+# Origins of the Concept
 
 The most common argument for big endian ordering in computers is that it matches the "natural order" for writing numbers. This makes it easier to read numbers in a hex dump, and is less of a cognitive load overall when humans are looking at the encoded data. But how exactly did this "natural order" come about?
 
 ## Origins of our Numbering System
 
-Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. Like the dominant writing system of the time, numbers were written right-to-left, with the lower magnitude numerals appearing in the rightmost positions (i.e. a little endian numbering system).
+Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. At the time, there were two competing writing systems: One that went right-to-left, and one that went left-to-right. When the numbering system that we eventually adopted worldwide was invented, right-to-left was the dominant style.
 
-This numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.
+Since letters were written right-to-left, it only stood to reason that numbers should also be written right-to-left. And so you'd write on your papyrus (I'm using modern numerals here - bear with me):
 
-Although European languages used left-to-right scripts, the numerical ordering of highest-magnitude-to-the-left was maintained in order to keep compatibility with existing mathematical texts and documents (the same thing happened when India switched to a left-to-right script). Numbers were written in big endian order in Europe and India, and remained little endian in the Arab world. Most of Asia was a mix, eventually settling on big endian.
+Example: 985 + 32 = 1017
 
-Thus, our concept of "natural" number endianness turns out to be a cultural artifact resulting from a backward compatibility issue when using a left-to-right or top-to-bottom writing system.
+```text
+╔═════════════════════════════════╗
+║                             985 ║
+║                           +  32 ║
+║                           ───── ║
+║                            1017 ║
+╚═════════════════════════════════╝
+```
+
+Numbers would be written small-digit-to-large-digit, going right-to-left, so that any changes in magnitude would easily move into the blank space on the left side of the page.
+
+Had they done it large-digit-to-small-digit, they'd have a problem:
+
+```text
+╔═════════════════════════════════╗
+║                             589 ║
+║                           + 23  ║
+║                           ───── ║
+║                             710 ║
+╚═════════════════════════════════╝
+```
+
+Damn... out of room on the right side. Now I have to rewrite it indented left to give more room for expansion:
+
+```text
+╔═════════════════════════════════╗
+║                            589  ║
+║                          + 23   ║
+║                          ────── ║
+║                            7101 ║
+╚═════════════════════════════════╝
+```
+
+Look familiar?
+
+So, numbers were written in "little endian" digit order (small-to-big) to avoid this problem.
+
+The Hindu numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.
+
+Unfortunately, many writing directions developed in parallel (left-ro-right, right-to-left, top-to-bottom), but the Hindu-Arabic visual order was always preserved (high digits on the left or top, regardless of script direction) in order to prevent confusion. So if your script direction was right-to-left, you wrote numbers in little endian order, and for all others you wrote them in big endian order.
+
+You can see some vestiges of the little endian origins in the German language: "ein und dreißig" (one and thirty - 31). By the time larger numbers become commonplace, the transition to the big endian way of saying numbers was already underway, making for some confusing word patterns: "neunhundert ein und dreißig" (nine hundred, one and thirty - 931).
+
+Thus, our concept of "natural" number endianness turns out to be a cultural artifact resulting from a backward compatibility issue when applying a right-to-left numbering system to a left-to-right or top-to-bottom writing system.
 
 ## Consequences of Endianness on a Numbering System
 
 What happens when a culture adopts a particular endianness for writing numbers? Let's have a look.
 
-Consider the following list of numbers:
+Consider the following list of numbers in our current way of writing them in a left-to-right writing system (big endian):
 
 ```text
- 1839555
-   84734
-67526634
-     495
-       2
-   20345
-       ^
-       "Ones" digit
+╔═════════════════════════════════╗
+║  1839555                        ║
+║    84734                        ║
+║ 67526634                        ║
+║      495                        ║
+║        2                        ║
+║    20345                        ║
+╚═════════════════════════════════╝
+         ⬆
+         "Ones" digit
 ```
 
 The numerals here are ordered the way we expect them to be ordered: with the most significant digit on the left and the least significant digit on the right. All of the numbers need to be aligned along the "ones" digit so that they can be easily compared.
 
-To write such numbers in a left-to-right system, we must first estimate how much room the digits could take, and then pre-emptively push to the right so that our "ones" column can remain aligned vertically (ledger pages are always right-aligned to get around this problem).
+To write such numbers in a left-to-right system, we must first estimate how much room the digits could take, and then pre-emptively push to the right so that our "ones" column can remain aligned vertically.
 
 Notice how I had to use a preformatted section with a monospaced font so that I could add a bunch of spaces to align the numbers properly!
 
-In a right-to-left writing system, the "ones" digits would be aligned along the margin (to the right) and would grow outwards (left) into the free space. To better visualize this, observe the numerals mirrored for left-to-right readers:
+In a right-to-left writing system, the "ones" digits would be aligned along the margin (to the right) and would grow outwards (left) into the free space (which is why ledger pages are arranged this way).
 
 ```text
-5559381
-43748
-43662576
-594
-2
-54302
-^
-"Ones" digit
+╔═════════════════════════════════╗
+║                         1839555 ║
+║                           84734 ║
+║                        67526634 ║
+║                             495 ║
+║                               2 ║
+║                           20345 ║
+╚═════════════════════════════════╝
+                                ⬆
+                                "Ones" digit
 ```
 
-That is, the 4th number is four-hundred-and-ninety-five, not five-hundred-and-ninety-four.
+To better visualize this, observe the numerals with digit endianness reversed for left-to-right readers:
+
+```text
+╔═════════════════════════════════╗
+║ 5559381                         ║
+║ 43748                           ║
+║ 43662576                        ║
+║ 594                             ║
+║ 2                               ║
+║ 54302                           ║
+╚═════════════════════════════════╝
+  ⬆
+  "Ones" digit
+```
+
+In this way of writing, "594" represents "five and ninety and four hundred".
 
 Notice how the "ones" digits naturally align to the left margin. There's no need to pre-emptively space anything; just write the numbers, no matter how long they get.
 
 Everyone remembers the hassles of doing long multiplication, right?
 
 ```text
-  2 4 1 6 5
-×   3 8 4 1
------------
+╔═════════════════════════════════╗
+║   2 4 1 6 5                     ║
+║ ×   3 8 4 1                     ║
+║ ───────────                     ║
+║                                 ║
+╚═════════════════════════════════╝
 ```
 
 Before you even start, you have to think about how much room you'll eventually need, because if you get it wrong you'll end up running into the left margin:
 
 ```text
-        2 4 1 6 5
-      ×   3 8 4 1
-      -----------
-        2 4 1 6 5
-+     9 6 6 6 0
-+ 1 9 3 3 2 0
-+ 7 2 4 9 5
------------------
-  9 2 8 1 7 7 6 5
+╔═════════════════════════════════╗
+║         2 4 1 6 5               ║
+║       ×   3 8 4 1               ║
+║       ───────────               ║
+║         2 4 1 6 5               ║
+║ +     9 6 6 6 0                 ║
+║ + 1 9 3 3 2 0                   ║
+║ + 7 2 4 9 5                     ║
+║ ─────────────────               ║
+║   9 2 8 1 7 7 6 5               ║
+╚═════════════════════════════════╝
 ```
 
 But what if the numbers were written in little endian order?
 
 ```text
-  5 6 1 4 2
-× 1 4 8 3
------------
-  5 6 1 4 2
-+   0 6 6 6 9
-+     0 2 3 3 9 1
-+       5 9 4 2 7
------------------
-  5 6 7 7 1 8 2 9
+╔═════════════════════════════════╗
+║   5 6 1 4 2                     ║
+║ × 1 4 8 3                       ║
+║ ───────────                     ║
+║   5 6 1 4 2                     ║
+║ +   0 6 6 6 9                   ║
+║ +     0 2 3 3 9 1               ║
+║ +       5 9 4 2 7               ║
+║ ─────────────────               ║
+║   5 6 7 7 1 8 2 9               ║
+╚═════════════════════════════════╝
 ```
 
-Now it's no problem. The empty space is to the right, and the numbers also grow to the right! Instead of fighting the writing system order, numbers now flow with it.
+Now suddenly it's no problem. The empty space is to the right, and the numbers also grow to the right! Instead of fighting the writing system order, numbers now flow with it.
 
 So while everyone of course considers their culture's number endianness to be "natural", there is a distinct advantage to writing numbers in little endian order. And in fact, that's the way they were first invented!
 
