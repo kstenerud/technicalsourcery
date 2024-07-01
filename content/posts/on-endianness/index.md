@@ -35,52 +35,11 @@ The most common argument for big endian ordering in computers is that it matches
 
 ## Origins of our Numbering System
 
-Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. At the time, there were two competing writing systems: One that went right-to-left, and one that went left-to-right. When the numbering system that we eventually adopted worldwide was invented, right-to-left was the dominant style.
+Our modern numbering system has its roots in the Hindu numbering system, which was invented somewhere between the 1st and 4th century. At the time, there were competing writing systems that went right-to-left and left-to-right, with right-to-left being favored where the numbering system we inherited was created. It therefore was convenient for numbers to also be written right-to-left.
 
-Since letters were written right-to-left, it only stood to reason that numbers should also be written right-to-left. And so you'd write on your papyrus (I'm using modern numerals here - bear with me):
+The Hindu numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world (right-to-left was also the dominant style there, and so this convention was kept). It was adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.
 
-Example: 985 + 32 = 1017
-
-```text
-╔═════════════════════════════════╗
-║                             985 ║
-║                           +  32 ║
-║                           ───── ║
-║                            1017 ║
-╚═════════════════════════════════╝
-```
-
-Numbers would be written small-digit-to-large-digit, going right-to-left, so that any changes in magnitude would easily move into the blank space on the left side of the page.
-
-Had they done it large-digit-to-small-digit, they'd have a problem:
-
-```text
-╔═════════════════════════════════╗
-║                             589 ║
-║                           + 23  ║
-║                           ───── ║
-║                             710 ║
-╚═════════════════════════════════╝
-```
-
-Damn... out of room on the right side. Now I have to rewrite it indented left to give more room for expansion:
-
-```text
-╔═════════════════════════════════╗
-║                            589  ║
-║                          + 23   ║
-║                          ────── ║
-║                            7101 ║
-╚═════════════════════════════════╝
-```
-
-Look familiar?
-
-So, numbers were written in "little endian" digit order (small-to-big) to avoid this problem.
-
-The Hindu numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world, being adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.
-
-Unfortunately, many writing directions developed in parallel (left-ro-right, right-to-left, top-to-bottom), but the Hindu-Arabic visual order was always preserved (high digits on the left or top, regardless of script direction) in order to prevent confusion. So if your script direction was right-to-left, you wrote numbers in little endian order, and for all others you wrote them in big endian order.
+Although many writing directions developed in parallel (left-to-right, right-to-left, top-to-bottom), the Hindu-Arabic visual order was always preserved (high digits on the left or top, regardless of script direction) in order to prevent confusion. So if your script direction was right-to-left, you wrote numbers in little endian order, and for all others you wrote them in big endian order.
 
 You can see some vestiges of the little endian origins in the German language: "ein und dreißig" (one and thirty - 31). By the time larger numbers become commonplace, the transition to the big endian way of saying numbers was already underway, making for some confusing word patterns: "neunhundert ein und dreißig" (nine hundred, one and thirty - 931).
 
