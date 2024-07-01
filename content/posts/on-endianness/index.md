@@ -17,6 +17,8 @@ Byte Endianness in computers has been a constant source of conflict for decades.
 
 The terms "Little Endian" and "Big Endian" originate from Jonathan Swift's 1726 novel "Gulliver's Travels". It tells of long strife culminating in a great and costly war between the empires of "Lilliput" and "Blefuscu", because they disagreed about which end of a boiled egg to break for eating. The "Big-Endians" went with the Emperor of Blefuscu's court, and the "Little-Endians" rallied to Lilliput.
 
+![Endianness wars](endianness-wars.jpg)
+
 The terms were adapted for computer science in 1980 by Danny Cohen in an Internet Experiment Note titled ["On Holy Wars and a Plea for Peace"](https://www.rfc-editor.org/ien/ien137.txt), describing the conflict over the different ways of arranging bits and bytes in memory as components of larger data types. For byte-oriented data, "Little Endian" places the least significant byte of the value at the lowest address, and "Big Endian" places the most significant byte at the lowest address.
 
 |               |  +0  |  +1  |  +2  |  +3  |
