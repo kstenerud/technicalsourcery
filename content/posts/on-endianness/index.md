@@ -39,7 +39,7 @@ Our modern numbering system has its roots in the Hindu numbering system, which w
 
 The Hindu numbering system further developed into the Hindu-Arabic decimal system around the 7th century and spread through the Arab world (right-to-left was also the dominant style there, and so this convention was kept). It was adopted into Arab mathematics by the 9th century, and then introduced to Europe via North Africa in the 10th century.
 
-Although many writing directions developed in parallel (left-to-right, right-to-left, top-to-bottom), the Hindu-Arabic visual order was always preserved (high digits on the left or top, regardless of script direction) in order to prevent confusion. So if your script direction was right-to-left, you wrote numbers in little endian order, and for all others you wrote them in big endian order.
+Although many writing directions developed in parallel (left-to-right, right-to-left, top-to-bottom), the Hindu-Arabic visual order was always preserved (high digits on the left or top, regardless of script direction) in order to prevent confusion as globalization took root. So if your script direction was right-to-left, you wrote numbers in little endian order, and for all others you wrote them in big endian order.
 
 You can see some vestiges of the little endian origins in the German language: "ein und dreißig" (one and thirty - 31). By the time larger numbers become commonplace, the transition to the big endian way of saying numbers was already underway, making for some confusing word patterns: "neunhundert ein und dreißig" (nine hundred, one and thirty - 931).
 
